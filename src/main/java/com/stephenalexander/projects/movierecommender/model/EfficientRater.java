@@ -1,14 +1,17 @@
-package com.stephenalexander.projects.movierecommender;
+package com.stephenalexander.projects.movierecommender.model;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 public class EfficientRater implements Rater {
     private String myID;
-    private HashMap<String,Rating> myRatings;
+    private Map<String, Rating> myRatings;
     private int myHash;
 
     public EfficientRater(String id) {
         myID = id;
-        myRatings = new HashMap<String,Rating>();
+        myRatings = new HashMap<>();
     }
 
     public void addRating(String mID, double rating) {
@@ -58,8 +61,8 @@ public class EfficientRater implements Rater {
         // return myHash;
     // }
     
-    public ArrayList<String> getItemsRated() {
-        ArrayList<String> list = new ArrayList<String>();
+    public List<String> getItemsRated() {
+        List<String> list = new ArrayList<>();
         for(String r : myRatings.keySet()){
             list.add(r);
         }

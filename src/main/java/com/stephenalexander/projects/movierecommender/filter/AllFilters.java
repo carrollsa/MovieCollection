@@ -1,4 +1,4 @@
-package com.stephenalexander.projects.movierecommender;
+package com.stephenalexander.projects.movierecommender.filter;
 
 import java.util.ArrayList;
 

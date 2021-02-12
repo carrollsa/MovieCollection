@@ -1,6 +1,6 @@
-package com.stephenalexander.projects.movierecommender;
+package com.stephenalexander.projects.movierecommender.model;
 
-import java.util.*;
+import java.util.List;
 
 public interface Rater {
     public void addRating(String item, double rating);
@@ -22,5 +22,5 @@ public interface Rater {
         // return myHash;
     // }
     
-    public ArrayList<String> getItemsRated();
+    public List<String> getItemsRated();
 }

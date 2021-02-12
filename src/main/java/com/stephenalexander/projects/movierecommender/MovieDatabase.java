@@ -1,85 +1,94 @@
 package com.stephenalexander.projects.movierecommender;
 
-import java.util.*;
+import com.stephenalexander.projects.movierecommender.filter.Filter;
+import com.stephenalexander.projects.movierecommender.model.Movie;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class MovieDatabase {
-    private static HashMap<String, Movie> ourMovies;
-
-    public static void initialize(String moviefile) {
+    private Map<String, Movie> ourMovies;
+    public void initialize(String moviefile) {
         if (ourMovies == null) {
-            ourMovies = new HashMap<String,Movie>();
-            loadMovies("data/" + moviefile);
+            ourMovies = new HashMap<>();
+            loadMovies(moviefile);
         }
     }
 
-    private static void initialize() {
+    public void initialize() {
         if (ourMovies == null) {
-            ourMovies = new HashMap<String,Movie>();
-            loadMovies("data/ratedmoviesfull.csv");
+            ourMovies = new HashMap<>();
+            loadMovies("ratedmoviesfull.csv");
         }
     }	
 
 	
-    private static void loadMovies(String filename) {
-        FirstRatings fr = new FirstRatings();
+    private void loadMovies(String filename) {
+        InitializeDatabases fr = new InitializeDatabases();
         List<Movie> list = fr.loadMovies(filename);
         for (Movie m : list) {
             ourMovies.put(m.getID(), m);
         }
     }
 
-    public static boolean containsID(String id) {
+    public boolean containsID(String id) {
         initialize();
         return ourMovies.containsKey(id);
     }
 
-    public static int getYear(String id) {
+    public int getYear(String id) {
         initialize();
         return ourMovies.get(id).getYear();
     }
 
-    public static String getGenres(String id) {
+    public String getGenres(String id) {
         initialize();
         return ourMovies.get(id).getGenres();
     }
 
-    public static String getTitle(String id) {
+    public String getTitle(String id) {
         initialize();
         return ourMovies.get(id).getTitle();
     }
 
-    public static Movie getMovie(String id) {
+    public Movie getMovie(String id) {
         initialize();
         return ourMovies.get(id);
     }
 
-    public static String getPoster(String id) {
+    public String getPoster(String id) {
         initialize();
         return ourMovies.get(id).getPoster();
     }
 
-    public static int getMinutes(String id) {
+    public int getMinutes(String id) {
         initialize();
         return ourMovies.get(id).getMinutes();
     }
 
-    public static String getCountry(String id) {
+    public String getCountry(String id) {
         initialize();
         return ourMovies.get(id).getCountry();
     }
 
-    public static String getDirector(String id) {
+    public String getDirector(String id) {
         initialize();
         return ourMovies.get(id).getDirector();
     }
 
-    public static int size() {
+    public int size() {
         return ourMovies.size();
     }
 
-    public static ArrayList<String> filterBy(Filter f) {
+    public List<Movie> getAllMovies() {
+        return new ArrayList<>(ourMovies.values());
+    }
+
+    public List<String> filterBy(Filter f) {
         initialize();
-        ArrayList<String> list = new ArrayList<String>();
+        List<String> list = new ArrayList<>();
         for(String id : ourMovies.keySet()) {
             if (f.satisfies(id)) {
                 list.add(id);

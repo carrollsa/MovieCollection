@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+<!-- script to access jquery -->
+    <script
+            src="https://code.jquery.com/jquery-3.5.1.js"
+            integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc="
+            crossorigin="anonymous">
+    </script>
+<body>
+    <h1>
+        Stephen Carroll's Movie Recommender
+    </h1>
+    <h2>
+        Welcome to my movie recommender! Please rate the following movies to create your initial recommendation profile.
+        If you haven't seen a movie, please select "No Rating."
+        Once you have finished rating all of the movies and hit submit, your initial recommendation
+         profile will be complete,
+        and the recommender will return a selection of movie recommendations and give further instructions.
+    </h2>
+    </hr>
+    <div1>
+    <table class="movieTable" border="1" style = "background-color: lightskyblue">
+        <thead style = "color:rgb(8, 70, 109)">
+            <tr>
+                <th>Poster</th>
+                <th>Movie</th>
+                <th>Rating</th>
+            </tr>
+        </thead>
+        <tbody>
+        </tbody>
+        <tfoot>
+            <tr>
+                <td colspan="3">
+                    <input type="button" class="vertical-center" value="Submit" id="submitRatings" style="align-content: center">
+                </td>
+            </tr>
+        </tfoot>
+    </table>
+    </div1>
+
+</body>
+<!-- index initiation -->   
+   <script>
+    (function($) { 'use strict'; $(function() {
+        async function printMovies() {
+            let response = await fetch("api/v1/movies", {method: "GET"});
+            let listOfMovies = await response.json();
+            let keys = Object.keys(listOfMovies);
+            for (let i = 0; i<keys.length; i++) {
+                let posterURL = listOfMovies[i].poster;
+                let movieYear = listOfMovies[i].year;
+                let movieName = listOfMovies[i].title;
+                let movieID = listOfMovies[i].id;
+                
+                let addMovie = "<tr>"
+                    addMovie +="<td><img src="+posterURL+" width=50 height=75></td>"
+                    addMovie +="<td>"+movieYear+"  "+"<a href=\"https://www.imdb.com/title/tt"+movieID+"\">"+movieName+"</a>"
+                    addMovie +="<td><input type=\"radio\" class=\"ratButton\" id=\"noRating\" name=\"rating\" value=\"null\"><label for=\"noRating\">No Rating</label>"
+                    addMovie +="<input type=\"radio\" class=\"ratButton\" id=\"rating1\" name=\"rating"+(i+1)+"\" value=\"1\"><label for=\"rating1\">1</label>"
+                    addMovie +="<input type=\"radio\" class=\"ratButton\" id=\"rating2\" name=\"rating"+(i+1)+"\" value=\"2\"><label for=\"rating2\">2</label>"
+                    addMovie +="<input type=\"radio\" class=\"ratButton\" id=\"rating3\" name=\"rating"+(i+1)+"\" value=\"3\"><label for=\"rating3\">3</label>"
+                    addMovie +="<input type=\"radio\" class=\"ratButton\" id=\"rating4\" name=\"rating"+(i+1)+"\" value=\"4\"><label for=\"rating4\">4</label>"
+                    addMovie +="<input type=\"radio\" class=\"ratButton\" id=\"rating5\" name=\"rating"+(i+1)+"\" value=\"5\"><label for=\"rating5\">5</label>"
+                    addMovie +="<input type=\"radio\" class=\"ratButton\" id=\"rating6\" name=\"rating"+(i+1)+"\" value=\"6\"><label for=\"rating6\">6</label>"
+                    addMovie +="<input type=\"radio\" class=\"ratButton\" id=\"rating7\" name=\"rating"+(i+1)+"\" value=\"7\"><label for=\"rating7\">7</label>"
+                    addMovie +="<input type=\"radio\" class=\"ratButton\" id=\"rating8\" name=\"rating"+(i+1)+"\" value=\"8\"><label for=\"rating8\">8</label>"
+                    addMovie +="<input type=\"radio\" class=\"ratButton\" id=\"rating9\" name=\"rating"+(i+1)+"\" value=\"9\"><label for=\"rating9\">9</label>"
+                    addMovie +="<input type=\"radio\" class=\"ratButton\" id=\"rating10\" name=\"rating"+(i+1)+"\" value=\"10\"><label for=\"rating10\">10</label>"
+                    addMovie +="</td>"
+                    addMovie +="</tr>"
+                    $("table tbody").append(addMovie);
+                    
+
+                // let div1 = $("<div2>");
+                // div1.append(posterURL + "    " + movieYear + "    " + movieName);
+                // $('body').append(div1);
+            }
+        }
+        printMovies()
+    }); })(jQuery);
+        
+        </script>
+<!-- script for submit button function  INCOMPLETE -->
+    <script type="text/javascript">
+        $(document).ready(function() {
+            $("#submit").click(function() {
+
+            });
+        });
+    </script>
+</head>
+
+</html>

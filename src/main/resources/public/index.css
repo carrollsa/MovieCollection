@@ -1,0 +1,10 @@
+.divider{
+    width:5px;
+    height:auto;
+    display:inline-block;
+}
+
+.ratButton {
+    margin-right: 50px;
+    padding: 10px;
+}

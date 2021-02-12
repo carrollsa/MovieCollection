@@ -1,15 +1,19 @@
-package com.stephenalexander.projects.movierecommender;
+package com.stephenalexander.projects.movierecommender.filter;
+
+import com.stephenalexander.projects.movierecommender.MovieDatabase;
 
 public class DirectorsFilter implements Filter {
     private String myDirectors;
-    
-    public DirectorsFilter(String directors) {
+    private final MovieDatabase movieDatabase;
+
+    public DirectorsFilter(String directors, MovieDatabase movieDatabase) {
         myDirectors = directors;
+        this.movieDatabase = movieDatabase;
     }
     
     @Override
     public boolean satisfies(String id) {
-        String movieDirectors = MovieDatabase.getDirector(id);
+        String movieDirectors = movieDatabase.getDirector(id);
         String[] directorArray = myDirectors.split("[,]", 0);
         for (String dir : directorArray) {
             if (movieDirectors.indexOf(dir) != -1) {

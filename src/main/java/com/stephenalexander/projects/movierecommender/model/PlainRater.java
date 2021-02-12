@@ -1,15 +1,16 @@
-package com.stephenalexander.projects.movierecommender;
+package com.stephenalexander.projects.movierecommender.model;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class PlainRater implements Rater{
     private String myID;
-    private ArrayList<Rating> myRatings;
+    private List<Rating> myRatings;
     private int myHash;
 
     public PlainRater(String id) {
         myID = id;
-        myRatings = new ArrayList<Rating>();
+        myRatings = new ArrayList<>();
     }
 
     public void addRating(String item, double rating) {
@@ -54,8 +55,8 @@ public class PlainRater implements Rater{
         // return myHash;
     // }
     
-    public ArrayList<String> getItemsRated() {
-        ArrayList<String> list = new ArrayList<String>();
+    public List<String> getItemsRated() {
+        List<String> list = new ArrayList<>();
         for(int k=0; k < myRatings.size(); k++){
             list.add(myRatings.get(k).getItem());
         }

@@ -1,7 +1,5 @@
-package com.stephenalexander.projects.movierecommender;
+package com.stephenalexander.projects.movierecommender.model;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Objects;
 
 // An immutable passive data object (PDO) to represent item data

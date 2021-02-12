@@ -1,6 +1,8 @@
 plugins {
     id 'groovy'
     id 'java-library'
+    id 'org.springframework.boot' version '2.3.3.RELEASE'
+    id 'io.spring.dependency-management' version '1.0.8.RELEASE'
 }
 
 group 'com.carrollsa'
@@ -11,16 +13,21 @@ repositories {
 }
 
 dependencies {
-    testImplementation 'org.junit.jupiter:junit-jupiter:5.6.2'
     implementation 'org.codehaus.groovy:groovy-all:2.3.11'
 // https://mvnrepository.com/artifact/org.apache.commons/commons-csv
     implementation group: 'org.apache.commons', name: 'commons-csv', version: '1.8'
+    runtimeOnly 'org.springframework.boot:spring-boot-devtools'
 
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    testImplementation('org.springframework.boot:spring-boot-starter-test') {
+        exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
+    }
 
-
-
+    testImplementation 'org.junit.jupiter:junit-jupiter:5.6.2'
 }
 
 test {
     useJUnitPlatform()
+    onlyIf { !project.hasProperty('prod') }
 }
+
