@@ -1,7 +1,8 @@
-package com.stephenalexander.projects.movierecommender;
+package com.stephenalexander.projects.movierecommender.movie;
 
+import com.stephenalexander.projects.movierecommender.InitializeDatabases;
 import com.stephenalexander.projects.movierecommender.filter.Filter;
-import com.stephenalexander.projects.movierecommender.model.Movie;
+import com.stephenalexander.projects.movierecommender.movie.Movie;
 
 import java.util.ArrayList;
 import java.util.HashMap;

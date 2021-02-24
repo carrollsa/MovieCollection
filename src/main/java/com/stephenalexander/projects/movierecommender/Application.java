@@ -1,9 +1,14 @@
 package com.stephenalexander.projects.movierecommender;
 
+import com.stephenalexander.projects.movierecommender.movie.MovieDatabase;
+import com.stephenalexander.projects.movierecommender.rater.RaterDatabase;
 import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
 import org.springframework.context.annotation.Bean;
 
+@EnableAutoConfiguration
 @SpringBootApplication
 public class Application {
 

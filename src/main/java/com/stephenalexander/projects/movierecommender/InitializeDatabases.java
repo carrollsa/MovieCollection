@@ -1,7 +1,7 @@
 package com.stephenalexander.projects.movierecommender;
 
-import com.stephenalexander.projects.movierecommender.model.EfficientRater;
-import com.stephenalexander.projects.movierecommender.model.Movie;
+import com.stephenalexander.projects.movierecommender.rater.EfficientRater;
+import com.stephenalexander.projects.movierecommender.movie.Movie;
 import org.apache.commons.csv.CSVParser;
 import org.apache.commons.csv.CSVRecord;
 

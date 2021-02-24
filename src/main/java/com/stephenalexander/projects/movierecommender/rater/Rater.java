@@ -1,4 +1,4 @@
-package com.stephenalexander.projects.movierecommender.model;
+package com.stephenalexander.projects.movierecommender.rater;
 
 import java.util.List;
 

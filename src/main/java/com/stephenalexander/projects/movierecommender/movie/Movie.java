@@ -1,4 +1,4 @@
-package com.stephenalexander.projects.movierecommender.model;
+package com.stephenalexander.projects.movierecommender.movie;
 
 import java.util.Objects;
 
@@ -13,7 +13,7 @@ public class Movie {
     private String poster;
     private int minutes;
 
-    public Movie (String anID, String aTitle, String aYear, String theGenres) {
+    public Movie(String anID, String aTitle, String aYear, String theGenres) {
         // just in case data file contains extra whitespace
         id = anID.trim();
         title = aTitle.trim();
@@ -21,8 +21,8 @@ public class Movie {
         genres = theGenres;
     }
 
-    public Movie (String anID, String aTitle, String aYear, String theGenres, String aDirector,
-    String aCountry, String aPoster, int theMinutes) {
+    public Movie(String anID, String aTitle, String aYear, String theGenres, String aDirector,
+                 String aCountry, String aPoster, int theMinutes) {
         // just in case data file contains extra whitespace
         id = anID.trim();
         title = aTitle.trim();
@@ -35,43 +35,43 @@ public class Movie {
     }
 
     // Returns ID associated with this item
-    public String getID () {
+    public String getID() {
         return id;
     }
 
     // Returns title of this item
-    public String getTitle () {
+    public String getTitle() {
         return title;
     }
 
     // Returns year in which this item was published
-    public int getYear () {
+    public int getYear() {
         return year;
     }
 
     // Returns genres associated with this item
-    public String getGenres () {
+    public String getGenres() {
         return genres;
     }
 
-    public String getCountry(){
+    public String getCountry() {
         return country;
     }
 
-    public String getDirector(){
+    public String getDirector() {
         return director;
     }
 
-    public String getPoster(){
+    public String getPoster() {
         return poster;
     }
 
-    public int getMinutes(){
+    public int getMinutes() {
         return minutes;
     }
 
     // Returns a string of the item's information
-    public String toString () {
+    public String toString() {
         String result = "Movie [id=" + id + ", title=" + title + ", year=" + year;
         result += ", genres= " + genres + "]";
         return result;
@@ -82,7 +82,8 @@ public class Movie {
         if (this == o) return true;
         if (!(o instanceof Movie)) return false;
         Movie movie = (Movie) o;
-        return year == movie.year && minutes == movie.minutes && Objects.equals(id, movie.id) && Objects.equals(title, movie.title) && Objects.equals(genres, movie.genres) && Objects.equals(director, movie.director) && Objects.equals(country, movie.country) && Objects.equals(poster, movie.poster);
+        return year == movie.year && minutes == movie.minutes && Objects.equals(id, movie.id) && Objects.equals(title
+                , movie.title) && Objects.equals(genres, movie.genres) && Objects.equals(director, movie.director) && Objects.equals(country, movie.country) && Objects.equals(poster, movie.poster);
     }
 
     @Override

@@ -3,12 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
-<!-- script to access jquery -->
+<!-- access jquery -->
     <script
             src="https://code.jquery.com/jquery-3.5.1.js"
             integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc="
             crossorigin="anonymous">
     </script>
+    <link rel='stylesheet' href='css/index.css'>
 <body>
     <h1>
         Stephen Carroll's Movie Recommender
@@ -22,7 +23,7 @@
     </h2>
     </hr>
     <div1>
-    <table class="movieTable" border="1" style = "background-color: lightskyblue">
+    <table class="movieTable">
         <thead style = "color:rgb(8, 70, 109)">
             <tr>
                 <th>Poster</th>
@@ -35,7 +36,7 @@
         <tfoot>
             <tr>
                 <td colspan="3">
-                    <input type="button" class="vertical-center" value="Submit" id="submitRatings" style="align-content: center">
+                    <input type="button" class="submit" value="Submit" id="submitRatings" style="align-content: center">
                 </td>
             </tr>
         </tfoot>
@@ -55,40 +56,53 @@
                 let movieYear = listOfMovies[i].year;
                 let movieName = listOfMovies[i].title;
                 let movieID = listOfMovies[i].id;
-                
-                let addMovie = "<tr>"
-                    addMovie +="<td><img src="+posterURL+" width=50 height=75></td>"
-                    addMovie +="<td>"+movieYear+"  "+"<a href=\"https://www.imdb.com/title/tt"+movieID+"\">"+movieName+"</a>"
-                    addMovie +="<td><input type=\"radio\" class=\"ratButton\" id=\"noRating\" name=\"rating\" value=\"null\"><label for=\"noRating\">No Rating</label>"
-                    addMovie +="<input type=\"radio\" class=\"ratButton\" id=\"rating1\" name=\"rating"+(i+1)+"\" value=\"1\"><label for=\"rating1\">1</label>"
-                    addMovie +="<input type=\"radio\" class=\"ratButton\" id=\"rating2\" name=\"rating"+(i+1)+"\" value=\"2\"><label for=\"rating2\">2</label>"
-                    addMovie +="<input type=\"radio\" class=\"ratButton\" id=\"rating3\" name=\"rating"+(i+1)+"\" value=\"3\"><label for=\"rating3\">3</label>"
-                    addMovie +="<input type=\"radio\" class=\"ratButton\" id=\"rating4\" name=\"rating"+(i+1)+"\" value=\"4\"><label for=\"rating4\">4</label>"
-                    addMovie +="<input type=\"radio\" class=\"ratButton\" id=\"rating5\" name=\"rating"+(i+1)+"\" value=\"5\"><label for=\"rating5\">5</label>"
-                    addMovie +="<input type=\"radio\" class=\"ratButton\" id=\"rating6\" name=\"rating"+(i+1)+"\" value=\"6\"><label for=\"rating6\">6</label>"
-                    addMovie +="<input type=\"radio\" class=\"ratButton\" id=\"rating7\" name=\"rating"+(i+1)+"\" value=\"7\"><label for=\"rating7\">7</label>"
-                    addMovie +="<input type=\"radio\" class=\"ratButton\" id=\"rating8\" name=\"rating"+(i+1)+"\" value=\"8\"><label for=\"rating8\">8</label>"
-                    addMovie +="<input type=\"radio\" class=\"ratButton\" id=\"rating9\" name=\"rating"+(i+1)+"\" value=\"9\"><label for=\"rating9\">9</label>"
-                    addMovie +="<input type=\"radio\" class=\"ratButton\" id=\"rating10\" name=\"rating"+(i+1)+"\" value=\"10\"><label for=\"rating10\">10</label>"
-                    addMovie +="</td>"
-                    addMovie +="</tr>"
-                    $("table tbody").append(addMovie);
-                    
-
-                // let div1 = $("<div2>");
-                // div1.append(posterURL + "    " + movieYear + "    " + movieName);
-                // $('body').append(div1);
+                let $movieRating = $('<tr class="rating-row">')
+                // $movieRating.append($("<td><img src="+posterURL+" width=50 height=75></td>"))
+                $movieRating.append($(`<td>Poster goes here</td>`))
+                $movieRating.append($(`<td>&ensp;${movieYear}&ensp;<a href="https://www.imdb.com/title/tt${movieID}" style="color: #cddbe7" target="_blank">${movieName}</a></td>`))
+                let $ratingButton = $('<td>');
+                    // Add initial "No Rating" button
+                // $ratingButton.append($(`<input type="radio" class="ratButton" id="rating${i}-0" name="rating${i}" value=0><label for="rating${i}-0">No Rating</label>`));
+                $ratingButton.append($(`<input type="radio" class="ratButton" id="${movieID}-${i}-0" name="rating${i}" value=0><label for="${movieID}-${i}-0">No Rating</label>`));
+                for (let j=1; j <= 10; j++) {
+                    // Add 1-10 buttons
+                    // $ratingButton.append($(`<input type="radio" class="ratButton" id="rating${i}-${j}" name="rating${i}" value="${j}"><label for="rating${i}-${j}">${j}</label>`));
+                    $ratingButton.append($(`<input type="radio" class="ratButton" id="${movieID}-${i}-${j}" name="rating${i}" value="${j}"><label for="${movieID}-${i}-${j}">${j}</label>`));
+                }
+                $movieRating.append($ratingButton);
+                $("table tbody").append($movieRating);
             }
         }
-        printMovies()
-    }); })(jQuery);
-        
-        </script>
-<!-- script for submit button function  INCOMPLETE -->
+        printMovies();
+    }); })(jQuery);        
+    </script>
+
+
+<!-- script for submit button function -->
     <script type="text/javascript">
         $(document).ready(function() {
-            $("#submit").click(function() {
+            $("#submitRatings").click(function() {
+                let ratingMap = {};
+                $('.rating-row').each(function(idx, row) {
+                    let $radioButtons = $(row).find('input:radio');
+                    $radioButtons.each(function(ind, radioButton) {
+                    const $radioButton = $(radioButton);
+                        if ($radioButton.is(':checked')) {
+                            let radioVal = $radioButton.val();
+                            let radioName = $(this).attr('name');
+                            let $movieID = $(this).attr('id').substring(0,7);
+                            ratingMap[$movieID] = radioVal;
+                        }
+                    })
 
+                })
+                fetch('api/v1/ratings', {
+                    headers: {
+                        'content-type': 'application/json'
+                    },
+                    method: "POST",
+                    body: JSON.stringify(ratingMap)
+                });
             });
         });
     </script>

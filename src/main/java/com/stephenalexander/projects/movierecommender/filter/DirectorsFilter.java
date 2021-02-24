@@ -1,6 +1,6 @@
 package com.stephenalexander.projects.movierecommender.filter;
 
-import com.stephenalexander.projects.movierecommender.MovieDatabase;
+import com.stephenalexander.projects.movierecommender.movie.MovieDatabase;
 
 public class DirectorsFilter implements Filter {
     private String myDirectors;

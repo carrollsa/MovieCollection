@@ -1,8 +1,8 @@
 package com.stephenalexander.projects.movierecommender;
 
 
-import com.stephenalexander.projects.movierecommender.model.EfficientRater;
-import com.stephenalexander.projects.movierecommender.model.Movie;
+import com.stephenalexander.projects.movierecommender.rater.EfficientRater;
+import com.stephenalexander.projects.movierecommender.movie.Movie;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

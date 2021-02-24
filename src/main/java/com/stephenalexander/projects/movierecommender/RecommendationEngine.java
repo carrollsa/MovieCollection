@@ -2,13 +2,13 @@ package com.stephenalexander.projects.movierecommender;
 
 
 import com.stephenalexander.projects.movierecommender.filter.Filter;
-import com.stephenalexander.projects.movierecommender.filter.GenreFilter;
 import com.stephenalexander.projects.movierecommender.filter.TrueFilter;
-import com.stephenalexander.projects.movierecommender.model.Movie;
-import com.stephenalexander.projects.movierecommender.model.Rater;
-import com.stephenalexander.projects.movierecommender.model.Rating;
+import com.stephenalexander.projects.movierecommender.movie.MovieDatabase;
+import com.stephenalexander.projects.movierecommender.rater.Rater;
+import com.stephenalexander.projects.movierecommender.rater.RaterDatabase;
+import com.stephenalexander.projects.movierecommender.rater.Rating;
+import com.stephenalexander.projects.movierecommender.movie.Movie;
 
-import java.sql.SQLOutput;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
