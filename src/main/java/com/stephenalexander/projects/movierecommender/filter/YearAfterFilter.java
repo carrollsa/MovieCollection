@@ -1,7 +1,5 @@
 package com.stephenalexander.projects.movierecommender.filter;
 
-import com.stephenalexander.projects.movierecommender.movie.MovieDatabase;
-
 public class YearAfterFilter implements Filter {
 	private int myYear;
 	private final MovieDatabase movieDatabase;

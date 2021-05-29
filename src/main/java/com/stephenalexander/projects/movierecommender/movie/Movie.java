@@ -4,7 +4,7 @@ import java.util.Objects;
 
 // An immutable passive data object (PDO) to represent item data
 public class Movie {
-    private String id;
+    private Integer id;
     private String title;
     private int year;
     private String genres;
@@ -13,18 +13,18 @@ public class Movie {
     private String poster;
     private int minutes;
 
-    public Movie(String anID, String aTitle, String aYear, String theGenres) {
+    public Movie(int anID, String aTitle, String aYear, String theGenres) {
         // just in case data file contains extra whitespace
-        id = anID.trim();
+        id = anID;
         title = aTitle.trim();
         year = Integer.parseInt(aYear.trim());
         genres = theGenres;
     }
 
-    public Movie(String anID, String aTitle, String aYear, String theGenres, String aDirector,
+    public Movie(int anID, String aTitle, String aYear, String theGenres, String aDirector,
                  String aCountry, String aPoster, int theMinutes) {
         // just in case data file contains extra whitespace
-        id = anID.trim();
+        id = anID;
         title = aTitle.trim();
         year = Integer.parseInt(aYear.trim());
         genres = theGenres;
@@ -35,7 +35,7 @@ public class Movie {
     }
 
     // Returns ID associated with this item
-    public String getID() {
+    public int getID() {
         return id;
     }
 

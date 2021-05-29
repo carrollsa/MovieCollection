@@ -1,7 +1,5 @@
 package com.stephenalexander.projects.movierecommender.filter;
 
-import com.stephenalexander.projects.movierecommender.movie.MovieDatabase;
-
 public class MinutesFilter implements Filter {
     private int myMin;
     private int myMax;

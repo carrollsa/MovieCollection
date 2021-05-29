@@ -1,7 +1,5 @@
 package com.stephenalexander.projects.movierecommender.filter;
 
-import com.stephenalexander.projects.movierecommender.movie.MovieDatabase;
-
 public class GenreFilter implements Filter {
     private String myGenre;
     private final MovieDatabase movieDatabase;

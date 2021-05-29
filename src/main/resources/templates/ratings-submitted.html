@@ -15,11 +15,7 @@
         Stephen Carroll's Movie Recommender
     </h1>
     <h2>
-        Welcome to my movie recommender! Please rate the following movies to create your initial recommendation profile.
-        If you haven't seen a movie, please select "No Rating."
-        Once you have finished rating all of the movies and hit submit, your initial recommendation
-         profile will be complete,
-        and the recommender will return a selection of movie recommendations and give further instructions.
+        Below are your recommended movies ordered with the most recommended movie first!
     </h2>
     </hr>
     <div1>
@@ -97,14 +93,7 @@
 
                 })
                 //Display ratings at path below
-                // fetch('api/v1/ratings', {
-                //     headers: {
-                //         'content-type': 'application/json'
-                //     },
-                //     method: "POST",
-                //     body: JSON.stringify(ratingMap)
-                // });
-                fetch('ratings-submitted', {
+                fetch('api/v1/ratings', {
                     headers: {
                         'content-type': 'application/json'
                     },
@@ -118,7 +107,7 @@
     <script type="text/javascript">
         $(document).ready(function() {
             $("#submitRatings").click(function() {
-                window.location.href = "ratings-submitted";
+                window.location.href = "api/v1/rated1";
             })
         })
     </script>

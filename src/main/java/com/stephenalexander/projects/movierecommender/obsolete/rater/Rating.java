@@ -1,4 +1,4 @@
-package com.stephenalexander.projects.movierecommender.rater;
+package com.stephenalexander.projects.movierecommender.obsolete.rater;
 
 // An immutable passive data object (PDO) to represent the rating data
 public class Rating implements Comparable<Rating> {

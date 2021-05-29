@@ -1,4 +1,4 @@
-package com.stephenalexander.projects.movierecommender.rater;
+package com.stephenalexander.projects.movierecommender.obsolete.rater;
 
 import java.util.ArrayList;
 import java.util.HashMap;

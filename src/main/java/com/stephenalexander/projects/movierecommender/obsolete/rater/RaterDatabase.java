@@ -1,8 +1,5 @@
-package com.stephenalexander.projects.movierecommender.rater;
+package com.stephenalexander.projects.movierecommender.obsolete.rater;
 
-import com.stephenalexander.projects.movierecommender.InitializeDatabases;
-import com.stephenalexander.projects.movierecommender.rater.EfficientRater;
-import com.stephenalexander.projects.movierecommender.rater.Rater;
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVParser;
 import org.apache.commons.csv.CSVRecord;

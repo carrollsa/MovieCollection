@@ -1,154 +1,93 @@
 package com.stephenalexander.projects.movierecommender;
 
-
-import com.stephenalexander.projects.movierecommender.filter.Filter;
 import com.stephenalexander.projects.movierecommender.filter.TrueFilter;
-import com.stephenalexander.projects.movierecommender.movie.MovieDatabase;
-import com.stephenalexander.projects.movierecommender.rater.Rater;
-import com.stephenalexander.projects.movierecommender.rater.RaterDatabase;
-import com.stephenalexander.projects.movierecommender.rater.Rating;
-import com.stephenalexander.projects.movierecommender.movie.Movie;
+import com.stephenalexander.projects.movierecommender.movie.MovieRepository;
+import com.stephenalexander.projects.movierecommender.obsolete.rater.Rater;
+import com.stephenalexander.projects.movierecommender.obsolete.rater.Rating;
+import com.stephenalexander.projects.movierecommender.raters.RatersRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 
 public class RecommendationEngine {
-    private final RaterDatabase raterDatabase;
-    private final MovieDatabase movieDatabase;
 
-    public RecommendationEngine(RaterDatabase raterDatabase, MovieDatabase movieDatabase) {
-        this.raterDatabase = raterDatabase;
-        this.movieDatabase = movieDatabase;
-    }
-    
-    public double getAverageByID(String id, int minimalRaters) {
-        double numRatings = 0.0;
-        double ratingTotal = 0.0;
-        for (Rater r : raterDatabase.getRaters()) {
-            if (r.hasRating(id)) {
-                numRatings ++;
-                ratingTotal += r.getRating(id);
-            }
-        }
-        if (numRatings < minimalRaters) {
-            return 0.0;
-        }
+    private final RatersRepository ratersRepository;
+    private final MovieRepository movieRepository;
 
-        return ratingTotal/numRatings;
+    @Autowired
+    public RecommendationEngine(RatersRepository ratersRepository, MovieRepository movieRepository) {
+        this.ratersRepository = ratersRepository;
+        this.movieRepository = movieRepository;
     }
 
-    /* returns a list of the top movies from
-    each genre, attempting to not have more
-    than one movie from a single franchise
-    */
-    public List<Movie> getMoviesToRate() {
-        List<Movie> returnList = new ArrayList<Movie>();
-        List<String> ids = new ArrayList<String>();
-        String genreString = "Action Thriller Biography Drama Comedy Romance Adventure Animation Horror Crime Sci-Fi " +
-                "Sport Music Musical Documentary History Film-Noir Fantasy";
-        String[] genres = genreString.split(" ");
-        for (int i=0; i<genres.length; i++) {
-            List<Rating> ratings = getAverageRatings(5);
-            Collections.sort(ratings, Collections.reverseOrder());
-            for (Rating rating : ratings) {
-                String id = rating.getItem();
-                String tempGenre = movieDatabase.getGenres(id);
-                if (tempGenre.indexOf(genres[i]) != -1 && !ids.contains(id)) {
-                    ids.add(id);
-                    break;
-                }
-            }
-        }
-        for (String id : ids) {
-            returnList.add(movieDatabase.getMovie(id));
-        }
-        return returnList;
-    }
+    /**
+     * @param userID                                 The userID of the rater to be compared to raters in the database
+     * @param numSimilarRaters                       The number of similar raters to be considered for recommendations
+     * @param minimumSharedRatingsAmongSimilarRaters The minimum number of similar raters required for a movie to be
+     *                                               returned
+     * @return Recommended movies
+     */
 
-    public List<Rating> getAverageRatings(int minimalRaters) {
-        List<String> movies = movieDatabase.filterBy(new TrueFilter());
-        List<Rating> ratings = new ArrayList<>();
-        for (int k = 0; k < movies.size(); k++) {
-            String id = movies.get(k);
-            double avg = getAverageByID(id, minimalRaters);
-            if (avg > 0) {
-                Rating r = new Rating(id, avg);
-                ratings.add(r);
-            }
-        }
-        return ratings;
+    public Collection<Integer> testQuery() {
+        return movieRepository.getAllMovieIds();
     }
-    public List<Rating> getAverageRatingsByFilter(int minimalRaters, Filter filterCriteria) {
-        List<String> movieIDs = movieDatabase.filterBy(filterCriteria);
-        List<Rating> answer = new ArrayList<>();
-        for (int k = 0; k < movieIDs.size(); k++) {
-            String id = movieIDs.get(k);
-            double avg = getAverageByID(id, minimalRaters);
-            if (avg > 0) {
-                Rating r = new Rating(id, avg);
-                answer.add(r);
-            }
-        }
-        return answer;
-    }
-    private double dotProduct(Rater me, Rater r) {
-        List<String> movies = movieDatabase.filterBy(new TrueFilter());
-        double product = 0.0;
-        for (String id : movies) {
-            if (me.hasRating(id) && r.hasRating(id)) {
-                double myRating = me.getRating(id) - 5;
-                double theirRating = r.getRating(id) - 5;
-                product += myRating*theirRating;
-            }
-        }
-        return product;
-    }
-    private List<Rating> getSimilarities(String id) {
-        List<Rating> sim = new ArrayList<>();
-        Rater me = raterDatabase.getRater(id);
-        for (Rater r : raterDatabase.getRaters()) {
-            if (! r.getID().equals(id)) {
-                double prod = dotProduct(me, r);
-                if (prod >= 0) {
-                    Rating rat = new Rating(r.getID(), prod);
-                    sim.add(rat);
-                }
-            }
-        }
-        Collections.sort(sim, Collections.reverseOrder());
-        return sim;
-    }
-    public List<Rating> getSimilarRatings(String id, int numSimilarRaters, int minimalRaters) {
-        List<Rating> simMovies = new ArrayList<>();
-        List<Rating> simRaters = getSimilarities(id);
-        List<String> movies = movieDatabase.filterBy(new TrueFilter());
-        for (String mID : movies) {
-            double total = 0.0;
-            int numRatings = 0;
-            for (int k=0; k<numSimilarRaters; k++) {
-                //get similarityrating
-                double similarityRating = simRaters.get(k).getValue();
-                //get their id
-                Rating temp = simRaters.get(k);
-                String rID = temp.getItem();
-                //get their rating of movie
-                Rater rater = raterDatabase.getRater(rID);
-                double movieRating = rater.getRating(mID);
-                //calculate weighted average
-                if (movieRating != -1.0 && similarityRating > -1.0) {
-                    double totalSim = similarityRating*movieRating;
-                    total += totalSim;
-                    numRatings += 1;
-                }
-            }
-            if (numRatings >= minimalRaters) {
-                double weightedAverage = total/numRatings;
-                Rating r = new Rating(mID, weightedAverage);
-                simMovies.add(r);
-            }
-        }
-        Collections.sort(simMovies, Collections.reverseOrder());
-        return simMovies;
-    }
+}
+//    public List<Rating> getSimilarRatings(String userID, int numSimilarRaters, int minimumSharedRatingsAmongSimilarRaters) {
+//        List<Rating> similarMovies = new ArrayList<>();
+//        List<Rating> similarRaters = getSimilarities(userID);
+//        List<String> allMovies = movieRepository.();
+//        for (String movieID : allMovies) {
+//            double total = 0.0;
+//            int numSimilarRatings = 0;
+//            for (int k=0; k<numSimilarRaters; k++) {
+//                double similarityIndex = similarRaters.get(k).getValue();
+//                Rating similarityOfRater = similarRaters.get(k);
+//                String similarRaterID = similarityOfRater.getItem();
+//                Rater similarRater = raterDatabase.getRater(similarRaterID);
+//                double movieRatingFromSimilarRater = similarRater.getRating(movieID);
+//                if (movieRatingFromSimilarRater != -1.0 && similarityIndex > -1.0) {
+//                    double totalSimilarityRating = similarityIndex * movieRatingFromSimilarRater;
+//                    total += totalSimilarityRating;
+//                    numSimilarRatings += 1;
+//                }
+//            }
+//            if (numSimilarRatings >= minimumSharedRatingsAmongSimilarRaters) {
+//                double weightedAverage = total/numSimilarRatings;
+//                Rating r = new Rating(movieID, weightedAverage);
+//                similarMovies.add(r);
+//            }
+//        }
+//        Collections.sort(similarMovies, Collections.reverseOrder());
+//        return similarMovies;
+//    }
+//
+//    private List<Rating> getSimilarities(String userId) {
+//        List<Rating> weightedRatings = new ArrayList<>();
+//        Rater user = raterDatabase.getRater(userId);
+//        for (Rater databaseRater : raterDatabase.getRaters()) {
+//            if (! databaseRater.getID().equals(userId)) {
+//                double weightedRatingValue = dotProduct(user, databaseRater);
+//                if (weightedRatingValue >= 0) {
+//                    Rating weightedRating = new Rating(databaseRater.getID(), weightedRatingValue);
+//                    weightedRatings.add(weightedRating);
+//                }
+//            }
+//        }
+//        Collections.sort(weightedRatings, Collections.reverseOrder());
+//        return weightedRatings;
+//    }
+//
+//    private double dotProduct(Rater user, Rater databaseRater) {
+//        List<String> movies = movieDatabase.filterBy(new TrueFilter());
+//        double weightedRating = 0.0;
+//        for (String id : movies) {
+//            if (user.hasRating(id) && databaseRater.hasRating(id)) {
+//                double myRating = user.getRating(id) - 5;
+//                double theirRating = databaseRater.getRating(id) - 5;
+//                weightedRating += myRating*theirRating;
+//            }
+//        }
+//        return weightedRating;
+//    }
+
 }
