@@ -1,6 +1,6 @@
 package com.stephenalexander.projects.movierecommender.ratings;
 
-import com.stephenalexander.projects.movierecommender.obsolete.RecommendationEngine;
+import com.stephenalexander.projects.movierecommender.RecommendationEngine;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

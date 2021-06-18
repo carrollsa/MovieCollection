@@ -4,7 +4,7 @@ import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface RatersRepository extends CrudRepository<Rater, Long> {
+public interface RaterRepository extends CrudRepository<Rater, Long> {
 
 }
 

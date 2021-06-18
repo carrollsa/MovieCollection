@@ -1,19 +1,19 @@
 package com.stephenalexander.projects.movierecommender.raters;
 
-import com.stephenalexander.projects.movierecommender.obsolete.RecommendationEngine;
+import com.stephenalexander.projects.movierecommender.RecommendationEngine;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 @RequestMapping
 @RestController
-public class RatersController {
+public class RaterController {
     private final RecommendationEngine recommendationEngine;
-    private final RatersRepository ratersRepository;
+    private final RaterRepository raterRepository;
 
     @Autowired
-    public RatersController(RecommendationEngine recommendationEngine, RatersRepository ratersRepository) {
+    public RaterController(RecommendationEngine recommendationEngine, RaterRepository raterRepository) {
         this.recommendationEngine = recommendationEngine;
-        this.ratersRepository = ratersRepository;
+        this.raterRepository = raterRepository;
     }
 
 //    @RequestMapping(method = RequestMethod.POST)

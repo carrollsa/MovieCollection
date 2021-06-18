@@ -1,93 +1,155 @@
 package com.stephenalexander.projects.movierecommender;
 
-import com.stephenalexander.projects.movierecommender.filter.TrueFilter;
+import com.stephenalexander.projects.movierecommender.movie.Movie;
 import com.stephenalexander.projects.movierecommender.movie.MovieRepository;
-import com.stephenalexander.projects.movierecommender.obsolete.rater.Rater;
-import com.stephenalexander.projects.movierecommender.obsolete.rater.Rating;
-import com.stephenalexander.projects.movierecommender.raters.RatersRepository;
+import com.stephenalexander.projects.movierecommender.rater.Rater;
+import com.stephenalexander.projects.movierecommender.rater.RaterRepository;
+import com.stephenalexander.projects.movierecommender.rating.BasicRating;
+import com.stephenalexander.projects.movierecommender.rating.Rating;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.*;
 
-public class RecommendationEngine {
-
-    private final RatersRepository ratersRepository;
+public class Recommender {
+    private final RaterRepository raterRepository;
     private final MovieRepository movieRepository;
+    private int numRatersToCompareTo;
+    private int strictness;
+    private Rater user;
+    private List<Rating> similarRaters;
 
     @Autowired
-    public RecommendationEngine(RatersRepository ratersRepository, MovieRepository movieRepository) {
-        this.ratersRepository = ratersRepository;
+    public Recommender(RaterRepository raterRepository, MovieRepository movieRepository, Rater user) {
+        this.raterRepository = raterRepository;
         this.movieRepository = movieRepository;
+        numRatersToCompareTo = 10;
+        strictness = 3;
+        this.user = user;
+        getSimilarRaters();
     }
+
+    private void getSimilarRaters() {
+        List<Rating> similarRaters = new ArrayList<>();
+        for (Rater databaseRater : raterRepository.findAll()) {
+            //TODO: Is there a more elegant solution to this check?
+            if (databaseRater.equals(user)) {
+                continue;
+            }
+            double weightedRatingValue = getSimilarityRating(databaseRater);
+            //TODO: Another instance of maybe wanting doubles? Although an int would suffice here
+            if(weightedRatingValue >= 0) {
+                similarRaters.add(new Rating(databaseRater.getRaterID(), weightedRatingValue));
+            }
+        }
+    }
+
+    private double getSimilarityRating(Rater databaseRater) {
+        double weightedRating = 0.0;
+        for(Movie movie : movieRepository.getAllMovies()) {
+            if(bothRatersHaveRatedMovie(movie, databaseRater)) {
+                weightedRating += getDotProduct(movie, databaseRater);
+            }
+        }
+        return weightedRating;
+    }
+
+    private boolean bothRatersHaveRatedMovie(Movie movie, Rater databaseRater) {
+        if(!hasRatedMovie(user, movie) || !hasRatedMovie(databaseRater, movie)) {
+            return false;
+        }
+        return true;
+    }
+
+    private boolean hasRatedMovie(Rater rater, Movie movie) {
+        return raterRepository
+                .findRatingByRaterIdAndMovieId(rater.getRaterID(), movie.getMovieId())
+                .isPresent();
+    }
+
+    private double getDotProduct(Movie movie, Rater databaseRater) {
+        Optional<Rating> userRating = raterRepository
+                .findRatingByRaterIdAndMovieId(user.getRaterID(), movie.getMovieId());
+        Optional<Rating> databaseRaterRating = raterRepository
+                .findRatingByRaterIdAndMovieId(databaseRater.getRaterID(), movie.getMovieId());
+        return (userRating.get().getRatingValue() - 5) * (databaseRaterRating.get().getRatingValue() - 5);
+    }
+
+
+    public List<Movie> getRecommendations() {
+        List<Movie> recommendations = createRecommendationList();
+        return recommendations;
+    }
+
+    private List<Movie> createRecommendationList() {
+        List<BasicRating> weightedMovieRatings = new ArrayList<>();
+        for(Movie movie : movieRepository.getAllMovies()) {
+            double weightedRatingValue = getWeightedRating(movie);
+            if (movieMetRequirements(weightedRatingValue)) {
+                weightedMovieRatings.add(new BasicRating(movie.getMovieId(), weightedRatingValue));
+            }
+        }
+        Collections.sort(weightedMovieRatings, Collections.reverseOrder());
+        return populateMovieList(weightedMovieRatings);
+    }
+
+    private List<Movie> populateMovieList(List<BasicRating> weightedMovieRatings) {
+        List<Movie> recommendations = new ArrayList<>();
+        for(BasicRating basicRating : weightedMovieRatings) {
+            Optional<Movie> movieOptional = movieRepository.findById(basicRating.getId());
+            recommendations.add(movieOptional.get());
+        }
+        return recommendations;
+    }
+
+    private double getWeightedRating(Movie movie) {
+        double totalRatingPoints = 0.0;
+        int validRatingCount = 0;
+        for(int i = 0; i < numRatersToCompareTo; i++) {
+            // or else throw? Should be in database...
+            // lots of boilerplate to extract to other method?
+            Optional<Rater> similarRater = raterRepository.findById(similarRaters.get(i).getRaterID());
+            Optional<Rating> ratingFromSimilarRater =
+                    raterRepository.findRatingByRaterIdAndMovieId(similarRater.get().getRaterID(), movie.getMovieId());
+            double similarityIndex = similarRaters.get(i).getRatingValue();
+            if(!ratingFromSimilarRater.isPresent() || similarityIndex < -1.0) {
+                continue;
+            }
+            double movieRating = ratingFromSimilarRater.get().getRatingValue();
+            if(similarityIndex > -1.0) {
+                totalRatingPoints += similarityIndex * movieRating;
+                validRatingCount += 1;
+            }
+        }
+        if(validRatingCount >= strictness) {
+            return 0;
+        }
+        return totalRatingPoints/validRatingCount;
+    }
+
+    private boolean movieMetRequirements(double weightedRatingValue) {
+        return weightedRatingValue > 0;
+    }
+
 
     /**
-     * @param userID                                 The userID of the rater to be compared to raters in the database
-     * @param numSimilarRaters                       The number of similar raters to be considered for recommendations
-     * @param minimumSharedRatingsAmongSimilarRaters The minimum number of similar raters required for a movie to be
-     *                                               returned
-     * @return Recommended movies
+     * @param level level from 1-7 indicating how strict the recommender will be in considering movies to recommend
      */
-
-    public Collection<Integer> testQuery() {
-        return movieRepository.getAllMovieIds();
+    public void setStrictness(int level) {
+        level = normalizeLevel(level);
+        this.strictness = level;
     }
-}
-//    public List<Rating> getSimilarRatings(String userID, int numSimilarRaters, int minimumSharedRatingsAmongSimilarRaters) {
-//        List<Rating> similarMovies = new ArrayList<>();
-//        List<Rating> similarRaters = getSimilarities(userID);
-//        List<String> allMovies = movieRepository.();
-//        for (String movieID : allMovies) {
-//            double total = 0.0;
-//            int numSimilarRatings = 0;
-//            for (int k=0; k<numSimilarRaters; k++) {
-//                double similarityIndex = similarRaters.get(k).getValue();
-//                Rating similarityOfRater = similarRaters.get(k);
-//                String similarRaterID = similarityOfRater.getItem();
-//                Rater similarRater = raterDatabase.getRater(similarRaterID);
-//                double movieRatingFromSimilarRater = similarRater.getRating(movieID);
-//                if (movieRatingFromSimilarRater != -1.0 && similarityIndex > -1.0) {
-//                    double totalSimilarityRating = similarityIndex * movieRatingFromSimilarRater;
-//                    total += totalSimilarityRating;
-//                    numSimilarRatings += 1;
-//                }
-//            }
-//            if (numSimilarRatings >= minimumSharedRatingsAmongSimilarRaters) {
-//                double weightedAverage = total/numSimilarRatings;
-//                Rating r = new Rating(movieID, weightedAverage);
-//                similarMovies.add(r);
-//            }
-//        }
-//        Collections.sort(similarMovies, Collections.reverseOrder());
-//        return similarMovies;
-//    }
-//
-//    private List<Rating> getSimilarities(String userId) {
-//        List<Rating> weightedRatings = new ArrayList<>();
-//        Rater user = raterDatabase.getRater(userId);
-//        for (Rater databaseRater : raterDatabase.getRaters()) {
-//            if (! databaseRater.getID().equals(userId)) {
-//                double weightedRatingValue = dotProduct(user, databaseRater);
-//                if (weightedRatingValue >= 0) {
-//                    Rating weightedRating = new Rating(databaseRater.getID(), weightedRatingValue);
-//                    weightedRatings.add(weightedRating);
-//                }
-//            }
-//        }
-//        Collections.sort(weightedRatings, Collections.reverseOrder());
-//        return weightedRatings;
-//    }
-//
-//    private double dotProduct(Rater user, Rater databaseRater) {
-//        List<String> movies = movieDatabase.filterBy(new TrueFilter());
-//        double weightedRating = 0.0;
-//        for (String id : movies) {
-//            if (user.hasRating(id) && databaseRater.hasRating(id)) {
-//                double myRating = user.getRating(id) - 5;
-//                double theirRating = databaseRater.getRating(id) - 5;
-//                weightedRating += myRating*theirRating;
-//            }
-//        }
-//        return weightedRating;
-//    }
 
+    private int normalizeLevel(int level) {
+        if (level < 1) {
+            return 1;
+        }
+        else if(level > 7) {
+            return 7;
+        }
+        return level;
+    }
+
+    public void setNumRatersToCompareTo(int numRatersToCompareTo) {
+        this.numRatersToCompareTo = numRatersToCompareTo;
+    }
 }
