@@ -1,11 +1,11 @@
 package com.stephenalexander.projects.movierecommender.movie;
 
-import com.stephenalexander.projects.movierecommender.obsolete.RecommendationEngine;
+import com.stephenalexander.projects.movierecommender.RecommendationEngine;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
+import java.util.Collection;
 import java.util.Optional;
 
 @RequestMapping("api/v1/movies")
@@ -13,10 +13,12 @@ import java.util.Optional;
 public class MovieController {
 
     private final RecommendationEngine recommendationEngine;
+    private final MovieRepository movieRepository;
 
     @Autowired
-    public MovieController(RecommendationEngine recommendationEngine) {
-        this.recommendationEngine = recommendationEngine;
+    public MovieController(RecommendationEngine recommendationEngineOld, MovieRepository movieRepository) {
+        this.recommendationEngine = recommendationEngineOld;
+        this.movieRepository = movieRepository;
     }
 
 //    @PostMapping
@@ -25,9 +27,8 @@ public class MovieController {
 //    }
 
     @RequestMapping
-    @ResponseBody
-    public ResponseEntity<List<Movie>> getMoviesToRate() {
-        return ResponseEntity.of(Optional.of(recommendationEngine.getMoviesToRate()));
+    public ResponseEntity<Collection<Movie>> getMoviesToRate() {
+        return ResponseEntity.of(Optional.of(movieRepository.getTopMovies()));
     }
 
 }

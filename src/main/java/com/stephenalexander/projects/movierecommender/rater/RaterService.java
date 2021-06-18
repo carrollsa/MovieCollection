@@ -1,14 +1,42 @@
-package com.stephenalexander.projects.movierecommender.raters;
+package com.stephenalexander.projects.movierecommender.rater;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+
+import java.util.Collection;
+import java.util.Optional;
+import java.util.Set;
 
 @Service
 public class RaterService {
 
-    @Autowired
-    private RaterRepository raterRepository;
+    private final RaterRepository raterRepository;
 
-    //Made this class to implement findRaterById, not knowing it was already there through repository annotation and
-    // spring magic
+    @Autowired
+    public RaterService(RaterRepository raterRepository) {
+        this.raterRepository = raterRepository;
+    }
+
+    public Iterable<Rater> getAllRaters() {
+        return raterRepository.findAll();
+    }
+
+    public ResponseEntity<Collection<Rater>> getTopRaters() {
+        return ResponseEntity.of(Optional.of(raterRepository.getTopRaters()));
+    }
+
+    public void addNewRater(Rater rater) {
+        Optional<Rater> raterOptional = raterRepository.findById(rater.getId());
+        if(raterOptional.isPresent()) {
+            throw new IllegalStateException("rater already exists");
+        }
+        raterRepository.save(rater);
+    }
+
+    public Optional<Rater> findById(Long id) {
+        return raterRepository.findById(id);
+    }
+
+
 }

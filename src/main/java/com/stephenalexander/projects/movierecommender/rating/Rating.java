@@ -1,27 +1,35 @@
-package com.stephenalexander.projects.movierecommender.ratings;
+package com.stephenalexander.projects.movierecommender.rating;
+
+import com.stephenalexander.projects.movierecommender.movie.Movie;
+import com.stephenalexander.projects.movierecommender.rater.Rater;
 
 import javax.persistence.*;
-import java.security.Timestamp;
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-import java.time.temporal.ChronoUnit;
-import java.util.Date;
-import java.util.Locale;
 import java.util.Objects;
 
 
-@Entity
-@Table(name="rating")
+@Entity(name = "Rating")
+@Table(name = "rating")
 public class Rating {
-
-    private Long ratingID;
-    private Long raterID;
-    private Long movieID;
-    private Integer ratingValue;
+    @Id
+    @GeneratedValue(
+            strategy = GenerationType.IDENTITY
+    )
+    @Column(name = "rating_id")
+    private Long id;
+    @Column(name = "rating")
+    private Double ratingValue;
     private LocalDateTime time;
 
-    public Rating(Long movieID, Integer ratingValue) {
-        this.movieID = movieID;
+    @ManyToOne
+    @JoinColumn(name = "rater_id", nullable = false)
+    private Rater rater;
+
+    @ManyToOne
+    @JoinColumn(name = "movie_id", nullable = false)
+    private Movie movie;
+
+    public Rating(Integer movieID, Double ratingValue) {
         this.ratingValue = ratingValue;
         this.time = LocalDateTime.now();
     }
@@ -30,66 +38,22 @@ public class Rating {
 
     }
 
-    @Column(name = "rater_id")
-    public Long getRaterID() {
-        return raterID;
+    @Column(name = "rating_id")
+    public Long getId() {
+        return id;
     }
 
-    public void setRaterID(Long raterID) {
-        this.raterID = raterID;
-    }
-
-    @Column (name = "movie_id")
-    public Long getMovieID() {
-        return movieID;
-    }
-
-    public void setMovieID(Long movieID) {
-        this.movieID = movieID;
+    public void setId(Long id) {
+        this.id = id;
     }
 
     @Column (name = "rating")
-    public Integer getRatingValue() {
+    public Double getRatingValue() {
         return ratingValue;
     }
 
-    public void setRatingValue(Integer ratingValue) {
+    public void setRatingValue(Double ratingValue) {
         this.ratingValue = ratingValue;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Rating rating = (Rating) o;
-        return Objects.equals(raterID, rating.raterID) && movieID.equals(rating.movieID) && Objects.equals(ratingValue, rating.ratingValue);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(raterID, movieID, ratingValue);
-    }
-
-    @Override
-    public String toString() {
-        return "Rating{" +
-                "ratingID=" + raterID +
-                ", movieID=" + movieID +
-                ", ratingValue=" + ratingValue +
-                '}';
-    }
-
-    @Id
-    @GeneratedValue(
-            strategy = GenerationType.IDENTITY
-    )
-    @Column(name = "rating_id")
-    public Long getRatingID() {
-        return ratingID;
-    }
-
-    public void setRatingID(Long ratingID) {
-        this.ratingID = ratingID;
     }
 
     @Column(name = "time")
@@ -99,5 +63,29 @@ public class Rating {
 
     public void setTime(LocalDateTime manualTime) {
         this.time = manualTime;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Rating rating = (Rating) o;
+        return id.equals(rating.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
+    }
+
+    @Override
+    public String toString() {
+        return "Rating{" +
+                "id=" + id +
+                ", ratingValue=" + ratingValue +
+                ", time=" + time +
+                ", rater=" + rater +
+                ", movie=" + movie +
+                '}';
     }
 }

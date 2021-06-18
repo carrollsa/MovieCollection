@@ -1,93 +1,99 @@
 package com.stephenalexander.projects.movierecommender.movie;
 
+import com.stephenalexander.projects.movierecommender.rating.Rating;
+
+import javax.persistence.*;
+import java.util.List;
 import java.util.Objects;
 
-// An immutable passive data object (PDO) to represent item data
+@Entity(name = "Movie")
+@Table(name = "movie")
 public class Movie {
+    @Id
+    @GeneratedValue(
+            strategy = GenerationType.AUTO
+    )
+    @Column(name = "movie_id")
     private Integer id;
     private String title;
     private int year;
-    private String genres;
-    private String director;
-    private String country;
-    private String poster;
-    private int minutes;
+    @Column(name = "posterurl")
+    private String posterUrl;
+    @Column(name = "runningtime")
+    private int runningTime;
 
-    public Movie(int anID, String aTitle, String aYear, String theGenres) {
-        // just in case data file contains extra whitespace
-        id = anID;
-        title = aTitle.trim();
-        year = Integer.parseInt(aYear.trim());
-        genres = theGenres;
-    }
+    @OneToMany(fetch = FetchType.LAZY, targetEntity = Rating.class, mappedBy = "movie")
+    List<Rating> ratings;
 
-    public Movie(int anID, String aTitle, String aYear, String theGenres, String aDirector,
-                 String aCountry, String aPoster, int theMinutes) {
-        // just in case data file contains extra whitespace
-        id = anID;
-        title = aTitle.trim();
-        year = Integer.parseInt(aYear.trim());
-        genres = theGenres;
-        director = aDirector;
-        country = aCountry;
-        poster = aPoster;
-        minutes = theMinutes;
-    }
-
-    // Returns ID associated with this item
-    public int getID() {
+    public Integer getId() {
         return id;
     }
 
-    // Returns title of this item
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
     public String getTitle() {
         return title;
     }
 
-    // Returns year in which this item was published
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
     public int getYear() {
         return year;
     }
 
-    // Returns genres associated with this item
-    public String getGenres() {
-        return genres;
+    public void setYear(int year) {
+        this.year = year;
     }
 
-    public String getCountry() {
-        return country;
+    public String getPosterUrl() {
+        return posterUrl;
     }
 
-    public String getDirector() {
-        return director;
+    public void setPosterUrl(String posterUrl) {
+        this.posterUrl = posterUrl;
     }
 
-    public String getPoster() {
-        return poster;
+    public int getRunningTime() {
+        return runningTime;
     }
 
-    public int getMinutes() {
-        return minutes;
+    public void setRunningTime(int runningTime) {
+        this.runningTime = runningTime;
     }
 
-    // Returns a string of the item's information
+    public List<Rating> getRatings() {
+        return ratings;
+    }
+
+    public void setRatings(List<Rating> ratings) {
+        this.ratings = ratings;
+    }
+
+    @Override
     public String toString() {
-        String result = "Movie [id=" + id + ", title=" + title + ", year=" + year;
-        result += ", genres= " + genres + "]";
-        return result;
+        return "Movie{" +
+                "id=" + id +
+                ", title='" + title + '\'' +
+                ", year=" + year +
+                ", posterUrl='" + posterUrl + '\'' +
+                ", runningTime=" + runningTime +
+                '}';
     }
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof Movie)) return false;
+        if (o == null || getClass() != o.getClass()) return false;
         Movie movie = (Movie) o;
-        return year == movie.year && minutes == movie.minutes && Objects.equals(id, movie.id) && Objects.equals(title
-                , movie.title) && Objects.equals(genres, movie.genres) && Objects.equals(director, movie.director) && Objects.equals(country, movie.country) && Objects.equals(poster, movie.poster);
+        return id.equals(movie.id);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, title, year, genres, director, country, poster, minutes);
+        return Objects.hash(id);
     }
 }

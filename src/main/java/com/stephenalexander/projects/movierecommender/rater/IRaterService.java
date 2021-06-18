@@ -1,4 +1,4 @@
-package com.stephenalexander.projects.movierecommender.raters;
+package com.stephenalexander.projects.movierecommender.rater;
 
 public interface IRaterService {
     Rater findRaterById();
