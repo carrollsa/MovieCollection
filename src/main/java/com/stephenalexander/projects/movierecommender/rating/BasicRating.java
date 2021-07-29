@@ -1,5 +1,7 @@
 package com.stephenalexander.projects.movierecommender.rating;
 
+//TODO: Find better name that doesn't include rating
+
 public class BasicRating implements Comparable<BasicRating> {
     private Integer id;
     private Double value;

@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Movie Recommender</title>
+<!-- access jquery -->
+    <script
+            src="https://code.jquery.com/jquery-3.5.1.js"
+            integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc="
+            crossorigin="anonymous">
+    </script>
+    <link rel='stylesheet' href='css/index.css'>
+<body>
+    <h1>
+        Stephen Carroll's Movie Recommender
+    </h1>
+    <h2>
+        Welcome to my movie recommender! Please rate the following movies to create your initial recommendation profile.
+        If you haven't seen a movie, please select "No Rating."
+        Once you have finished rating all of the movies and hit submit, your initial recommendation
+         profile will be complete,
+        and the recommender will return a selection of movie recommendations and give further instructions.
+    </h2>
+    </hr>
+    <div1>
+    <table class="movieTable">
+        <thead style = "color:rgb(8, 70, 109)">
+            <tr>
+                <th>Poster</th>
+                <th>Movie</th>
+                <th>Rating</th>
+            </tr>
+        </thead>
+        <tbody>
+        </tbody>
+        <tfoot>
+            <tr>
+                <td colspan="3">
+                    <input type="button" class="submit" value="Submit" id="submitRatings" style="align-content: center">
+                </td>
+            </tr>
+        </tfoot>
+    </table>
+    </div1>
+
+</body>
+<!-- index initiation -->   
+   <script>
+    (function($) { 'use strict'; $(function() {
+        async function printMovies() {
+            let response = await fetch("api/v1/movies", {method: "GET"});
+            let listOfMovies = await response.json();
+            let keys = Object.keys(listOfMovies);
+            for (let i = 0; i<keys.length; i++) {
+                let posterURL = listOfMovies[i].poster;
+                let movieYear = listOfMovies[i].year;
+                let movieName = listOfMovies[i].title;
+                let movieID = listOfMovies[i].id;
+                let $movieRating = $('<tr class="rating-row">')
+                // $movieRating.append($("<td><img src="+posterURL+" width=50 height=75></td>"))
+                $movieRating.append($(`<td>Poster goes here</td>`))
+                $movieRating.append($(`<td>&ensp;${movieYear}&ensp;<a href="https://www.imdb.com/title/tt${movieID}" style="color: #cddbe7" target="_blank">${movieName}</a></td>`))
+                let $ratingButton = $('<td>');
+                    // Add initial "No Rating" button
+                // $ratingButton.append($(`<input type="radio" class="ratButton" id="rating${i}-0" name="rating${i}" value=0><label for="rating${i}-0">No Rating</label>`));
+                $ratingButton.append($(`<input type="radio" class="ratButton" id="${movieID}-${i}-0" name="rating${i}" value=null><label for="${movieID}-${i}-0">No Rating</label>`));
+                for (let j=1; j <= 10; j++) {
+                    // Add 1-10 buttons
+                    // $ratingButton.append($(`<input type="radio" class="ratButton" id="rating${i}-${j}" name="rating${i}" value="${j}"><label for="rating${i}-${j}">${j}</label>`));
+                    $ratingButton.append($(`<input type="radio" class="ratButton" id="${movieID}-${i}-${j}" name="rating${i}" value="${j}"><label for="${movieID}-${i}-${j}">${j}</label>`));
+                }
+                $movieRating.append($ratingButton);
+                $("table tbody").append($movieRating);
+            }
+        }
+        printMovies();
+    }); })(jQuery);        
+    </script>
+
+
+<!-- script for submit button function -->
+    <script type="text/javascript">
+        $(document).ready(function() {
+            $("#submitRatings").click(function() {
+                let ratingMap = {};
+                $('.rating-row').each(function(idx, row) {
+                    let $radioButtons = $(row).find('input:radio');
+                    $radioButtons.each(function(ind, radioButton) {
+                    const $radioButton = $(radioButton);
+                        if ($radioButton.is(':checked')) {
+                            let radioVal = $radioButton.val();
+                            let radioName = $(this).attr('name');
+                            let $movieID = $(this).attr('id').substring(0,7);
+                            ratingMap[$movieID] = radioVal;
+                        }
+                    })
+
+                })
+                //Display ratings at path below
+                // fetch('api/v1/ratings', {
+                //     headers: {
+                //         'content-type': 'application/json'
+                //     },
+                //     method: "POST",
+                //     body: JSON.stringify(ratingMap)
+                // });
+                fetch('ratings-submitted', {
+                    headers: {
+                        'content-type': 'application/json'
+                    },
+                    method: "POST",
+                    body: JSON.stringify(ratingMap)
+                });
+            });
+        });
+    </script>
+
+    <script type="text/javascript">
+        $(document).ready(function() {
+            $("#submitRatings").click(function() {
+                window.location.href = "ratings-submitted";
+            })
+        })
+    </script>
+
+
+</head>
+
+</html>

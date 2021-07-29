@@ -42,12 +42,11 @@ public class RecommendationEngine {
         this.user = user;
         similarRaters = new ArrayList<>();
         for (Rater databaseRater : raterService.getAllRaters()) {
-            //TODO: Is there a more elegant solution to this check?
+            //TODO: Add method that gets all raters ! equalTo user
             if (databaseRater.equals(user)) {
                 continue;
             }
             double weightedRatingValue = getSimilarityRating(databaseRater);
-            //TODO: Another instance of maybe wanting doubles? Although an int would suffice here
             if(weightedRatingValue >= 0) {
                 similarRaters.add(new BasicRating(databaseRater.getId().intValue(), weightedRatingValue));
             }
@@ -103,7 +102,7 @@ public class RecommendationEngine {
         }
         return recommendations;
     }
-    //TODO: IDs are all over the place. Bouncing between longs and ints. Maybe standardize?
+
     private double getWeightedRating(Movie movie) {
         double totalRatingPoints = 0.0;
         int validRatingCount = 0;

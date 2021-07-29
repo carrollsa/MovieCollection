@@ -22,9 +22,6 @@
 //        this.movieRepository = movieRepository;
 //    }
 //
-//    //TODO: create a new kind of rating class to handle this sort of rating
-//    //TODO: change type in rating value to double in every instance
-//
 //    public List<Rating> refactoredGetRecommendations(Rater user, int numRatersToCompareTo,
 //                                                     int minSharedRatingsAmongSimilarRaters) {
 //        List<Rating> recommendations = new ArrayList<>();
@@ -51,12 +48,10 @@
 //            for(int i = 0; i < numRatersToCompareTo; i++) {
 //                double similarityIndex = similarRaters.get(i).getRatingValue();
 //                long raterId = similarRaters.get(i).getRaterID();
-//                //TODO: It's unlikely, but possible, that bad code would result in this optional being unpopulated...
 //                // The list of raters is populated directly from raters that were successfully pulled from the
 //                // database. Should I make sure the object is present before working with it? No longer need this
 //                // object, but kept for question about optionals
 //                Optional<Rater> similarRater = raterRepository.findById(raterId);
-//                //TODO: What is the appropriate way to handle these optionals? Still hazy on why they're useful... do
 //                // they essentially just say, "This object is very possibly null, so it would be good to verify"?
 //                Optional<Rating> ratingFromSimilarRater = raterRepository.findRatingByRaterIdAndMovieId(raterId,
 //                        movie.getMovieId());
@@ -68,7 +63,6 @@
 //            }
 //            if(validRatingCount >= minSharedRatingsAmongSimilarRaters) {
 //                double weightedAverage = totalRatingPoints/validRatingCount;
-//                //TODO: Change type of ratingValue to be double? Could be useful to have decimals. Also, is the
 //                // answer to cast the integer as I did here?
 //                Rating weightedRating = new Rating((long)movie.getMovieId(), weightedAverage);
 //                recommendations.add(weightedRating);
@@ -77,6 +71,7 @@
 //        Collections.sort(recommendations, Collections.reverseOrder());
 //        return recommendations;
 //    }
+
 //    //TODO: How do you get it add a blank line when you make a new method?
 //    private List<Rating> getSimilarRaters(Rater user) {
 //        List<Rating> similarRaters = new ArrayList<>();

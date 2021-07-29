@@ -1,7 +1,9 @@
 package com.stephenalexander.projects.movierecommender.rating;
 
 import com.stephenalexander.projects.movierecommender.movie.Movie;
+import com.stephenalexander.projects.movierecommender.movie.MovieRepository;
 import com.stephenalexander.projects.movierecommender.rater.Rater;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -11,6 +13,7 @@ import java.util.Objects;
 @Entity(name = "Rating")
 @Table(name = "rating")
 public class Rating {
+
     @Id
     @GeneratedValue(
             strategy = GenerationType.IDENTITY
@@ -19,6 +22,7 @@ public class Rating {
     private Long id;
     @Column(name = "rating")
     private Double ratingValue;
+
     private LocalDateTime time;
 
     @ManyToOne
@@ -29,7 +33,7 @@ public class Rating {
     @JoinColumn(name = "movie_id", nullable = false)
     private Movie movie;
 
-    public Rating(Integer movieID, Double ratingValue) {
+    public Rating(Rater rater, Movie movie, Double ratingValue) {
         this.ratingValue = ratingValue;
         this.time = LocalDateTime.now();
     }

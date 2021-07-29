@@ -11,6 +11,4 @@ public interface RatingRepository extends CrudRepository<Rating, Long> {
     public Optional<Rating> findByMovieId(int movieId);
 
     public Optional<Rating> findByRaterIdAndMovieId(long raterId, int movieId);
-
-
 }

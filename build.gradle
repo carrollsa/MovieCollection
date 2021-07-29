@@ -12,6 +12,11 @@ repositories {
     mavenCentral()
 }
 
+bootRun {
+    sourceResources sourceSets.main
+    classpath configurations.developmentOnly
+}
+
 dependencies {
     implementation 'org.codehaus.groovy:groovy-all:2.3.11'
 // https://mvnrepository.com/artifact/org.apache.commons/commons-csv

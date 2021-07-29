@@ -22,7 +22,7 @@ public class Movie {
     @Column(name = "runningtime")
     private int runningTime;
 
-    @OneToMany(fetch = FetchType.LAZY, targetEntity = Rating.class, mappedBy = "movie")
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, targetEntity = Rating.class, mappedBy = "movie")
     List<Rating> ratings;
 
     public Integer getId() {

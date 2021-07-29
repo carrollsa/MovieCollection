@@ -1,0 +1,207 @@
+html, body, #app {
+    margin: 0;
+    height: 100%;
+    width: 100%;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen-Sans, Ubuntu, Cantarell, Helvetica Neue, sans-serif;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 50px;
+}
+
+.dark {
+    color: #DADADA;
+    background: #1c2022;
+    min-height: 100%;
+}
+
+ul {
+    padding: 0;
+}
+
+li {
+    list-style-type: none;
+}
+
+.header-lg {
+    font-size: 35px;
+    font-weight: 300;
+    margin: 20px;
+}
+
+.header-sm {
+    font-size: 25px;
+    font-weight: 300;
+    margin: 20px;
+}
+
+.center-text {
+    text-align: center;
+}
+
+.space-around {
+    justify-content: space-around;
+}
+
+.link {
+    color: rgb(187, 46, 31);
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.grid {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.nav-link {
+    font-size: 18px;
+    font-weight: bold;
+    text-decoration: none;
+    color: inherit;
+}
+
+.nav li {
+    margin-right: 10px;
+}
+
+.space-around {
+    justify-content: space-around;
+}
+
+.space-between {
+    justify-content: space-between;
+}
+
+.column {
+    display: flex;
+    flex-direction: column;
+}
+
+.row {
+    display: flex;
+    flex-direction: row;
+}
+
+.btn {
+    padding: 10px;
+    text-decoration: uppercase;
+    letter-spacing: .25em;
+    border-radius: 3px;
+    border: none;
+    font-size: 16px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    text-decoration: none;
+    max-width: 200px;
+}
+
+.dark-btn {
+    color: #e6e6e6;
+    background: #141414;
+}
+
+.dark-btn:disabled {
+    background: #f2f2f2;
+    color: #c7c7c7;
+}
+
+.btn-clear {
+    border: none;
+    background: transparent;
+}
+
+.btn-space {
+    margin: 40px auto;
+}
+
+.light-btn {
+    color: #000;
+    background: #aaa8a8;
+}
+
+.light-btn:disabled {
+    background: #292929;
+    color: #4a4a4a;
+}
+
+.bg-light {
+    background: rgba(0, 0, 0, 0.08);
+    border-radius: 3px;
+}
+
+.bg-dark {
+    background: rgb(36, 40, 42);
+    border-radius: 3px;
+}
+
+.card-list {
+    margin: 20px 0;
+    font-size: 20px;
+}
+
+.card-list li {
+    display: flex;
+    align-items: center;
+    margin: 10px;
+}
+
+.card-list svg {
+    margin-right: 10px;
+}
+
+.card-list a {
+    font-weight: 500;
+    color: inherit;
+}
+
+.medium-text {
+    font-size: 20px
+}
+
+.card {
+    margin: 10px 0;
+    width: 250px;
+    padding: 20px;
+}
+
+.card a {
+    text-decoration: none;
+}
+
+.card img {
+    margin-bottom: 8px;
+}
+
+.movie-poster {
+    width: 150px;
+    height: 150px;
+    border-radius: 3px;
+    margin: 0 auto;
+    display: block;
+}
+
+.no-bullets {
+    list-style: none
+}
+
+.error {
+    color: #ff1616;
+    font-size: 20px;
+    margin: 50px 0;
+}
+
+.star-rating {
+    padding: 0px;
+}
+
+.vsci-mega {
+    stroke-width: 1;
+}

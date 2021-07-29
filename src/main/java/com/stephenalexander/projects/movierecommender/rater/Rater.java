@@ -19,7 +19,7 @@ public class Rater {
 
     //TODO: Find out whether this needs to be initialized somewhere. If it's a new rater, can ratings be added
     // without an extra step?
-    @OneToMany(fetch = FetchType.LAZY, targetEntity = Rating.class, mappedBy = "rater")
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, targetEntity = Rating.class, mappedBy = "rater")
     private List<Rating> ratings;
 
     public void addRating(Rating rating) {
