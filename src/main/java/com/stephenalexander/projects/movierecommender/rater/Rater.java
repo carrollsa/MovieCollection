@@ -3,6 +3,7 @@ package com.stephenalexander.projects.movierecommender.rater;
 import com.stephenalexander.projects.movierecommender.rating.Rating;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -11,16 +12,14 @@ import java.util.Objects;
 public class Rater {
     @Id
     @GeneratedValue(
-            strategy = GenerationType.AUTO
+            strategy = GenerationType.IDENTITY
     )
     @Column(name = "rater_id")
     private Long id;
 
-
-    //TODO: Find out whether this needs to be initialized somewhere. If it's a new rater, can ratings be added
-    // without an extra step?
-    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, targetEntity = Rating.class, mappedBy = "rater")
-    private List<Rating> ratings;
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinColumn(name = "rating")
+    private List<Rating> ratings = new ArrayList<>();
 
     public void addRating(Rating rating) {
         ratings.add(rating);

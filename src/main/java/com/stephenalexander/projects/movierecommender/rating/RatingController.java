@@ -11,11 +11,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.sql.SQLOutput;
 import java.util.*;
 
 //TODO change path to v1 api whatever
-@RequestMapping("recommendations")
+@RequestMapping("v1/api/movies")
 @RestController
 public class RatingController {
 
@@ -33,6 +32,10 @@ public class RatingController {
         this.recommendationEngine = recommendationEngine;
     }
 
+    @GetMapping
+    public ResponseEntity<Set<Movie>> getAllMovies() {
+        return ResponseEntity.of(Optional.of(movieService.getAllMovies()));
+    }
 //    @RequestMapping(method = RequestMethod.POST)
 //    public ResponseEntity<List<Movie>> submitRatings(@RequestBody Map<Integer, Double> ratedMap) {
 //        Rater rater = new Rater();
@@ -55,25 +58,22 @@ public class RatingController {
 //        return ResponseEntity.of(Optional.of(recommendationEngine.getRecommendations(rater)));
 //    }
 
-    //TODO: TIM QUESTION: Do I need to handle the case where the movie doesn't exist?
-    @PostMapping
-    public ResponseEntity<List<Movie>> handleSubmission(@RequestBody Map<String, List<Map<String, Integer>>> payload) {
-        List<Map<String, Integer>> ratings = payload.get("userRatings");
-        Rater user = new Rater();
-        for(int i = 0; i < ratings.size(); i++) {
-            Map<String, Integer> ratingMap = ratings.get(i);
-            Optional<Movie> movieOptional = movieService.findById(ratingMap.get("id"));
-            if (movieOptional.isPresent()) {
-                Rating rating = new Rating(user, movieOptional.get(), Double.valueOf(ratingMap.get(
-                        "rating")));
-                ratingService.addNewRating(rating);
-                user.addRating(rating);
-            }
-        }
-        raterService.addNewRater(user);
-
-        return ResponseEntity.of(Optional.of(new ArrayList<Movie>()));
+//    //TODO: TIM QUESTION: Do I need to handle the case where the movie doesn't exist?
+//    @PostMapping
+//    public ResponseEntity<List<Movie>> handleSubmission(@RequestBody Map<String, List<Map<String, Integer>>> payload) {
+//        List<Map<String, Integer>> ratings = payload.get("userRatings");
+//        Rater user = new Rater();
+//        raterService.addNewRater(user);
+//        for (int i = 0; i < ratings.size(); i++) {
+//            Map<String, Integer> ratingMap = ratings.get(i);
+//            Rating rating = new Rating(ratingMap.get("id"), Double.valueOf(ratingMap.get(
+//                    "rating")));
+//            rating.setRaterId(user.getId());
+//            ratingService.addNewRating(rating);
+//            user.addRating(rating);
+//        }
+//
+////        return ResponseEntity.of(Optional.of(new ArrayList<Movie>()));
 //        return ResponseEntity.of(Optional.of(recommendationEngine.getRecommendations(user)));
-    }
-
+//    }
 }

@@ -20,26 +20,31 @@ public class Rating {
     )
     @Column(name = "rating_id")
     private Long id;
+    @Column(name = "rater_id")
+    private Long raterId;
+    @Column(name = "movie_id")
+    private int movieId;
     @Column(name = "rating")
     private Double ratingValue;
 
     private LocalDateTime time;
 
-    @ManyToOne
-    @JoinColumn(name = "rater_id", nullable = false)
-    private Rater rater;
-
-    @ManyToOne
-    @JoinColumn(name = "movie_id", nullable = false)
-    private Movie movie;
-
-    public Rating(Rater rater, Movie movie, Double ratingValue) {
+    public Rating(Integer movieId, Double ratingValue) {
+        this.movieId = movieId;
         this.ratingValue = ratingValue;
         this.time = LocalDateTime.now();
     }
 
     public Rating() {
 
+    }
+
+    public Long getRaterId() {
+        return raterId;
+    }
+
+    public void setRaterId(Long raterId) {
+        this.raterId = raterId;
     }
 
     @Column(name = "rating_id")
@@ -88,8 +93,6 @@ public class Rating {
                 "id=" + id +
                 ", ratingValue=" + ratingValue +
                 ", time=" + time +
-                ", rater=" + rater +
-                ", movie=" + movie +
                 '}';
     }
 }

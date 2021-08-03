@@ -1,22 +1,30 @@
 import * as React from 'react'
-import { FaClock, FaCalendar, FaFilm } from 'react-icons/fa'
+import { FaClock, FaFilm } from 'react-icons/fa'
 import { VscMegaphone } from 'react-icons/vsc'
 import { convertId } from '../utils/math'
 import PropTypes from 'prop-types'
 import StarRating from './StarRating'
 
-export default function MovieCard({ id, title, year, posterURL, runningTime, userRatings }) {
+export default function MovieCard({ id, title, year, runningTime, userRatings }) {
     const [rating, setRating] = React.useState(0)
     const [disabled, setDisabled] = React.useState(false)
+    const [posterURL, setPosterURL] = React.useState('')
+
+    React.useEffect(() => {
+        fetch(`http://www.omdbapi.com/?i=tt${id}&apikey=2b3a335d`)
+            .then((res) => res.json())
+            .then((data) => {
+                setPosterURL(data.Poster)
+            })
+            .catch((e) => {
+                console.warn(e.message)
+            })
+    },[])
 
     //Is there a way to make sure duplicate objects were never added in the first place?
     const ratingClick = (val) => {
         setRating(val)
         setDisabled(true)
-        // userRatings.push({ 
-        //     id: id,
-        //     rating: val
-        // })
         submitRating(id, val)
         console.log(userRatings)
     }

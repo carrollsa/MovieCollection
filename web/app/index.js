@@ -5,10 +5,9 @@ import Loading from './components/Loading'
 import Nav from './components/Nav'
 import { ThemeProvider } from './contexts/theme'
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
-import { VscRepoClone } from 'react-icons/vsc'
 
-const MovieList = React.lazy(() => import('./components/MovieList'))
-const Recommendations = React.lazy(() => import('./components/Recommendations'))
+const Home = React.lazy(() => import('./components/Home'))
+const MyCollection = React.lazy(() => import('./components/MyCollection'))
 
 function App() {
     const [theme, setTheme] = React.useState('light')
@@ -19,12 +18,12 @@ function App() {
             <ThemeProvider value={theme}>
                 <div className={theme}>
                     <div className='container'>
-                        <Nav toggleTheme={toggleTheme}/>
+                        <Nav toggleTheme={toggleTheme} />
 
                         <React.Suspense fallback={<Loading />}>
                             <Switch>
-                                <Route exact path='/' component={MovieList} />
-                                <Route exact path='/recommendations' component={Recommendations} />
+                                <Route exact path='/' component={Home} />
+                                <Route exact path='/mymovies' component={MyCollection} />
                                 <Route render={() => <h1>404</h1>} />
                             </Switch>
                         </React.Suspense>

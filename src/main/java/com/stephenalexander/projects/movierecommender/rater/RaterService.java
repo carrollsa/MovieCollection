@@ -27,16 +27,10 @@ public class RaterService {
     }
 
     public void addNewRater(Rater rater) {
-        Optional<Rater> raterOptional = raterRepository.findById(rater.getId());
-        if(raterOptional.isPresent()) {
-            throw new IllegalStateException("rater already exists");
-        }
         raterRepository.save(rater);
     }
 
     public Optional<Rater> findById(Long id) {
         return raterRepository.findById(id);
     }
-
-
 }
