@@ -1,24 +1,35 @@
 import * as React from 'react'
 import Loading from './Loading'
-import StarRating from './StarRating'
 import MovieCard from './MovieCard'
 
 function Home() {
     const [display, setDisplay] = React.useState(false)
     const [search, setSearch] = React.useState('')
-    const [options, setOptions] = React.useState([])
-    const [movie, setMovie] = React.useState(null)
+    const [title, setTitle] = React.useState('')
     const [rating, setRating] = React.useState(0)
-    const wrapperRef = React.useRef(null)
 
     const [state, dispatch] = React.useReducer(
         fetchReducer,
         {
-            movies: [],
-            loading: true,
-            error: null,
+            movie: null,
+            loading: false,
+            error: null
         }
     )
+
+    const searchMovie = () => {
+        console.log(search)
+        dispatch({ type: 'fetch' })
+        const params = {tite: search}
+        fetch('api/v1/movies?' + new URLSearchParams({
+                title: search
+            }))
+            .then(response => response.json())
+            .then(data => console.log(JSON.stringify(data)))
+            .catch(() => {
+                console.log(err)
+            })
+    }
 
     function fetchReducer(state, action) {
         if (action.type === 'fetch') {
@@ -28,112 +39,47 @@ function Home() {
             }
         } else if (action.type === 'success') {
             return {
-                movies: action.movieData,
-                error: null,
-                loading: false
+                movie: action.data,
+                loading: false,
+                error: null
             }
         } else if (action.type === 'error') {
             return {
                 ...state,
-                error: action.error.message,
+                error: 'Fetch failed.',
                 loading: false
             }
-        } else {
-            throw new Error(`That action type is not supported: ${action.type}`)
         }
-    }
-
-    React.useEffect(() => {
-        dispatch({ type: 'fetch' })
-
-        fetch('v1/api/movies', {
-            headers: {
-                'Content-type': 'application/json',
-                'Accept': 'application/json'
-            }
-        })
-            .then((res) => res.json())
-            .then((movieData) => dispatch({ type: 'success', movieData }))
-            .catch((e) => {
-                console.warn(e.message)
-                dispatch({ type: error })
-            })
-    }, [])
-    //There has to be a better way?
-    React.useEffect(() => {
-        state.loading === true
-        const opt = []
-        state.movies.map((movie) => {
-            opt.push(movie.title)
-        })
-        setOptions(opt)
-        state.loading === false
-    }, [state.movies])
-
-    React.useEffect(() => {
-        document.addEventListener('mousedown', handleClickOutside)
-
-        return (() => {
-            document.removeEventListener('mousedown', handleClickOutside)
-        })
-    }, [])
-
-    const setDisplayMovie = title => {
-        setSearch(title)
-        setDisplay(false)
-    }
-
-    const handleClickOutside = event => {
-        const { current: wrap } = wrapperRef
-        if (wrap && !wrap.contains(event.target)) {
-            setDisplay(false)
-        }
-    }
-
-    const handleSubmit = () => {
-        let title = document.getElementById('title-search').value
-        let targetMovie
-        state.movies.map((movieData) => {
-            if (movieData.title === title) {
-                console.log('found')
-                targetMovie = movieData
-            }
-        })
-        console.log(targetMovie)
-        setMovie(targetMovie)
-        console.log('hi')
-        console.log(movie)
     }
 
     return (
         <React.Fragment>
-            <div ref={wrapperRef}>
+            <div>
                 {state.loading === true
-                    ? <Loading text="Loading database" />
+                    ? <Loading text="Loading movie" />
                     : <input
                         id='title-search'
-                        onClick={() => setDisplay(!display)}
                         onChange={(event) => setSearch(event.target.value)}
-                        placeholder='Type to search movies'
+                        placeholder='Title'
                         value={search}
                     />}
                 {search &&
                     <button
-                        onClick={handleSubmit}
+                        onClick={searchMovie}
                     >
-                        Select Movie
+                        Search for movie
                     </button>
                 }
-                {movie &&
+                {state.movie &&
                     <MovieCard
-                        id={movie.id}
-                        title={movie.title}
-                        year={movie.year}
-                        posterURL={movie.posterURL}
-                        runningTime={movie.runningTime}
+                        id={state.movie.id}
+                        title={state.movie.title}
+                        year={state.movie.year}
+                        // posterURL={state.movie.posterURL}
+                        runningTime={state.movie.runningTime}
                     />
                 }
-                {display && (
+                {/* {display && (
                     <div>
                         {options.filter((title) => title.toLowerCase().indexOf(search.toLowerCase()) > -1).map((value, index) => {
                             return (
@@ -143,7 +89,7 @@ function Home() {
                             )
                         })}
                     </div>
-                )}
+                )} */}
 
             </div>
         </React.Fragment>

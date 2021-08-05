@@ -1,9 +1,4 @@
-package com.stephenalexander.projects.movierecommender.rating;
-
-import com.stephenalexander.projects.movierecommender.movie.Movie;
-import com.stephenalexander.projects.movierecommender.movie.MovieRepository;
-import com.stephenalexander.projects.movierecommender.rater.Rater;
-import org.springframework.beans.factory.annotation.Autowired;
+package com.stephenalexander.projects.moviecollection.rating;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -20,8 +15,6 @@ public class Rating {
     )
     @Column(name = "rating_id")
     private Long id;
-    @Column(name = "rater_id")
-    private Long raterId;
     @Column(name = "movie_id")
     private int movieId;
     @Column(name = "rating")
@@ -37,14 +30,6 @@ public class Rating {
 
     public Rating() {
 
-    }
-
-    public Long getRaterId() {
-        return raterId;
-    }
-
-    public void setRaterId(Long raterId) {
-        this.raterId = raterId;
     }
 
     @Column(name = "rating_id")

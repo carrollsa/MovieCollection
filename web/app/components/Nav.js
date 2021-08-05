@@ -26,10 +26,10 @@ export default function Nav({ toggleTheme }) {
                 </li>
                 <li>
                     <NavLink
-                        to='/elsewhere'
+                        to='/mycollection'
                         activeStyle={activeStyle}
                         className='nav-link'>
-                        Other - Currently Broken
+                        My Collection
                     </NavLink>
                 </li>
             </ul>

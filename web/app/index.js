@@ -23,7 +23,7 @@ function App() {
                         <React.Suspense fallback={<Loading />}>
                             <Switch>
                                 <Route exact path='/' component={Home} />
-                                <Route exact path='/mymovies' component={MyCollection} />
+                                <Route exact path='/mycollection' component={MyCollection} />
                                 <Route render={() => <h1>404</h1>} />
                             </Switch>
                         </React.Suspense>

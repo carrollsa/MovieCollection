@@ -20,10 +20,6 @@ public class MovieService {
         movieRepository.save(movie);
     }
 
-    public Set<Movie> getTopMovies() {
-        return movieRepository.getTopMovies();
-    }
-
     public Set<Movie> getAllMovies() {
         return movieRepository.getAllMovies();
     }

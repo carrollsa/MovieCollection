@@ -17,14 +17,12 @@ public class Movie {
     private Integer id;
     private String title;
     private int year;
-    @Column(name = "posterurl")
-    private String posterUrl;
     @Column(name = "runningtime")
     private int runningTime;
 
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "rating")
-    List<Rating> ratings;
+    Rating rating;
 
     public Integer getId() {
         return id;
@@ -50,14 +48,6 @@ public class Movie {
         this.year = year;
     }
 
-    public String getPosterUrl() {
-        return posterUrl;
-    }
-
-    public void setPosterUrl(String posterUrl) {
-        this.posterUrl = posterUrl;
-    }
-
     public int getRunningTime() {
         return runningTime;
     }
@@ -66,12 +56,12 @@ public class Movie {
         this.runningTime = runningTime;
     }
 
-    public List<Rating> getRatings() {
-        return ratings;
+    public Rating getRatings() {
+        return rating;
     }
 
-    public void setRatings(List<Rating> ratings) {
-        this.ratings = ratings;
+    public void setRating(Rating rating) {
+        this.rating = rating;
     }
 
     @Override
@@ -80,7 +70,6 @@ public class Movie {
                 "id=" + id +
                 ", title='" + title + '\'' +
                 ", year=" + year +
-                ", posterUrl='" + posterUrl + '\'' +
                 ", runningTime=" + runningTime +
                 '}';
     }

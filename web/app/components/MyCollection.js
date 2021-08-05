@@ -16,12 +16,11 @@ function MyCollection() {
             .then((res) => res.json())
             .then((data) => dispatch({ type: 'success', data }))
             .catch((e) => {
-                console.warn(e.message)
                 dispatch({ type: 'error' })
-            }
-        )}, [])
+            })
+        }, [])
 
-    const fetchReducer = (state, action) => {
+    function fetchReducer(state, action) {
         if (action.type === 'fetch') {
             return {
                 ...state,
@@ -36,7 +35,7 @@ function MyCollection() {
         } else if (action.type === 'error') {
             return {
                 ...state,
-                error: action.error.message,
+                error: 'Fetch failed.',
                 loading: false
             }
         }
@@ -47,11 +46,17 @@ function MyCollection() {
             {state.loading &&
                 <Loading text='Loading your collection' />
             }
-            <div>
-                {state.movies.map((movie) => {
-                    
-                })}
-            </div>
+
+            {state.movies.length == 0
+                ? <div>
+                    {movies}
+                </div>
+                : <div>
+                    Your collection is empty!
+                </div>
+            }
+
+
         </React.Fragment>
     )
 }
