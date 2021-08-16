@@ -1,4 +1,4 @@
-package com.stephenalexander.projects.movierecommender;
+package com.stephenalexander.projects.moviecollection;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;

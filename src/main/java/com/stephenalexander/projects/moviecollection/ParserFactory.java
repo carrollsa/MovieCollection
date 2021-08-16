@@ -1,4 +1,4 @@
-package com.stephenalexander.projects.movierecommender;
+package com.stephenalexander.projects.moviecollection;
 
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVParser;

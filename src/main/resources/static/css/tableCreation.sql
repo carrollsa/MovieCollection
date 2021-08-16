@@ -6,6 +6,12 @@ CREATE TABLE movie (
     posterurl VARCHAR(350)
 );
 
+ALTER TABLE rating 
+  ADD CONSTRAINT rating_movie_id_fkey 
+  FOREIGN KEY (movie_id)
+  REFERENCES movie(movie_id) 
+  ON UPDATE CASCADE;
+
 -- CREATE TABLE test (
 -- 	movie_id INT NOT NULL PRIMARY KEY,
 -- 	title VARCHAR(100) NOT NULL,

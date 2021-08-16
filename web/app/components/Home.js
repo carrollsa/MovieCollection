@@ -1,34 +1,37 @@
 import * as React from 'react'
 import Loading from './Loading'
+import PerformanceWarning from './PerformanceWarning'
 import MovieCard from './MovieCard'
+import { fetchMovieDetails, fetchMovieByTitle } from '../utils/movieClient'
 
 function Home() {
-    const [display, setDisplay] = React.useState(false)
     const [search, setSearch] = React.useState('')
-    const [title, setTitle] = React.useState('')
-    const [rating, setRating] = React.useState(0)
+    const [selectedId, setSelectedId] = React.useState()
+    const [selectedMovie, setSelectedMovie] = React.useState(null)
 
     const [state, dispatch] = React.useReducer(
         fetchReducer,
         {
-            movie: null,
+            movieOptions: [],
+            display: false,
             loading: false,
             error: null
         }
     )
 
+    const fetchPosterDetails = () => {
+
+        fetchMovieDetails(selectedId)
+            .then((data) => setSelectedMovie(data))
+            //TODO: handle error
+            .catch((e) => { })
+    }
+    
     const searchMovie = () => {
-        console.log(search)
         dispatch({ type: 'fetch' })
-        const params = {tite: search}
-        fetch('api/v1/movies?' + new URLSearchParams({
-                title: search
-            }))
-            .then(response => response.json())
-            .then(data => console.log(JSON.stringify(data)))
-            .catch(() => {
-                console.log(err)
-            })
+        fetchMovieByTitle(search)
+            .then(data => dispatch({ type: 'success', data }))
+            .catch((error) => dispatch({ type: 'error', error }))
     }
 
     function fetchReducer(state, action) {
@@ -39,58 +42,89 @@ function Home() {
             }
         } else if (action.type === 'success') {
             return {
-                movie: action.data,
+                movieOptions: action.data,
                 loading: false,
+                display: true,
                 error: null
             }
         } else if (action.type === 'error') {
             return {
                 ...state,
-                error: 'Fetch failed.',
+                error: action.error.message,
                 loading: false
             }
         }
+    }
+
+    function updateSelection({ movie }) {
+        setSearch(movie.title)
+        state.display = false;
+        setSelectedId(movie.id)
     }
 
     return (
         <React.Fragment>
             <div>
                 {state.loading === true
-                    ? <Loading text="Loading movie" />
+                    ? <Loading />
                     : <input
                         id='title-search'
                         onChange={(event) => setSearch(event.target.value)}
                         placeholder='Title'
                         value={search}
                     />}
-                {search &&
-                    <button
-                        onClick={searchMovie}
-                    >
-                        Search for movie
-                    </button>
+                {state.movieOptions.length > 500 &&
+                    <div>
+                        <PerformanceWarning text='Over 500 results. Please refine search or risk performance degradation.' />
+                    </div>
                 }
-                {state.movie &&
+                <button
+                    onClick={searchMovie}
+                    disabled={!search}
+                >
+                    Search for movie
+                </button>
+                {state.display &&
+                    <div className='auto-container'>
+                        {state.movieOptions
+                            .filter(({ title }) =>
+                                title.toLowerCase()
+                                    .indexOf(search.toLowerCase()) > -1)
+                            .map((movie, index) => {
+                                return (
+                                    <div
+                                        onClick={() => updateSelection({ movie })}
+                                        className='option'
+                                        key={index}
+                                        tabIndex='0'
+                                    >
+                                        <span>{movie.title} - </span>
+                                        <span>{movie.year}</span>
+                                    </div>
+                                )
+                            })
+                        }
+                    </div>
+                }
+                {selectedId &&
+                    <div>
+                        <button
+                            onClick={fetchPosterDetails}
+                        >
+                            Fetch details
+                        </button>
+                    </div>
+                }
+                {selectedMovie &&
                     <MovieCard
-                        id={state.movie.id}
-                        title={state.movie.title}
-                        year={state.movie.year}
-                        // posterURL={state.movie.posterURL}
-                        runningTime={state.movie.runningTime}
+                        id={selectedId}
+                        title={selectedMovie.Title}
+                        director={selectedMovie.Director}
+                        year={parseInt(selectedMovie.Year)}
+                        posterURL={selectedMovie.Poster}
+                        runningTime={parseInt(selectedMovie.Runtime)}
                     />
                 }
-                {/* {display && (
-                    <div>
-                        {options.filter((title) => title.toLowerCase().indexOf(search.toLowerCase()) > -1).map((value, index) => {
-                            return (
-                                <div className='option' key={index} onClick={() => setDisplayMovie(value)} >
-                                    <span>{value}</span>
-                                </div>
-                            )
-                        })}
-                    </div>
-                )} */}
-
             </div>
         </React.Fragment>
     )

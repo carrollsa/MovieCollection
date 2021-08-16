@@ -181,8 +181,8 @@ li {
 }
 
 .movie-poster {
-    width: 150px;
-    height: 150px;
+    width: 200px;
+    height: 296px;
     border-radius: 3px;
     margin: 0 auto;
     display: block;
@@ -204,4 +204,9 @@ li {
 
 .vsci-mega {
     stroke-width: 1;
+}
+
+.warning {
+    font-weight: bold;
+    font-size: 22;
 }

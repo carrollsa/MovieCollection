@@ -1,9 +1,9 @@
-package com.stephenalexander.projects.movierecommender;
+package com.stephenalexander.projects.moviecollection;
 
-import com.stephenalexander.projects.movierecommender.movie.MovieRepository;
-import com.stephenalexander.projects.movierecommender.movie.MovieService;
-import com.stephenalexander.projects.movierecommender.rating.RatingRepository;
-import com.stephenalexander.projects.movierecommender.rating.RatingService;
+import com.stephenalexander.projects.moviecollection.movie.MovieRepository;
+import com.stephenalexander.projects.moviecollection.movie.MovieService;
+import com.stephenalexander.projects.moviecollection.rating.RatingRepository;
+import com.stephenalexander.projects.moviecollection.rating.RatingService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

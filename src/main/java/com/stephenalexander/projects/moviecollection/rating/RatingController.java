@@ -1,6 +1,7 @@
 package com.stephenalexander.projects.moviecollection.rating;
 
 import com.stephenalexander.projects.moviecollection.movie.Movie;
+import com.stephenalexander.projects.moviecollection.movie.MovieRepository;
 import com.stephenalexander.projects.moviecollection.movie.MovieService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -8,21 +9,34 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.*;
 
-//TODO change path to v1 api whatever
 @RequestMapping("api/v1/ratings")
 @RestController
 public class RatingController {
 
-    private final RatingRepository ratingRepository;
     private final RatingService ratingService;
-    private final MovieService movieService;
+    private final MovieRepository movieRepository;
 
     @Autowired
-    public RatingController(RatingRepository ratingRepository, RatingService ratingService,
-                            MovieService movieService) {
-        this.ratingRepository = ratingRepository;
+    public RatingController(RatingService ratingService, MovieRepository movieRepository) {
         this.ratingService = ratingService;
-        this.movieService = movieService;
+        this.movieRepository = movieRepository;
+    }
+
+    /**
+     *
+     * @param jsonBody - JSON body consisting of two key-value pairs with keys: movieId and ratingValue
+     */
+    @PostMapping
+    public void addRating(@RequestBody Map<String, String> jsonBody) {
+        Movie movie = movieRepository.findById(jsonBody.get("movieId"));
+        Rating rating = new Rating(Double.parseDouble(jsonBody.get("ratingValue")));
+        rating.setMovie(movie);
+        ratingService.addNewRating(rating);
+    }
+
+    @GetMapping
+    public ResponseEntity<Optional<List<Rating>>> displayCollection() {
+        return ResponseEntity.of(Optional.of(ratingService.getTopRatings()));
     }
 
 //    @PostMapping

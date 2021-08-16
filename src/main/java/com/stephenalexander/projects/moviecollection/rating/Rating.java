@@ -1,5 +1,8 @@
 package com.stephenalexander.projects.moviecollection.rating;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.stephenalexander.projects.moviecollection.movie.Movie;
+
 import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.Objects;
@@ -15,24 +18,26 @@ public class Rating {
     )
     @Column(name = "rating_id")
     private Long id;
-    @Column(name = "movie_id")
-    private int movieId;
     @Column(name = "rating")
     private Double ratingValue;
-
+    @Column(name = "created_at", insertable = false)
     private LocalDateTime time;
 
-    public Rating(Integer movieId, Double ratingValue) {
-        this.movieId = movieId;
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinColumn(name = "movie_id")
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+    private Movie movie;
+
+    public Rating(Double ratingValue) {
         this.ratingValue = ratingValue;
         this.time = LocalDateTime.now();
     }
 
+    // For Jackson
     public Rating() {
 
     }
 
-    @Column(name = "rating_id")
     public Long getId() {
         return id;
     }
@@ -41,7 +46,6 @@ public class Rating {
         this.id = id;
     }
 
-    @Column (name = "rating")
     public Double getRatingValue() {
         return ratingValue;
     }
@@ -50,13 +54,20 @@ public class Rating {
         this.ratingValue = ratingValue;
     }
 
-    @Column(name = "time")
     public LocalDateTime getTime() {
         return time;
     }
 
     public void setTime(LocalDateTime manualTime) {
         this.time = manualTime;
+    }
+
+    public Movie getMovie() {
+        return movie;
+    }
+
+    public void setMovie(Movie movie) {
+        this.movie = movie;
     }
 
     @Override

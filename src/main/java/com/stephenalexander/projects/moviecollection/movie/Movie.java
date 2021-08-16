@@ -1,34 +1,44 @@
-package com.stephenalexander.projects.movierecommender.movie;
+package com.stephenalexander.projects.moviecollection.movie;
 
-import com.stephenalexander.projects.movierecommender.rating.Rating;
+import com.stephenalexander.projects.moviecollection.rating.Rating;
+import org.springframework.lang.Nullable;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.List;
 import java.util.Objects;
 
-@Entity(name = "Movie")
+@Entity
 @Table(name = "movie")
-public class Movie {
+public class Movie implements Serializable {
     @Id
-    @GeneratedValue(
-            strategy = GenerationType.AUTO
-    )
     @Column(name = "movie_id")
-    private Integer id;
+    private String id;
     private String title;
-    private int year;
+    private Integer year;
     @Column(name = "runningtime")
-    private int runningTime;
+    private Integer runningTime;
 
-    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinColumn(name = "rating")
-    Rating rating;
+    @OneToMany(mappedBy="movie", cascade=CascadeType.ALL)
+    private List<Rating> ratings;
 
-    public Integer getId() {
+    public Movie(String id, String title, Integer year, Integer runningTime) {
+        this.id = id;
+        this.title = title;
+        this.year = year;
+        this.runningTime = runningTime;
+    }
+
+    //for Jackson
+    public Movie() {
+
+    }
+
+    public String getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(String id) {
         this.id = id;
     }
 
@@ -40,28 +50,20 @@ public class Movie {
         this.title = title;
     }
 
-    public int getYear() {
+    public Integer getYear() {
         return year;
     }
 
-    public void setYear(int year) {
+    public void setYear(Integer year) {
         this.year = year;
     }
 
-    public int getRunningTime() {
+    public Integer getRunningTime() {
         return runningTime;
     }
 
-    public void setRunningTime(int runningTime) {
+    public void setRunningTime(Integer runningTime) {
         this.runningTime = runningTime;
-    }
-
-    public Rating getRatings() {
-        return rating;
-    }
-
-    public void setRating(Rating rating) {
-        this.rating = rating;
     }
 
     @Override
