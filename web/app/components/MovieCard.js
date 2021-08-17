@@ -1,15 +1,17 @@
 import * as React from 'react'
-import { FaClock, FaFilm } from 'react-icons/fa'
-import { VscMegaphone } from 'react-icons/vsc'
-import { convertId } from '../utils/math'
+import ThemeContext from '../contexts/theme'
+import { FaClock, FaFilm, FaStar } from 'react-icons/fa'
 import { fetchMovieDetails } from '../utils/movieClient'
+import { convertRunningTime } from '../utils/math'
 import PropTypes from 'prop-types'
+import Loading from './Loading'
 import Details from './Details'
 import StarRating from './StarRating'
 
 export default function MovieCard({ id, title, year, runningTime, director, collectionView = false, userRating }) {
+    const theme = React.useContext(ThemeContext)
+
     const [rating, setRating] = React.useState(0)
-    const [movieDetails, setMovieDetails] = React.useState(null)
     const [showExtendedInfo, setShowExtendedInfo] = React.useState(false)
 
     const [state, dispatch] = React.useReducer(
@@ -22,33 +24,32 @@ export default function MovieCard({ id, title, year, runningTime, director, coll
     )
 
     function fetchReducer(state, action) {
-        if (action.type === 'fetch') {
-            return {
-                ...state,
-                loading: true
-            }
-        } else if (action.type === 'poster success') {
-            return {
-                movieDetails: action.data,
-                loading: false,
-                error: null
-            }
-        } else if (action.type === 'error') {
-            return {
-                ...state,
-                error: 'Fetch failed.',
-                loading: false
-            }
+        switch (action.type) {
+            case 'fetch':
+                return {
+                    ...state,
+                    loading: true
+                }
+            case 'success':
+                return {
+                    movieDetails: action.data,
+                    loading: false,
+                    error: null
+                }
+            case 'error':
+                return {
+                    ...state,
+                    error: action.data.message,
+                    loading: false
+                }
         }
     }
-    //REFACTOR
-    React.useEffect(() => 
+
+    React.useEffect(() =>
         fetchMovieDetails(id)
-            .then((data) => 
-                dispatch({ type: 'success', data })
-            )
+            .then((data) => dispatch({ type: 'success', data }))
             .catch((error) => dispatch({ type: 'error', error }))
-    , [])
+        , [])
 
     //Is there a way to make sure duplicate objects were never added in the first place?
     const ratingClick = (val) => {
@@ -65,92 +66,85 @@ export default function MovieCard({ id, title, year, runningTime, director, coll
                 ratingValue: rating
             })
         }
-        console.log(requestOptions)
         fetch(api, requestOptions)
             .then(console.log('success'))
             .catch((e) => console.log('failure'))
     }
 
-    const fetchExtendedInfo = () => {
-        console.log(id)
-        fetchMovieDetails(id)
-            .then((data) => {
-                setMovieDetails(data)
-            })
-    }
+    const toggleExtendedInfo = () => setShowExtendedInfo(!showExtendedInfo)
 
     return (
         <React.Fragment>
-            <div className={'card bg-light medium-text'}>
+            <div className='card bg-light medium-text' onClick={toggleExtendedInfo}>
+                {state.loading === true &&
+                    <Loading text='Fetching movie details' />
+                }
                 <h4 className='header-sm center-text'>
                     <a className='link' href={`https://www.imdb.com/title/tt${id}/`}>{title}</a>
                 </h4>
-                {movieDetails && <img
-                    className='movie-poster'
-                    src={movieDetails.Poster}
-                    alt={`poster for ${title}`}
-                />}
-                <ul className='no-bullets card-list'>
-                    {director &&
-                        <li>
-                            <VscMegaphone color='rgb(114,34,199)' size={24} className='vsci-mega' />
-                            <span> {director}</span>
-                        </li>}
-                    {year &&
-                        <li>
-                            <FaFilm color='rgb(129, 195, 245)' size={22} />
-                            <span>{' '}{year}{'   '}</span>
-
-                        </li>
-                    }
-                    {runningTime &&
-                        <li>
-                            <FaClock color='rgb(219,155,59)' size={22} />
-                            <span>{Math.floor(runningTime / 60)}hr {runningTime % 60}min</span>
-                        </li>
-                    }
-                    {!collectionView &&
-                        <li>
-                            <StarRating rating={rating} onRating={ratingClick} />
-                            <span>
-                                {(rating !== 0) &&
-                                    <button
-                                        onClick={submitRating}
-                                    >
-                                        Add to my collection
-                                    </button>}
-                            </span>
-                        </li>
-                    }
+                <div className='card-body'>
                     {collectionView &&
-                        <ul>
-
-
+                        <h4 className='center-text bold'>
+                            {userRating} <FaStar stroke='black' color="gold" />
+                        </h4>
+                    }
+                    {state.movieDetails && <img
+                        className='movie-poster'
+                        src={state.movieDetails.Poster}
+                        alt={`poster for ${title}`}
+                    />}
+                    <ul className='no-bullets card-list'>
+                        {!collectionView && year &&
                             <li>
-                                Rating: {userRating}
+                                <FaFilm color='rgb(129, 195, 245)' size={22} />
+                                {year}
                             </li>
-                            {!movieDetails &&
-                                <button
-                                    onClick={fetchExtendedInfo}
-                                >
-                                    More info...
-                                </button>
-                            }
+                        }
+                        {!collectionView && runningTime &&
+                            <li>
+                                <FaClock color='rgb(219,155,59)' size={22} />
+                                {convertRunningTime(runningTime)}
+                            </li>
+                        }
+                        {!collectionView &&
+                            <li>
+                                <StarRating rating={rating} onRating={ratingClick} />
+                                <span>
+                                    {(rating !== 0) &&
+                                        <button 
+                                            className={`btn top5 ${theme === 'dark' ? 'light-btn' : 'dark-btn'}`}
+                                            onClick={submitRating}
+                                        >
+                                            Add to my collection
+                                        </button>}
+                                </span>
+                            </li>
+                        }
+                        {collectionView &&
+                            <ul>
+                                {showExtendedInfo &&
+                                    <li>
+                                        <Details movieDetails={state.movieDetails} />
+                                    </li>
+                                }
+                                <li>
+                                    <button
+                                        className={`btn btn-center ${theme === 'dark' ? 'light-btn' : 'dark-btn'}`}
+                                        onClick={toggleExtendedInfo}
+                                    >
+                                        {showExtendedInfo === true
+                                            ? 'Less info...'
+                                            : 'More info...'
+                                        }
+                                    </button>
+                                </li>
+                            </ul>
+                        }
 
-                        </ul>
-                    }
-                    {movieDetails &&
-                        <div>
-                            <Details movieDetails={movieDetails} />
-                            <button>
-                                Less info...
-                            </button>
-                        </div>
-                    }
-                </ul>
+                    </ul>
+                </div>
             </div>
         </React.Fragment>
-
     )
 }
 

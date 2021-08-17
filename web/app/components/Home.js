@@ -1,13 +1,18 @@
-import * as React from 'react'
+import React from 'react'
 import Loading from './Loading'
+import ThemeContext from '../contexts/theme'
 import PerformanceWarning from './PerformanceWarning'
 import MovieCard from './MovieCard'
 import { fetchMovieDetails, fetchMovieByTitle } from '../utils/movieClient'
 
 function Home() {
+    const theme = React.useContext(ThemeContext)
+
     const [search, setSearch] = React.useState('')
     const [selectedId, setSelectedId] = React.useState()
     const [selectedMovie, setSelectedMovie] = React.useState(null)
+
+    const inputRef = React.useRef();
 
     const [state, dispatch] = React.useReducer(
         fetchReducer,
@@ -19,14 +24,43 @@ function Home() {
         }
     )
 
-    const fetchPosterDetails = () => {
+    React.useEffect(() => {
+        inputRef.current.focus();
+    }, [state.movieOptions])
 
+    function useKey(key, callback) {
+        const callbackRef = React.useRef(callback);
+
+        React.useEffect(() => {
+            callbackRef.current = callback;
+        })
+
+        React.useEffect(() => {
+            function handle(event) {
+                if (event.key === key) {
+                    callbackRef.current(event)
+                }
+            }
+            document.addEventListener('keypress', handle);
+            return () => document.removeEventListener('keypress', handle)
+        }, [key])
+    }
+
+    // //TODO: Figure out why this doesn't work? Works with enter...
+    // useKey('ArrowDown', handleDown)
+
+    // function handleDown() {
+    //     let focusedElement = document.activeElement
+    //     console.log('Input active')
+    // }
+
+    const fetchPosterDetails = () => {
         fetchMovieDetails(selectedId)
             .then((data) => setSelectedMovie(data))
             //TODO: handle error
             .catch((e) => { })
     }
-    
+
     const searchMovie = () => {
         dispatch({ type: 'fetch' })
         fetchMovieByTitle(search)
@@ -35,24 +69,25 @@ function Home() {
     }
 
     function fetchReducer(state, action) {
-        if (action.type === 'fetch') {
-            return {
-                ...state,
-                loading: true
-            }
-        } else if (action.type === 'success') {
-            return {
-                movieOptions: action.data,
-                loading: false,
-                display: true,
-                error: null
-            }
-        } else if (action.type === 'error') {
-            return {
-                ...state,
-                error: action.error.message,
-                loading: false
-            }
+        switch (action.type) {
+            case 'fetch':
+                return {
+                    ...state,
+                    loading: true
+                }
+            case 'success':
+                return {
+                    movieOptions: action.data,
+                    loading: false,
+                    display: true,
+                    error: null
+                }
+            case 'error':
+                return {
+                    ...state,
+                    error: action.error.message,
+                    loading: false
+                }
         }
     }
 
@@ -62,30 +97,39 @@ function Home() {
         setSelectedId(movie.id)
     }
 
+    const handleKeyPressSearch = (e) => {
+        if (e.key === 'Enter') {
+            searchMovie()
+        }
+    }
+
+    const handleKeyPressOption = (e) => {
+        if (e.key === 'Enter') {
+            updateSelection({ movie })
+        }
+    }
+
     return (
         <React.Fragment>
             <div>
                 {state.loading === true
                     ? <Loading />
                     : <input
+                        className='searchbox'
                         id='title-search'
                         onChange={(event) => setSearch(event.target.value)}
                         placeholder='Title'
                         value={search}
+                        ref={inputRef}
+                        onKeyPress={handleKeyPressSearch}
                     />}
                 {state.movieOptions.length > 500 &&
                     <div>
                         <PerformanceWarning text='Over 500 results. Please refine search or risk performance degradation.' />
                     </div>
                 }
-                <button
-                    onClick={searchMovie}
-                    disabled={!search}
-                >
-                    Search for movie
-                </button>
                 {state.display &&
-                    <div className='auto-container'>
+                    <div className='options-container'>
                         {state.movieOptions
                             .filter(({ title }) =>
                                 title.toLowerCase()
@@ -97,6 +141,7 @@ function Home() {
                                         className='option'
                                         key={index}
                                         tabIndex='0'
+                                        onKeyPress={handleKeyPressOption({ movie })}
                                     >
                                         <span>{movie.title} - </span>
                                         <span>{movie.year}</span>
@@ -109,6 +154,7 @@ function Home() {
                 {selectedId &&
                     <div>
                         <button
+                            className={`btn top5 ${theme === 'dark' ? 'light-btn' : 'dark-btn'}`}
                             onClick={fetchPosterDetails}
                         >
                             Fetch details

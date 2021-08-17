@@ -23,41 +23,31 @@ function MyCollection() {
             })
     }, [])
 
-    // // Dropped in favor of lazier fetch of further details
-    // React.useEffect(() => {
-    //     ratings.map((rating) => {
-    //         fetchMovieDetails(rating.movieId)
-    //             .then((fullMovie) => setMovies((movies) => {
-    //                 movies.push(fullMovie)
-    //             }))
-    //     })
-    // }, [state.ratings])
-
     function fetchReducer(state, action) {
-        if (action.type === 'fetch') {
-            return {
-                ...state,
-                loading: true
-            }
-        } else if (action.type === 'success') {
-            return {
-                ratings: action.data,
-                loading: false,
-                error: null
-            }
-        } else if (action.type === 'error') {
-            return {
-                ...state,
-                error: 'Fetch failed.',
-                loading: false
-            }
+        switch (action.type) {
+            case 'fetch':
+                return {
+                    ...state,
+                    loading: true
+                }
+            case 'success':
+                return {
+                    ratings: action.data,
+                    loading: false,
+                    error: null
+                }
+            case 'error':
+                return {
+                    ...state,
+                    error: 'Fetch failed.',
+                    loading: false
+                }
         }
     }
 
     function DisplayCollection () {
-        console.log(state.ratings)
         return (
-            <ul>
+            <div className='collection space-around'>
                 {state.ratings.map((ratingItem) => {
                     const { id, ratingValue, time, movie } = ratingItem
                     const { title, year, runningTime } = movie
@@ -76,13 +66,13 @@ function MyCollection() {
                         </li>
                     )
                 })}
-            </ul>
+            </div>
         )
 
     }
 
     return (
-        <React.Fragment>
+        <div>
             {state.loading &&
                 <Loading text='Loading your collection' />
             }
@@ -91,11 +81,11 @@ function MyCollection() {
                 ? <div>
                     Your collection is empty!
                 </div>
-                : <div>
+                : <div className='collection'>
                     <DisplayCollection ratings={state.ratings} />
                 </div>
             }
-        </React.Fragment>
+        </div>
     )
 }
 
