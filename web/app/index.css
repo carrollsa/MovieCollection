@@ -144,6 +144,27 @@ li {
     border-radius: 3px;
 }
 
+.collection {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.card {
+    margin: 10px 0;
+    width: 300px;
+    padding: 20px;
+    transition: 0.4s ease-out;
+}
+
+.card-title-container {
+
+}
+
+.card:hover {
+    background: #8d8d8d;
+    color: #223343;
+}
+
 .card-list {
     margin: 20px 0px;
     font-size: 20px;
@@ -166,13 +187,6 @@ li {
 
 .medium-text {
     font-size: 20px
-}
-
-.card {
-    margin: 10px 0;
-    width: 300px;
-    padding: 20px;
-    transition: 0.4s ease-out;
 }
 
 .card a {
@@ -202,7 +216,13 @@ li {
 }
 
 .star-rating {
-    padding: 0px;
+    align-items: center;
+}
+
+.fa-star {
+    margin-left: -6px;
+    margin-right: -6px;
+    align-items: center;
 }
 
 .vsci-mega {
@@ -237,23 +257,14 @@ li {
     box-shadow: 0px 0px 8px 3px #4484C4;
 }
 
-.collection {
-    display: flex;
-    flex-wrap: wrap;
-}
-
-.card:hover {
-    background: #8d8d8d;
-    color: #223343;
-}
-
 .top5 {
     margin-top: 5px;
 }
 
 .option {
-    
-    transition: 0.4s ease-out;
+    font-weight: 300;
+    border: 5px black;
+    border-radius: 8px;
 }
 
 .option:hover {
@@ -262,7 +273,10 @@ li {
 }
 
 .option-container {
-
+    display: flex;
+    padding: 5px;
+    margin: 10px;
+    transition: 0.4s ease-out;
 }
 
 .popup {
@@ -311,6 +325,17 @@ li {
     cursor: pointer;
 
     transition: 0.4s ease-out;
+}
+
+.popup .content .plot img {
+	flex: 1 1 50%;
+	max-width: 300px;
+	padding: 0px 15px;
+}
+
+.popup .content .plot p {
+	flex: 1 1 50%;
+	padding: 15px;
 }
 
 .popup .content .close:hover {

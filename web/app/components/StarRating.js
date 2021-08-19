@@ -23,7 +23,7 @@ export default function StarRating({ count = 10, rating = 0, color, onRating }) 
                 <FaStar
                     key={index}
                     stroke='black'
-                    strokeWidth={10}
+                    strokeWidth={20}
                     className='fa-star'
                     color={color.unfilled}
                     onClick={() => onRating(index)}

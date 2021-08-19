@@ -3,6 +3,7 @@ import { convertRunningTime } from '../utils/math'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faStar, faUserEdit, faTheaterMasks, faAward, faPen, faClock, faFilm, faDollarSign } from '@fortawesome/free-solid-svg-icons'
 import { VscMegaphone } from 'react-icons/vsc'
+import Tooltip from './Tooltip'
 
 // function showRatings(ratings) {
 //     return (
@@ -19,72 +20,93 @@ import { VscMegaphone } from 'react-icons/vsc'
 //     )
 // }
 
-export default function Details({ movieDetails }) {
+export default function Details({ movie }) {
     const { Year, Runtime, Rated, Genre, Director, Writer,
-        Actors, Plot, Awards, Ratings, BoxOffice } = movieDetails
+        Actors, Plot, Awards, Ratings, BoxOffice } = movie
 
     return (
         <React.Fragment>
             <ul className='no-bullets card-list'>
                 {Director &&
-                    <li>
-                        <VscMegaphone color='rgb(114,34,199)' />
-                        {Director}
-                    </li>}
+                    <Tooltip text="Director">
+                        <li>
+                            <VscMegaphone color='rgb(114,34,199)' />
+                            {Director}
+                        </li>
+                    </Tooltip>
+                }
                 {Year &&
-                    <li>
-                        <FontAwesomeIcon icon={faFilm} color='rgb(129, 195, 245)' />
-                        {Year}
-                    </li>
+                    <Tooltip text="Released">
+                        <li>
+                            <FontAwesomeIcon icon={faFilm} color='rgb(129, 195, 245)' />
+                            {Year}
+                        </li>
+                    </Tooltip>
                 }
                 {Runtime &&
-                    <li>
-                        <FontAwesomeIcon icon={faClock} color='rgb(219,155,59)' />
-                        {convertRunningTime(parseInt(Runtime))}
-                    </li>
+                    <Tooltip text="Runtime" >
+                        <li>
+                            <FontAwesomeIcon icon={faClock} color='rgb(219,155,59)' />
+                            {convertRunningTime(parseInt(Runtime))}
+                        </li>
+                    </Tooltip>
                 }
                 {Actors &&
-                    <li>
-                        <FontAwesomeIcon icon={faStar} color='#21ADA8' />
-                        {Actors}
-                    </li>
+                    <Tooltip text="Starring" >
+                        <li>
+                            <FontAwesomeIcon icon={faStar} color='#21ADA8' />
+                            {Actors}
+                        </li>
+                    </Tooltip>
                 }
                 {Writer &&
-                    <li>
-                        <FontAwesomeIcon icon={faUserEdit} color='#606060' />
-                        {Writer}
-                    </li>
+                    <Tooltip text="Written by" >
+                        <li>
+                            <FontAwesomeIcon icon={faUserEdit} color='#606060' />
+                            {Writer}
+                        </li>
+                    </Tooltip>
                 }
                 {Genre &&
-                    <li>
-                        <FontAwesomeIcon icon={faTheaterMasks} color='red' />
-                        {Genre}
-                    </li>
+                    <Tooltip text="Genre(s)" >
+                        <li>
+                            <FontAwesomeIcon icon={faTheaterMasks} color='red' />
+                            {Genre}
+                        </li>
+                    </Tooltip>
                 }
                 {Plot &&
-                    <li>
-                        <FontAwesomeIcon icon={faPen} color='black' />
-                        {Plot}
-                    </li>
+                    <Tooltip text="Plot" >
+                        <li>
+                            <FontAwesomeIcon icon={faPen} color='black' />
+                            {Plot}
+                        </li>
+                    </Tooltip>
                 }
                 {Awards &&
-                    <li>
-                        <FontAwesomeIcon icon={faAward} color='blue' />
-                        {Awards}
-                    </li>
+                    <Tooltip text="Awards" >
+                        <li>
+                            <FontAwesomeIcon icon={faAward} color='blue' />
+                            {Awards}
+                        </li>
+                    </Tooltip>
                 }
                 {Ratings &&
+                    <Tooltip text="Ratings" >
+                        "Ratings"
+                    </Tooltip>
                     // <li>
                     //     {/* <FontAwesomeIcon icon={ } color="" /> */}
                     //     {showRatings(Ratings)}
                     // </li>
-                    "Ratings"
                 }
                 {BoxOffice &&
-                    <li>
-                        <FontAwesomeIcon icon={faDollarSign} color='#85bb65' />
-                        {BoxOffice}
-                    </li>
+                    <Tooltip text="Box office" >
+                        <li>
+                            <FontAwesomeIcon icon={faDollarSign} color='#85bb65' />
+                            {BoxOffice}
+                        </li>
+                    </Tooltip>
                 }
             </ul>
         </React.Fragment>

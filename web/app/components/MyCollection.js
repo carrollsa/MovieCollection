@@ -2,10 +2,11 @@ import * as React from 'react'
 import Loading from './Loading'
 import { fetchRatings, fetchMovieDetails } from '../utils/movieClient'
 import MovieCard from './MovieCard'
+import MoviePopup from './MoviePopup'
 
 function MyCollection() {
-    const [movies, setMovies] = React.useState([])
-    
+    const [selectedMovie, setSelectedMovie] = React.useState(null)
+
     const [state, dispatch] = React.useReducer(
         fetchReducer,
         {
@@ -45,7 +46,7 @@ function MyCollection() {
         }
     }
 
-    function DisplayCollection () {
+    function DisplayCollection() {
         return (
             <div className='collection space-around'>
                 {state.ratings.map((ratingItem) => {
@@ -54,7 +55,7 @@ function MyCollection() {
                     const movieId = movie.id
 
                     return (
-                        <li key={id}>
+                        <li key={id} >
                             <MovieCard
                                 id={movieId}
                                 title={title}
@@ -76,14 +77,11 @@ function MyCollection() {
             {state.loading &&
                 <Loading text='Loading your collection' />
             }
-
-            {state.ratings.length == 0
+            {state.ratings.length === 0
                 ? <div>
                     Your collection is empty!
                 </div>
-                : <div className='collection'>
-                    <DisplayCollection ratings={state.ratings} />
-                </div>
+                : <DisplayCollection ratings={state.ratings} />
             }
         </div>
     )
