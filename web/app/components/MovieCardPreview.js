@@ -1,27 +1,24 @@
 import * as React from 'react'
 import ThemeContext from '../contexts/theme'
-import { FaClock, FaFilm, FaStar, FaCheck } from 'react-icons/fa'
+import { FaClock, FaFilm, FaCheck } from 'react-icons/fa'
+import { VscMegaphone } from 'react-icons/vsc'
 import { fetchMovieDetails } from '../utils/movieClient'
 import { convertRunningTime } from '../utils/math'
 import PropTypes from 'prop-types'
 import Loading from './Loading'
 import Details from './Details'
 import StarRating from './StarRating'
-import useHover from '../hooks/useHover'
 
-export default function MovieCard({ id, title, year, runningTime, director, collectionView = false, userRating }) {
+export default function MovieCardPreview({ id, title, year, runningTime, director }) {
     const theme = React.useContext(ThemeContext)
 
-    const [hovering, attrs] = useHover()
     const [rating, setRating] = React.useState(0)
-    const [showExtendedInfo, setShowExtendedInfo] = React.useState(false)
-
-    const submitButtonText = React.useRef('Add to collection')
+    const [submitButtonText, setSubmitButtonText] = React.useState('Add to collection')
 
     const [state, dispatch] = React.useReducer(
         fetchReducer,
         {
-            movieDetails: null,
+            moviePoster: null,
             loading: false,
             error: null
         }
@@ -36,7 +33,7 @@ export default function MovieCard({ id, title, year, runningTime, director, coll
                 }
             case 'success':
                 return {
-                    movieDetails: action.data,
+                    moviePoster: action.data.Poster,
                     loading: false,
                     error: null
                 }
@@ -71,96 +68,68 @@ export default function MovieCard({ id, title, year, runningTime, director, coll
             })
         }
         fetch(api, requestOptions)
-            .then(console.log('success'))
             .catch((e) => console.log('failure'))
-        submitButtonText.current = <FaCheck color='green' />
+        setSubmitButtonText(<FaCheck color='green' />)
     }
-
-    const toggleExtendedInfo = () => setShowExtendedInfo(!showExtendedInfo)
 
     return (
         <React.Fragment>
-            <div className='card bg-light medium-text' onClick={toggleExtendedInfo} {...attrs}>
+            <div className='card-preview bg-light medium-text'>
                 {state.loading === true &&
                     <Loading text='Fetching movie details' />
                 }
                 <h4 className='header-sm center-text'>
                     <a className='link' href={`https://www.imdb.com/title/tt${id}/`} target="_blank" >{title}</a>
                 </h4>
-                <div className='card-body'>
-                    {collectionView &&
-                        <h4 className='center-text bold'>
-                            {userRating} <FaStar stroke='black' strokeWidth={20} color="gold" />
-                        </h4>
-                    }
-                    {state.movieDetails && <img
+                <div className='card-preview-body'>
+                    {state.moviePoster && <img
                         className='movie-poster'
-                        src={state.movieDetails.Poster}
+                        src={state.moviePoster}
                         alt={`poster for ${title}`}
                     />}
-                    <ul className='no-bullets card-list'>
-                        {!collectionView && year &&
+                    <ul className='no-bullets card-list flex-center column'>
+                        {director &&
+                            <li>
+                                <VscMegaphone color='rgb(114,34,199)' />
+                                {director}
+                            </li>
+                        }
+                        {year &&
                             <li>
                                 <FaFilm color='rgb(129, 195, 245)' size={22} />
                                 {year}
                             </li>
                         }
-                        {!collectionView && runningTime &&
+                        {runningTime &&
                             <li>
                                 <FaClock color='rgb(219,155,59)' size={22} />
                                 {convertRunningTime(runningTime)}
                             </li>
                         }
-                        {!collectionView &&
-                            <div>
-                                <li>
-                                    <StarRating
-                                        rating={rating}
-                                        onRating={ratingClick}
-                                    />
-                                </li>
-                                {(rating !== 0) &&
-                                    <button
-                                        className={`btn top5 ${theme === 'dark' ? 'light-btn' : 'dark-btn'}`}
-                                        value='Add to my collection'
-                                        onClick={submitRating}
-                                    >
-                                        {submitButtonText.current}
-                                    </button>
-                                }
-                            </div>
-                        }
-                        {collectionView &&
-                            <ul>
-                                {showExtendedInfo &&
-                                    <li>
-                                        <Details movie={state.movieDetails} />
-                                    </li>
-                                }
-                                {hovering &&
-                                    <li>
-                                        <button
-                                            className={`btn btn-center ${theme === 'dark' ? 'light-btn' : 'dark-btn'}`}
-                                            onClick={toggleExtendedInfo}
-                                        >
-                                            {showExtendedInfo === false
-                                                ? 'Click to expand'
-                                                : 'Click to collapse'
-                                            }
-                                        </button>
-                                    </li>
-                                }
-                            </ul>
-                        }
-
                     </ul>
+                    <div className='flex-center column'>
+                        <StarRating
+                            rating={rating}
+                            onRating={ratingClick}
+                        />
+
+                        {(rating !== 0) &&
+                            <button
+                                className={`btn top15 ${theme === 'dark' ? 'light-btn' : 'dark-btn'}`}
+                                value='Add to my collection'
+                                onClick={submitRating}
+                            >
+                                {submitButtonText}
+                            </button>
+                        }
+                    </div>
                 </div>
             </div>
         </React.Fragment>
     )
 }
 
-MovieCard.propTypes = {
+MovieCardPreview.propTypes = {
     id: PropTypes.string.isRequired,
     title: PropTypes.string.isRequired,
     year: PropTypes.number,

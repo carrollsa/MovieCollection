@@ -61,7 +61,6 @@ function MyCollection() {
                                 title={title}
                                 year={year}
                                 runningTime={movie.runningTime}
-                                collectionView={true}
                                 userRating={ratingValue}
                             />
                         </li>

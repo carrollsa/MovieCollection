@@ -36,12 +36,9 @@ export default function StarRating({ count = 10, rating = 0, color, onRating }) 
 
     return (
         <React.Fragment>
-            <div className='star-rating'>
-                {starRating}
-                {hoverValue !== 0 && 
-                    <span>  <b>{hoverValue}</b></span>
-                }
-            </div>
+                <div className='star-rating'>
+                    {starRating}
+                </div>
         </React.Fragment>
     )
 }

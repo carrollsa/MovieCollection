@@ -2,7 +2,7 @@ import React from 'react'
 import Loading from './Loading'
 import ThemeContext from '../contexts/theme'
 import PerformanceWarning from './PerformanceWarning'
-import MovieCard from './MovieCard'
+import MovieCardPreview from './MovieCardPreview'
 import MovieOption from './MovieOption'
 import { fetchMovieDetails, fetchMovieByTitle } from '../utils/movieClient'
 
@@ -39,7 +39,7 @@ function Home() {
     const searchMovie = () => {
         dispatch({ type: 'fetch' })
         fetchMovieByTitle(search)
-            .then(data => dispatch({ type: 'dbSuccess', data }))
+            .then(data => dispatch({ type: 'success', data }))
             .catch((error) => dispatch({ type: 'error', error }))
     }
 
@@ -50,7 +50,7 @@ function Home() {
                     ...state,
                     loading: true
                 }
-            case 'dbSuccess':
+            case 'success':
                 return {
                     ...state,
                     movieOptions: action.data,
@@ -151,7 +151,6 @@ function Home() {
                             .map((movie, index) => {
                                 return (
                                     <div
-                                        // data-movie={movie}
                                         key={index}
                                         onClick={() => updateSelection({ movie })}
                                         className='option'
@@ -169,12 +168,11 @@ function Home() {
                     </div>
                 }
                 {selectedMovie &&
-                    <MovieCard
+                    <MovieCardPreview
                         id={selectedId}
                         title={selectedMovie.Title}
                         director={selectedMovie.Director}
                         year={parseInt(selectedMovie.Year)}
-                        posterURL={selectedMovie.Poster}
                         runningTime={parseInt(selectedMovie.Runtime)}
                     />
                 }

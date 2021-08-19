@@ -5,21 +5,6 @@ import { faStar, faUserEdit, faTheaterMasks, faAward, faPen, faClock, faFilm, fa
 import { VscMegaphone } from 'react-icons/vsc'
 import Tooltip from './Tooltip'
 
-// function showRatings(ratings) {
-//     return (
-//         //Maybe reg paren for JSX?
-//         ratings.map((rating) => {
-//             if (rating.get("Source") === "Internet Movie Database") {
-//                 return (
-//                     <div>
-
-//                     </div>
-//                 )
-//             }
-//         })
-//     )
-// }
-
 export default function Details({ movie }) {
     const { Year, Runtime, Rated, Genre, Director, Writer,
         Actors, Plot, Awards, Ratings, BoxOffice } = movie

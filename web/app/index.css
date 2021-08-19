@@ -40,6 +40,14 @@ li {
     margin: 20px;
 }
 
+.justify-center {
+    justify-content: center;
+}
+
+.align-center {
+    align-items: center;
+}
+
 .center-text {
     text-align: center;
 }
@@ -68,6 +76,12 @@ li {
 
 .nav li {
     margin-right: 10px;
+}
+
+.flex-center {
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .space-around {
@@ -156,6 +170,12 @@ li {
     transition: 0.4s ease-out;
 }
 
+.card-preview {
+    margin: 10px 0;
+    width: 300px;
+    padding: 20px;
+}
+
 .card-title-container {
 
 }
@@ -166,14 +186,13 @@ li {
 }
 
 .card-list {
-    margin: 20px 0px;
     font-size: 20px;
 }
 
 .card-list li {
     display: flex;
     align-items: center;
-    margin: 10px;
+    margin: 4px;
 }
 
 .card-list svg {
@@ -220,8 +239,8 @@ li {
 }
 
 .fa-star {
-    margin-left: -6px;
-    margin-right: -6px;
+    margin-left: 1px;
+    margin-right: 1px;
     align-items: center;
 }
 
@@ -259,6 +278,14 @@ li {
 
 .top5 {
     margin-top: 5px;
+}
+
+.top10 {
+    margin-top: 10px;
+}
+
+.top15 {
+    margin-top: 15px;
 }
 
 .option {

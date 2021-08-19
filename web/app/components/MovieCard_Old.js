@@ -84,9 +84,11 @@ export default function MovieCard({ id, title, year, runningTime, director, coll
                 {state.loading === true &&
                     <Loading text='Fetching movie details' />
                 }
-                <h4 className='header-sm center-text'>
-                    <a className='link' href={`https://www.imdb.com/title/tt${id}/`} target="_blank" >{title}</a>
-                </h4>
+                <div className='card-title-container'>
+                    <h4 className='header-sm center-text'>
+                        <a className='link' href={`https://www.imdb.com/title/tt${id}/`} target="_blank" >{title}</a>
+                    </h4>
+                </div>
                 <div className='card-body'>
                     {collectionView &&
                         <h4 className='center-text bold'>
