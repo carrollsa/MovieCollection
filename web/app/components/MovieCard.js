@@ -8,7 +8,7 @@ import Loading from './Loading'
 import Details from './Details'
 import useHover from '../hooks/useHover'
 
-export default function MovieCard({ id, title, year, runningTime, userRating, setPopup }) {
+export default function MovieCard({ id, title, year, runningTime, userRating }) {
     const theme = React.useContext(ThemeContext)
 
     const [hovering, attrs] = useHover()
@@ -54,7 +54,7 @@ export default function MovieCard({ id, title, year, runningTime, userRating, se
     const toggleExtendedInfo = () => setShowExtendedInfo(!showExtendedInfo)
 
     return (
-            <div className='card bg-light medium-text' onClick={setPopup(state.movieDetails)} {...attrs}>
+            <div className='card bg-light medium-text' onClick={toggleExtendedInfo} {...attrs}>
                 {state.loading === true &&
                     <Loading text='Fetching movie details' />
                 }

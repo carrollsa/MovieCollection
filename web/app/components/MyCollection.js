@@ -62,7 +62,6 @@ function MyCollection() {
                                 year={year}
                                 runningTime={movie.runningTime}
                                 userRating={ratingValue}
-                                setPopup={() => setPopup}
                             />
                         </li>
                     )
@@ -78,7 +77,7 @@ function MyCollection() {
                 : state.ratings.length === 0
                     ? 'Your collection is empty!'
                     : popup === null 
-                        ? <DisplayCollection ratings={state.ratings} setPopup={() => setPopup} />
+                        ? <DisplayCollection ratings={state.ratings} />
                         : <MoviePopup movie={popup} />
             }       
         </div>
