@@ -4,6 +4,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faStar, faUserEdit, faTheaterMasks, faAward, faPen, faClock, faFilm, faDollarSign } from '@fortawesome/free-solid-svg-icons'
 import { VscMegaphone } from 'react-icons/vsc'
 import Tooltip from './Tooltip'
+import DisplayRatings from './DisplayRatings'
 
 export default function Details({ movie }) {
     const { Year, Runtime, Rated, Genre, Director, Writer,
@@ -76,14 +77,8 @@ export default function Details({ movie }) {
                         </li>
                     </Tooltip>
                 }
-                {Ratings &&
-                    <Tooltip text="Ratings" >
-                        "Ratings"
-                    </Tooltip>
-                    // <li>
-                    //     {/* <FontAwesomeIcon icon={ } color="" /> */}
-                    //     {showRatings(Ratings)}
-                    // </li>
+                {Ratings && 
+                        <DisplayRatings ratings={Ratings}/>
                 }
                 {BoxOffice &&
                     <Tooltip text="Box office" >

@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 
 function MovieOption({ movie }) {
     return (
@@ -6,6 +7,10 @@ function MovieOption({ movie }) {
             <span>{movie.title} - {movie.year}</span>
         </div>
     )
+}
+
+MovieOption.propTypes = {
+    movie: PropTypes.object.isRequired
 }
 
 export default MovieOption

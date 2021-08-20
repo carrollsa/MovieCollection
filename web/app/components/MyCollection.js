@@ -5,7 +5,7 @@ import MovieCard from './MovieCard'
 import MoviePopup from './MoviePopup'
 
 function MyCollection() {
-    const [selectedMovie, setSelectedMovie] = React.useState(null)
+    const [popup, setPopup] = React.useState(null)
 
     const [state, dispatch] = React.useReducer(
         fetchReducer,
@@ -62,26 +62,25 @@ function MyCollection() {
                                 year={year}
                                 runningTime={movie.runningTime}
                                 userRating={ratingValue}
+                                setPopup={() => setPopup}
                             />
                         </li>
                     )
                 })}
             </div>
         )
-
     }
 
     return (
         <div>
-            {state.loading &&
-                <Loading text='Loading your collection' />
-            }
-            {state.ratings.length === 0
-                ? <div>
-                    Your collection is empty!
-                </div>
-                : <DisplayCollection ratings={state.ratings} />
-            }
+            {state.loading === true
+                ? <Loading text='Loading your collection' />
+                : state.ratings.length === 0
+                    ? 'Your collection is empty!'
+                    : popup === null 
+                        ? <DisplayCollection ratings={state.ratings} setPopup={() => setPopup} />
+                        : <MoviePopup movie={popup} />
+            }       
         </div>
     )
 }

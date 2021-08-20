@@ -170,10 +170,7 @@ function Home() {
                 {selectedMovie &&
                     <MovieCardPreview
                         id={selectedId}
-                        title={selectedMovie.Title}
-                        director={selectedMovie.Director}
-                        year={parseInt(selectedMovie.Year)}
-                        runningTime={parseInt(selectedMovie.Runtime)}
+                        movie={selectedMovie}
                     />
                 }
                 {selectedMovie &&

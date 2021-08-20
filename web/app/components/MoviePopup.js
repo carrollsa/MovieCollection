@@ -1,7 +1,7 @@
 import React from 'react'
 import Details from './Details'
 
-function MoviePopup({ movie, closePopup }) {
+function MoviePopup({ movie }) {
     const { Title, Poster, Year, Plot} = movie
 
     return (

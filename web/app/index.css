@@ -35,7 +35,7 @@ li {
 }
 
 .header-sm {
-    font-size: 25px;
+    font-size: 22px;
     font-weight: 300;
     margin: 20px;
 }
@@ -177,7 +177,9 @@ li {
 }
 
 .card-title-container {
-
+    display: flex;
+    width: 300px;
+    min-height: 100px;
 }
 
 .card:hover {
@@ -244,6 +246,11 @@ li {
     align-items: center;
 }
 
+.fa-imdb {
+    margin-right: 5px;
+    color: #f2db83;
+}
+
 .vsci-mega {
     stroke-width: 1;
 }
@@ -286,6 +293,18 @@ li {
 
 .top15 {
     margin-top: 15px;
+}
+
+.left5 {
+    margin-left: 5px;
+}
+
+.left10 {
+    margin-left: 10px;
+}
+
+.right5 {
+    margin-right: 5px;
 }
 
 .option {

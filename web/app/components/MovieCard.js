@@ -6,10 +6,9 @@ import { convertRunningTime } from '../utils/math'
 import PropTypes from 'prop-types'
 import Loading from './Loading'
 import Details from './Details'
-import StarRating from './StarRating'
 import useHover from '../hooks/useHover'
 
-export default function MovieCard({ id, title, year, runningTime, userRating }) {
+export default function MovieCard({ id, title, year, runningTime, userRating, setPopup }) {
     const theme = React.useContext(ThemeContext)
 
     const [hovering, attrs] = useHover()
@@ -55,14 +54,20 @@ export default function MovieCard({ id, title, year, runningTime, userRating }) 
     const toggleExtendedInfo = () => setShowExtendedInfo(!showExtendedInfo)
 
     return (
-        <React.Fragment>
-            <div className='card bg-light medium-text' onClick={toggleExtendedInfo} {...attrs}>
+            <div className='card bg-light medium-text' onClick={setPopup(state.movieDetails)} {...attrs}>
                 {state.loading === true &&
                     <Loading text='Fetching movie details' />
                 }
-                <div className='card-title-container'>
+                <div className='card-title-container flex-center'>
                     <h4 className='header-sm center-text'>
-                        <a className='link' href={`https://www.imdb.com/title/tt${id}/`} target="_blank" >{title}</a>
+                        <a className='link' href={`https://www.imdb.com/title/tt${id}/`} target="_blank" >
+                            {showExtendedInfo
+                                ? title
+                                : title.length > 42
+                                    ? title.substring(0, 42) + '...'
+                                    : title
+                            }
+                        </a>
                     </h4>
                 </div>
                 <div className='card-body'>
@@ -75,40 +80,43 @@ export default function MovieCard({ id, title, year, runningTime, userRating }) 
                         alt={`poster for ${title}`}
                     />}
                     <ul className='no-bullets card-list'>
-                        {year &&
+                        <div className='row flex-center'>
+                            {!showExtendedInfo && year &&
+                                <li>
+                                    <FaFilm color='rgb(129, 195, 245)' size={22} />
+                                    {year}
+                                </li>
+                            }
+                            {!showExtendedInfo && runningTime &&
+                                <li className='left10'>
+                                    <span className='left5'>
+                                        <FaClock color='rgb(219,155,59)' size={22} />
+                                        {convertRunningTime(runningTime)}
+                                    </span>
+                                </li>
+                            }
+                        </div>
+                        {showExtendedInfo &&
                             <li>
-                                <FaFilm color='rgb(129, 195, 245)' size={22} />
-                                {year}
+                                <Details movie={state.movieDetails} />
                             </li>
                         }
-                        <li>
-                            <FaClock color='rgb(219,155,59)' size={22} />
-                            {convertRunningTime(runningTime)}
-                        </li>
-                        <ul>
-                            {showExtendedInfo &&
-                                <li>
-                                    <Details movie={state.movieDetails} />
-                                </li>
-                            }
-                            {hovering &&
-                                <li>
-                                    <button
-                                        className={`btn btn-center ${theme === 'dark' ? 'light-btn' : 'dark-btn'}`}
-                                        onClick={toggleExtendedInfo}
-                                    >
-                                        {showExtendedInfo === false
-                                            ? 'Click to expand'
-                                            : 'Click to collapse'
-                                        }
-                                    </button>
-                                </li>
-                            }
-                        </ul>
+                        {hovering &&
+                            <li>
+                                <button
+                                    className={`btn btn-center ${theme === 'dark' ? 'light-btn' : 'dark-btn'}`}
+                                    onClick={toggleExtendedInfo}
+                                >
+                                    {showExtendedInfo === false
+                                        ? 'Click to expand'
+                                        : 'Click to collapse'
+                                    }
+                                </button>
+                            </li>
+                        }
                     </ul>
                 </div>
             </div>
-        </React.Fragment>
     )
 }
 
