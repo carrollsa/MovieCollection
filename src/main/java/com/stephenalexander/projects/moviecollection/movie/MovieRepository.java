@@ -14,17 +14,15 @@ public interface MovieRepository extends CrudRepository<Movie, Integer> {
     @Query(value = "SELECT * FROM movies", nativeQuery = true)
     Set<Movie> getAllMovies();
 
-//    @Query(value = "SELECT movie_id, title, year, runningtime FROM movie m WHERE m.movie_id = :id")
-//    Movie
-
     Movie findById(String id);
 
     List<Movie> findByTitleStartingWith(String title);
 
     List<Movie> findByTitle(String title);
 
-    @Query(value = "SELECT * FROM movie m WHERE lower(m.title) LIKE '%' || :title || '%' ORDER BY m.year DESC LIMIT " +
-            "10000",
+    @Query(value = "SELECT * FROM movie m WHERE lower(m.title) LIKE LOWER('%' || :title || '%')" +
+            " ORDER BY LENGTH(m.title) ASC " +
+            "LIMIT 10000",
             nativeQuery = true)
     List<Movie> findByTitleSnippet(
             @Param("title") String title);

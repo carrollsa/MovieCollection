@@ -1,5 +1,6 @@
 package com.stephenalexander.projects.moviecollection.movie;
 
+import com.stephenalexander.projects.moviecollection.rater.Rater;
 import com.stephenalexander.projects.moviecollection.rating.Rating;
 import org.springframework.lang.Nullable;
 

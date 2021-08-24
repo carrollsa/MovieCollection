@@ -5,6 +5,7 @@ import com.stephenalexander.projects.moviecollection.movie.MovieRepository;
 import com.stephenalexander.projects.moviecollection.movie.MovieService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.*;
@@ -26,12 +27,21 @@ public class RatingController {
      *
      * @param jsonBody - JSON body consisting of two key-value pairs with keys: movieId and ratingValue
      */
+//    @PostMapping
+//    public void addRating(@RequestBody Map<String, String> jsonBody) {
+//        Movie movie = movieRepository.findById(jsonBody.get("movieId"));
+//        Rating rating = new Rating(Double.parseDouble(jsonBody.get("ratingValue")));
+//        rating.setMovie(movie);
+//        ratingService.addNewRating(rating);
+//    }
+
     @PostMapping
-    public void addRating(@RequestBody Map<String, String> jsonBody) {
+    @Transactional
+    public void addOrUpdateRating(@RequestBody Map<String, String> jsonBody) {
         Movie movie = movieRepository.findById(jsonBody.get("movieId"));
         Rating rating = new Rating(Double.parseDouble(jsonBody.get("ratingValue")));
         rating.setMovie(movie);
-        ratingService.addNewRating(rating);
+        ratingService.addOrUpdate(rating);
     }
 
     @GetMapping

@@ -20,6 +20,15 @@ public class RatingService {
         ratingRepository.save(rating);
     }
 
+    public void addOrUpdate(Rating rating) {
+        Optional<Rating> existingRating = ratingRepository.findByMovieId(rating.getMovie().getId());
+        if(existingRating.isPresent()) {
+            existingRating.get().setRatingValue(rating.getRatingValue());
+        } else {
+            ratingRepository.save(rating);
+        }
+    }
+
     public Optional<List<Rating>> getTopRatings() {
         return Optional.of(ratingRepository.getTopRatings());
     }

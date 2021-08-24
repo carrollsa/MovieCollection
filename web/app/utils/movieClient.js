@@ -9,6 +9,26 @@ export function fetchMovieDetails(id) {
         })
 }
 
+export function postRating(id, rating) {
+    const api = ('api/v1/ratings')
+    const requestOptions = {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+            movieId: id,
+            ratingValue: rating
+        })
+    }
+    return (
+        fetch(api, requestOptions)
+            .catch((e) => {
+                console.warn(e.message)
+                throw e
+            })
+    )
+    
+}
+
 export function fetchRatings() {
     const api = `api/v1/ratings`
     return fetch(api)
@@ -19,7 +39,6 @@ export function fetchRatings() {
         })
 }
 
-//NOT FINISHED
 export function fetchMovieFromDB(id) {
     const api = `api/v1/movies`
     return fetch(api)
@@ -42,5 +61,4 @@ export function fetchMovieByTitle(title) {
                 throw e
             })
     )
-
 }

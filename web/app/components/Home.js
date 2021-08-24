@@ -2,9 +2,9 @@ import React from 'react'
 import Loading from './Loading'
 import ThemeContext from '../contexts/theme'
 import PerformanceWarning from './PerformanceWarning'
-import MovieCardPreview from './MovieCardPreview'
 import MovieOption from './MovieOption'
 import { fetchMovieDetails, fetchMovieByTitle } from '../utils/movieClient'
+import SearchCard from './SearchCard'
 
 function Home() {
     const theme = React.useContext(ThemeContext)
@@ -143,7 +143,7 @@ function Home() {
                     </div>
                 }
                 {state.display &&
-                    <div className='options-container top5'>
+                    <div className='top5'>
                         {state.movieOptions
                             .filter(({ title }) =>
                                 title.toLowerCase()
@@ -168,7 +168,7 @@ function Home() {
                     </div>
                 }
                 {selectedMovie &&
-                    <MovieCardPreview
+                    <SearchCard
                         id={selectedId}
                         movie={selectedMovie}
                     />

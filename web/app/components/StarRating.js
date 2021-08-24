@@ -48,7 +48,6 @@ StarRating.propTypes = {
     rating: PropTypes.number,
     onRating: PropTypes.func,
     color: PropTypes.object
-    //filled vs unfilled within obj?
 }
 
 StarRating.defaultProps = {

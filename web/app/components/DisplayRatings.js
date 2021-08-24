@@ -10,7 +10,7 @@ function DisplayRatings({ ratings }) {
                 case 'Internet Movie Database': {
                     return (
                         <Tooltip text='IMDB'>
-                            <li key={rating.Source + rating.Value}>
+                            <li>
                                 <i className='fab fa-imdb' color='yellow' />
                                 {rating.Value}
                             </li>
@@ -23,7 +23,7 @@ function DisplayRatings({ ratings }) {
                     let icon = parseInt(value) < 60 ? '💩 ' : '🍅 '
                     return (
                         <Tooltip text='Rotten Tomatoes' >
-                            <li key={rating.Source + rating.Value}>
+                            <li>
                                 {icon}
                                 {rating.Value}
                             </li>

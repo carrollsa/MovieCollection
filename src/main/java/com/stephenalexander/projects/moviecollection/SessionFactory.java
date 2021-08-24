@@ -1,2 +1,5 @@
-package com.stephenalexander.projects.moviecollection;public class SessionFactory {
+package com.stephenalexander.projects.moviecollection;
+
+public interface SessionFactory {
+
 }

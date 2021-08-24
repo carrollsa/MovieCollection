@@ -1,14 +1,15 @@
 import * as React from 'react'
 import { convertRunningTime } from '../utils/math'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faStar, faUserEdit, faTheaterMasks, faAward, faPen, faClock, faFilm, faDollarSign } from '@fortawesome/free-solid-svg-icons'
+import { faStar, faUserEdit, faTheaterMasks, faAward, faClock, faFilm, faDollarSign } from '@fortawesome/free-solid-svg-icons'
 import { VscMegaphone } from 'react-icons/vsc'
 import Tooltip from './Tooltip'
 import DisplayRatings from './DisplayRatings'
+import PropTypes from 'prop-types'
 
 export default function Details({ movie }) {
     const { Year, Runtime, Rated, Genre, Director, Writer,
-        Actors, Plot, Awards, Ratings, BoxOffice } = movie
+        Actors, Awards, Ratings, BoxOffice } = movie
 
     return (
         <React.Fragment>
@@ -16,7 +17,7 @@ export default function Details({ movie }) {
                 {Director &&
                     <Tooltip text="Director">
                         <li>
-                            <VscMegaphone color='rgb(114,34,199)' />
+                            <VscMegaphone color='rgb(222,30,236)' />
                             {Director}
                         </li>
                     </Tooltip>
@@ -61,14 +62,6 @@ export default function Details({ movie }) {
                         </li>
                     </Tooltip>
                 }
-                {Plot &&
-                    <Tooltip text="Plot" >
-                        <li>
-                            <FontAwesomeIcon icon={faPen} color='black' />
-                            {Plot}
-                        </li>
-                    </Tooltip>
-                }
                 {Awards &&
                     <Tooltip text="Awards" >
                         <li>
@@ -77,8 +70,8 @@ export default function Details({ movie }) {
                         </li>
                     </Tooltip>
                 }
-                {Ratings && 
-                        <DisplayRatings ratings={Ratings}/>
+                {Ratings &&
+                    <DisplayRatings ratings={Ratings} />
                 }
                 {BoxOffice &&
                     <Tooltip text="Box office" >
@@ -91,4 +84,8 @@ export default function Details({ movie }) {
             </ul>
         </React.Fragment>
     )
+}
+
+Details.propTypes = {
+    movie: PropTypes.object.isRequired
 }

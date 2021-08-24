@@ -1,11 +1,11 @@
 import * as React from 'react'
 import Loading from './Loading'
 import { fetchRatings, fetchMovieDetails } from '../utils/movieClient'
-import MovieCard from './MovieCard'
+import CollectionCard from './CollectionCard'
 import MoviePopup from './MoviePopup'
 
 function MyCollection() {
-    const [popup, setPopup] = React.useState(null)
+    const [popup, setPopup] = React.useState({})
 
     const [state, dispatch] = React.useReducer(
         fetchReducer,
@@ -50,18 +50,19 @@ function MyCollection() {
         return (
             <div className='collection space-around'>
                 {state.ratings.map((ratingItem) => {
-                    const { id, ratingValue, time, movie } = ratingItem
-                    const { title, year, runningTime } = movie
+                    const { id, ratingValue, movie } = ratingItem
+                    const { title, year } = movie
                     const movieId = movie.id
 
                     return (
                         <li key={id} >
-                            <MovieCard
+                            <CollectionCard
                                 id={movieId}
                                 title={title}
                                 year={year}
                                 runningTime={movie.runningTime}
                                 userRating={ratingValue}
+                                setPopup={setPopup}
                             />
                         </li>
                     )
@@ -76,9 +77,9 @@ function MyCollection() {
                 ? <Loading text='Loading your collection' />
                 : state.ratings.length === 0
                     ? 'Your collection is empty!'
-                    : popup === null 
-                        ? <DisplayCollection ratings={state.ratings} />
-                        : <MoviePopup movie={popup} />
+                    : typeof popup.Title != 'undefined' 
+                        ? <MoviePopup movie={popup} setPopup={setPopup} />
+                        : <DisplayCollection />
             }       
         </div>
     )
