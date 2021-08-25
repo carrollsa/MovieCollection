@@ -1,6 +1,6 @@
 package com.stephenalexander.projects.moviecollection.movie;
 
-import com.stephenalexander.projects.moviecollection.rater.Rater;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.stephenalexander.projects.moviecollection.rating.Rating;
 
 
@@ -9,7 +9,7 @@ import java.io.Serializable;
 import java.util.List;
 import java.util.Objects;
 
-@Entity(name = "Movie")
+@Entity
 @Table(name = "movie")
 public class Movie implements Serializable {
     @Id
@@ -21,6 +21,7 @@ public class Movie implements Serializable {
     private Integer runningTime;
 
     @OneToMany(mappedBy="movie", cascade=CascadeType.ALL)
+    @JsonIgnore
     private List<Rating> ratings;
 
     public Movie(String id, String title, Integer year, Integer runningTime) {

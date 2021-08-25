@@ -50,7 +50,7 @@ function MyCollection() {
         return (
             <div className='collection space-around'>
                 {state.ratings.map((ratingItem) => {
-                    const { id, ratingValue, movie } = ratingItem
+                    const { id, value, movie } = ratingItem
                     const { title, year } = movie
                     const movieId = movie.id
 
@@ -61,7 +61,7 @@ function MyCollection() {
                                 title={title}
                                 year={year}
                                 runningTime={movie.runningTime}
-                                userRating={ratingValue}
+                                userRating={value}
                                 setPopup={setPopup}
                             />
                         </li>

@@ -16,16 +16,16 @@ import static org.junit.jupiter.api.Assertions.*;
 @DisplayName("MovieRepository")
 class MovieRepositoryTest {
 
-    @Autowired
-    private MovieRepository movieRepository;
-
-    @Test
-    @Disabled
-    @Transactional
-    @DisplayName("should return a list of movies by title")
-    void shouldReturnARatingByRatingId() {
-        String title = "El leaving";
-        List<Movie> movieList = movieRepository.findByTitle(title);
-        assertEquals(movieList, new Movie());
-    }
+//    @Autowired
+//    private MovieRepository movieRepository;
+//
+//    @Test
+//    @Disabled
+//    @Transactional
+//    @DisplayName("should return a list of movies by title")
+//    void shouldReturnARatingByRatingId() {
+//        String title = "El leaving";
+//        List<Movie> movieList = movieRepository.findByTitle(title);
+//        assertEquals(movieList, new Movie());
+//    }
 }

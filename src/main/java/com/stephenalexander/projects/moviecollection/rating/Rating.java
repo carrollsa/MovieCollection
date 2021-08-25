@@ -1,7 +1,7 @@
 package com.stephenalexander.projects.moviecollection.rating;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.stephenalexander.projects.moviecollection.movie.Movie;
 import com.stephenalexander.projects.moviecollection.rater.Rater;
 
@@ -20,8 +20,10 @@ public class Rating {
     )
     @Column(name = "rating_id")
     private Long id;
+    @Column(name = "rater_id")
+    private Long raterId;
     @Column(name = "rating")
-    private Double ratingValue;
+    private Double value;
     @Column(name = "created_at", insertable = false)
     private LocalDateTime time;
 
@@ -30,14 +32,14 @@ public class Rating {
     @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     private Movie movie;
 
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinColumn(name = "rater_id")
-    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
-    @JsonBackReference
-    private Rater rater;
+//    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+//    @JoinColumn(name = "rater_id")
+//    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+//    @JsonManagedReference
+//    private Rater rater;
 
-    public Rating(Double ratingValue) {
-        this.ratingValue = ratingValue;
+    public Rating(Double value) {
+        this.value = value;
         this.time = LocalDateTime.now();
     }
 
@@ -54,12 +56,12 @@ public class Rating {
         this.id = id;
     }
 
-    public Double getRatingValue() {
-        return ratingValue;
+    public Double getValue() {
+        return value;
     }
 
-    public void setRatingValue(Double ratingValue) {
-        this.ratingValue = ratingValue;
+    public void setValue(Double value) {
+        this.value = value;
     }
 
     public LocalDateTime getTime() {
@@ -78,13 +80,21 @@ public class Rating {
         this.movie = movie;
     }
 
-    public Rater getRater() {
-        return rater;
+    public Long getRaterId() {
+        return raterId;
     }
 
-    public void setRater(Rater rater) {
-        this.rater = rater;
+    public void setRaterId(Long raterId) {
+        this.raterId = raterId;
     }
+
+    //    public Rater getRater() {
+//        return rater;
+//    }
+//
+//    public void setRater(Rater rater) {
+//        this.rater = rater;
+//    }
 
     @Override
     public boolean equals(Object o) {
@@ -103,7 +113,7 @@ public class Rating {
     public String toString() {
         return "Rating{" +
                 "id=" + id +
-                ", ratingValue=" + ratingValue +
+                ", ratingValue=" + value +
                 ", time=" + time +
                 '}';
     }

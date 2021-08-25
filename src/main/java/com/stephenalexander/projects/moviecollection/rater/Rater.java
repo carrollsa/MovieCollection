@@ -1,9 +1,6 @@
 package com.stephenalexander.projects.moviecollection.rater;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.stephenalexander.projects.moviecollection.rating.Rating;
 
 import javax.persistence.*;
@@ -24,8 +21,8 @@ public class Rater {
     @Column(name = "created_at", insertable = false)
     private LocalDateTime time;
 
-    @JsonManagedReference
-    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JsonBackReference
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, targetEntity = Rating.class)
     @JoinColumn(name = "rating")
     private List<Rating> ratings = new ArrayList<>();
 

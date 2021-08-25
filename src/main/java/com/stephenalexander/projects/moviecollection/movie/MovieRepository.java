@@ -20,9 +20,10 @@ public interface MovieRepository extends CrudRepository<Movie, Integer> {
 
     List<Movie> findByTitle(String title);
 
-    @Query(value = "SELECT * FROM movie m WHERE lower(m.title) LIKE LOWER('%' || :title || '%')" +
-            " ORDER BY LENGTH(m.title) ASC " +
-            "LIMIT 10000",
+    @Query(value = "SELECT * " +
+            "       FROM movie m WHERE lower(m.title) LIKE LOWER('%' || :title || '%')" +
+            "       ORDER BY LENGTH(m.title) ASC " +
+            "       LIMIT 10000",
             nativeQuery = true)
     List<Movie> findByTitleSnippet(
             @Param("title") String title);

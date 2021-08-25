@@ -13,6 +13,8 @@ import java.util.Optional;
 public interface RatingRepository extends CrudRepository<Rating, Long> {
     public Optional<Rating> findByMovieId(String movieId);
 
+    public Optional<Rating> findByMovieIdAndRaterId(String movieId, Long raterId);
+
 //    @Query(value=
 //            "INSERT INTO rating(movie_id, rating) " +
 //            "VALUES(:movieId, :ratingValue) " +
@@ -20,7 +22,9 @@ public interface RatingRepository extends CrudRepository<Rating, Long> {
 //                    "DO UPDATE SET rating = :rating")
 //    public void saveOrUpdate(String movieId, double ratingValue);
 
-    @Query(value = "SELECT * FROM rating r ORDER BY r.rating DESC",
+    @Query(value = "SELECT * FROM rating r " +
+            "       WHERE r.rater_id = 1 " +
+            "       ORDER BY r.rating DESC",
             nativeQuery = true)
     List<Rating> getTopRatings();
 }
