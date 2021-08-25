@@ -7,7 +7,8 @@ import Loading from './Loading'
 
 
 export default function CollectionCard({ id, title, year, runningTime, userRating, setPopup }) {
-        const [state, dispatch] = React.useReducer(
+        
+    const [state, dispatch] = React.useReducer(
         fetchReducer,
         {
             movieDetails: null,

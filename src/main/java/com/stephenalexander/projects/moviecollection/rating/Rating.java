@@ -1,7 +1,9 @@
 package com.stephenalexander.projects.moviecollection.rating;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.stephenalexander.projects.moviecollection.movie.Movie;
+import com.stephenalexander.projects.moviecollection.rater.Rater;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -27,6 +29,12 @@ public class Rating {
     @JoinColumn(name = "movie_id")
     @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     private Movie movie;
+
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinColumn(name = "rater_id")
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+    @JsonBackReference
+    private Rater rater;
 
     public Rating(Double ratingValue) {
         this.ratingValue = ratingValue;
@@ -68,6 +76,14 @@ public class Rating {
 
     public void setMovie(Movie movie) {
         this.movie = movie;
+    }
+
+    public Rater getRater() {
+        return rater;
+    }
+
+    public void setRater(Rater rater) {
+        this.rater = rater;
     }
 
     @Override

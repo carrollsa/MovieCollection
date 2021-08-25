@@ -38,10 +38,7 @@ public class RatingController {
     @PostMapping
     @Transactional
     public void addOrUpdateRating(@RequestBody Map<String, String> jsonBody) {
-        Movie movie = movieRepository.findById(jsonBody.get("movieId"));
-        Rating rating = new Rating(Double.parseDouble(jsonBody.get("ratingValue")));
-        rating.setMovie(movie);
-        ratingService.addOrUpdate(rating);
+        ratingService.addOrUpdate(jsonBody);
     }
 
     @GetMapping

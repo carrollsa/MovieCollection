@@ -2,14 +2,14 @@ package com.stephenalexander.projects.moviecollection.movie;
 
 import com.stephenalexander.projects.moviecollection.rater.Rater;
 import com.stephenalexander.projects.moviecollection.rating.Rating;
-import org.springframework.lang.Nullable;
+
 
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.List;
 import java.util.Objects;
 
-@Entity
+@Entity(name = "Movie")
 @Table(name = "movie")
 public class Movie implements Serializable {
     @Id
@@ -65,6 +65,10 @@ public class Movie implements Serializable {
 
     public void setRunningTime(Integer runningTime) {
         this.runningTime = runningTime;
+    }
+
+    public List<Rating> getRatings() {
+        return ratings;
     }
 
     @Override

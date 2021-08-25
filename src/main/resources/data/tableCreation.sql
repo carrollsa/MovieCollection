@@ -20,12 +20,20 @@ CREATE TABLE movie (
     UNIQUE(movie_id)
 );
 
+CREATE TABLE rater (
+    rater_id SERIAL PRIMARY KEY,
+    created_at TIMESTAMP
+);
+
 CREATE TABLE rating (
     rating_id SERIAL PRIMARY KEY,
+    rater_id INT NOT NULL,
     movie_id VARCHAR(15) NOT NULL,
     rating INT NOT NULL,
     created_at TIMESTAMP,
-    FOREIGN KEY (movie_id) REFERENCES movie(movie_id)
+    FOREIGN KEY (movie_id) REFERENCES movie(movie_id),
+    FOREIGN KEY (rater_id) REFERENCES rater(rater_id),
+    CONSTRAINT rater_movie_unique UNIQUE (rater_id, movie_id)
 );
 
 COPY movie(movie_id, title, year, runningtime) 
@@ -34,6 +42,29 @@ DELIMITER E'\t'
 CSV 
 HEADER 
 NULL AS '\N';
+
+
+CREATE DATABASE moviedatabase
+    WITH OWNER steph
+    TEMPLATE = template0
+    lc_collate='en_US.UTF-8'
+    lc_ctype='en_US.UTF-8';
+
+CREATE TABLE movie (
+	movie_id varchar(15) NOT NULL PRIMARY KEY,
+	title VARCHAR(250) NOT NULL,
+	year INT,
+    runningtime INT,
+    UNIQUE(movie_id)
+);
+
+CREATE TABLE rating (
+    rating_id SERIAL PRIMARY KEY,
+    movie_id VARCHAR(15) NOT NULL,
+    rating INT NOT NULL,
+    created_at TIMESTAMP,
+    FOREIGN KEY (movie_id) REFERENCES movie(movie_id)
+);
 
 -- CREATE TABLE ratings (
 --     rater_id INT NOT NULL,
