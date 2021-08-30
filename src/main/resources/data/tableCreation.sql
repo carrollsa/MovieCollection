@@ -6,6 +6,7 @@ CREATE DATABASE template1 WITH TEMPLATE = template0 ENCODING = 'UTF8';
 UPDATE pg_database SET datistemplate = TRUE WHERE datname = 'template1';
 VACUUM FREEZE;
 
+--Movie database current setup
 CREATE DATABASE moviedatabase
     WITH OWNER steph
     TEMPLATE = template0
@@ -44,6 +45,7 @@ HEADER
 NULL AS '\N';
 
 
+--Old moviedatabase without rater
 CREATE DATABASE moviedatabase
     WITH OWNER steph
     TEMPLATE = template0
@@ -65,6 +67,42 @@ CREATE TABLE rating (
     created_at TIMESTAMP,
     FOREIGN KEY (movie_id) REFERENCES movie(movie_id)
 );
+
+-- SECURITY TABLES
+CREATE TABLE roles (
+    role_id SERIAL PRIMARY KEY,
+    name varchar(255) 
+);
+
+CREATE TABLE appuser (
+    user_id SERIAL PRIMARY KEY,
+    name varchar(255),
+    password varchar(255),
+    username varchar(255),
+    FOREIGN KEY(role_id) REFERENCES roles(role_id)
+);
+
+CREATE TABLE appuser_roles (
+    user_id int not null,
+    role_id int not null,
+    PRIMARY KEY (user_id, role_id),
+    FOREIGN KEY(user_id) references appuser(user_id),
+    FOREIGN KEY(role_id) references roles(role_id)
+);
+
+INSERT INTO appuser(user_id, name, password, username) VALUES (1, 'Steve', 'admin', 'steve');
+INSERT INTO roles(role_id, name) VALUES (1, 'ROLE_USER');
+INSERT INTO roles(role_id, name) VALUES (2, 'ROLE_MANAGER');
+INSERT INTO roles(role_id, name) VALUES (3, 'ROLE_ADMIN');
+INSERT INTO appuser_roles(user_id, role_id) VALUES (1, 1);
+INSERT INTO appuser_roles(user_id, role_id) VALUES (1, 2);
+INSERT INTO appuser_roles(user_id, role_id) VALUES (1, 3);
+INSERT INTO appuser(user_id, name, password, username) VALUES (2, 'Sarah', 'thrice66', 'sarah');
+INSERT INTO appuser_roles(user_id, role_id) VALUES (2, 1);
+INSERT INTO appuser_roles(user_id, role_id) VALUES (2, 2);
+INSERT INTO appuser(user_id, name, password, username) VALUES (3, 'Darcy', 'woof', 'darcy');
+INSERT INTO appuser_roles(user_id, role_id) VALUES (3, 1);
+
 
 -- CREATE TABLE ratings (
 --     rater_id INT NOT NULL,

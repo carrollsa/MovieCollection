@@ -9,7 +9,7 @@ import java.io.Serializable;
 import java.util.List;
 import java.util.Objects;
 
-@Entity
+@Entity(name = "Movie")
 @Table(name = "movie")
 public class Movie implements Serializable {
     @Id

@@ -20,23 +20,23 @@ public class Rating {
     )
     @Column(name = "rating_id")
     private Long id;
-    @Column(name = "rater_id")
-    private Long raterId;
+//    @Column(name = "rater_id")
+//    private Long raterId;
     @Column(name = "rating")
     private Double value;
     @Column(name = "created_at", insertable = false)
     private LocalDateTime time;
 
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.LAZY, targetEntity = Movie.class)
     @JoinColumn(name = "movie_id")
     @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     private Movie movie;
 
-//    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-//    @JoinColumn(name = "rater_id")
-//    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
-//    @JsonManagedReference
-//    private Rater rater;
+    @ManyToOne(fetch = FetchType.LAZY, targetEntity = Rater.class)
+    @JoinColumn(name = "rater_id", insertable = false, updatable = false)
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+    @JsonManagedReference
+    private Rater rater;
 
     public Rating(Double value) {
         this.value = value;
@@ -80,21 +80,21 @@ public class Rating {
         this.movie = movie;
     }
 
-    public Long getRaterId() {
-        return raterId;
-    }
-
-    public void setRaterId(Long raterId) {
-        this.raterId = raterId;
-    }
-
-    //    public Rater getRater() {
-//        return rater;
+//    public Long getRaterId() {
+//        return raterId;
 //    }
 //
-//    public void setRater(Rater rater) {
-//        this.rater = rater;
+//    public void setRaterId(Long raterId) {
+//        this.raterId = raterId;
 //    }
+
+    public Rater getRater() {
+        return rater;
+    }
+
+    public void setRater(Rater rater) {
+        this.rater = rater;
+    }
 
     @Override
     public boolean equals(Object o) {

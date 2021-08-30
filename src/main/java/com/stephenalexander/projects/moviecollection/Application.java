@@ -10,8 +10,8 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 @EnableAutoConfiguration
 @EnableJpaRepositories
 @SpringBootApplication
-@EntityScan
-@ComponentScan(basePackages = { "com.stephenalexander.projects.moviecollection.*" })
+@EntityScan(basePackages = { "com.stephenalexander.projects.moviecollection" })
+@ComponentScan(basePackages = { "com.stephenalexander.projects.moviecollection" })
 public class Application {
 
     public static void main(String[] args) {

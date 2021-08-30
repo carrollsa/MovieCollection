@@ -31,13 +31,13 @@ public class RatingService {
         Rating rating = new Rating(Double.parseDouble(jsonBody.get("ratingValue")));
         rating.setMovie(movie);
 
-//        Rater rater = new Rater();
-//        rating.setRater(rater);
-        rating.setRaterId(1L);
+        Rater rater = new Rater();
+        rater.setId(1L);
+        rating.setRater(rater);
 
         //WHERE RATERID = blah
         Optional<Rating> existingRating = ratingRepository.findByMovieIdAndRaterId(rating.getMovie().getId(),
-                rating.getRaterId());
+                rating.getRater().getId());
         if(existingRating.isPresent()) {
             existingRating.get().setValue(rating.getValue());
         } else {

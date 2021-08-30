@@ -21,10 +21,10 @@ public class Rater {
     @Column(name = "created_at", insertable = false)
     private LocalDateTime time;
 
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, targetEntity = Rating.class, mappedBy = "rater")
     @JsonBackReference
-    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, targetEntity = Rating.class)
-    @JoinColumn(name = "rating")
-    private List<Rating> ratings = new ArrayList<>();
+//    @JoinColumn(name = "rating", referencedColumnName = "rating")
+    private List<Rating> ratings;
 
     //For Jackson
     public Rater() {

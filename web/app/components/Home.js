@@ -137,7 +137,7 @@ function Home() {
                         autoComplete='off'
                         onKeyDown={handleKeyDownSearch}
                     />}
-                {state.movieOptions.length > 500 &&
+                {state.movieOptions.length > 50 &&
                     <div>
                         <PerformanceWarning text='Over 500 results. Please refine search or risk performance degradation.' />
                     </div>
