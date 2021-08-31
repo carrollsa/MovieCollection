@@ -33,7 +33,7 @@ public class Rating {
     private Movie movie;
 
     @ManyToOne(fetch = FetchType.LAZY, targetEntity = Rater.class)
-    @JoinColumn(name = "rater_id", insertable = false, updatable = false)
+    @JoinColumn(name = "rater_id")
     @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     @JsonManagedReference
     private Rater rater;

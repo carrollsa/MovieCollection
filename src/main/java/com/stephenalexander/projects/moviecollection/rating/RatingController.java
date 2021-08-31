@@ -36,7 +36,6 @@ public class RatingController {
 //    }
 
     @PostMapping
-    @Transactional
     public void addOrUpdateRating(@RequestBody Map<String, String> jsonBody) {
         ratingService.addOrUpdate(jsonBody);
     }

@@ -6,6 +6,9 @@ import com.stephenalexander.projects.moviecollection.rater.RaterRepository;
 import com.stephenalexander.projects.moviecollection.rater.RaterService;
 import com.stephenalexander.projects.moviecollection.rating.RatingRepository;
 import com.stephenalexander.projects.moviecollection.rating.RatingService;
+import com.stephenalexander.projects.moviecollection.role.RoleRepository;
+import com.stephenalexander.projects.moviecollection.user.UserRepository;
+import com.stephenalexander.projects.moviecollection.user.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -20,11 +23,17 @@ public class Config {
     @Autowired
     private RaterRepository raterRepository;
     @Autowired
+    private UserRepository userRepository;
+    @Autowired
+    private RoleRepository roleRepository;
+    @Autowired
     private MovieService movieService;
     @Autowired
     private RatingService ratingService;
     @Autowired
     private RaterService raterService;
+    @Autowired
+    private UserService userService;
 
     @Bean
     public ParserFactory parserFactory() {
