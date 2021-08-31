@@ -1,7 +1,7 @@
 package com.stephenalexander.projects.moviecollection;
 
-import com.stephenalexander.projects.moviecollection.movie.MovieRepository;
-import com.stephenalexander.projects.moviecollection.rating.RatingRepository;
+import com.stephenalexander.projects.moviecollection.repository.MovieRepository;
+import com.stephenalexander.projects.moviecollection.repository.RatingRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 
 public class Tester {

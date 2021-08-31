@@ -1,8 +1,12 @@
-package com.stephenalexander.projects.moviecollection.user;
+package com.stephenalexander.projects.moviecollection.controller;
 
-import com.stephenalexander.projects.moviecollection.role.Role;
+import com.stephenalexander.projects.moviecollection.entity.Role;
+import com.stephenalexander.projects.moviecollection.entity.User;
+import com.stephenalexander.projects.moviecollection.service.UserService;
 import org.springframework.http.ResponseEntity;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
@@ -30,6 +34,11 @@ public class UserController {
                         .path("/api/v1/user/save")
                         .toUriString());
         return ResponseEntity.created(uri).body(userService.saveUser(user));
+    }
+
+    @GetMapping("/user/registration")
+    public String showRegistrationForm(WebRequest request, Model model) {
+        return userService.showRegistrationForm(request, model);
     }
 
     @PostMapping("/role/save")

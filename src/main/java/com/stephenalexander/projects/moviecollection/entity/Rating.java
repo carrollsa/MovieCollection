@@ -1,9 +1,7 @@
-package com.stephenalexander.projects.moviecollection.rating;
+package com.stephenalexander.projects.moviecollection.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
-import com.stephenalexander.projects.moviecollection.movie.Movie;
-import com.stephenalexander.projects.moviecollection.rater.Rater;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;

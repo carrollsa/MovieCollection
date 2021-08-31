@@ -1,17 +1,19 @@
 package com.stephenalexander.projects.moviecollection;
 
-import com.stephenalexander.projects.moviecollection.movie.MovieRepository;
-import com.stephenalexander.projects.moviecollection.movie.MovieService;
-import com.stephenalexander.projects.moviecollection.rater.RaterRepository;
-import com.stephenalexander.projects.moviecollection.rater.RaterService;
-import com.stephenalexander.projects.moviecollection.rating.RatingRepository;
-import com.stephenalexander.projects.moviecollection.rating.RatingService;
-import com.stephenalexander.projects.moviecollection.role.RoleRepository;
-import com.stephenalexander.projects.moviecollection.user.UserRepository;
-import com.stephenalexander.projects.moviecollection.user.UserService;
+import com.stephenalexander.projects.moviecollection.repository.MovieRepository;
+import com.stephenalexander.projects.moviecollection.service.MovieService;
+import com.stephenalexander.projects.moviecollection.repository.RaterRepository;
+import com.stephenalexander.projects.moviecollection.service.RaterService;
+import com.stephenalexander.projects.moviecollection.repository.RatingRepository;
+import com.stephenalexander.projects.moviecollection.service.RatingService;
+import com.stephenalexander.projects.moviecollection.repository.RoleRepository;
+import com.stephenalexander.projects.moviecollection.repository.UserRepository;
+import com.stephenalexander.projects.moviecollection.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 @Configuration
 public class Config {
@@ -39,4 +41,7 @@ public class Config {
     public ParserFactory parserFactory() {
         return new ParserFactory();
     }
+
+    @Bean
+    public PasswordEncoder passwordEncoder() { return new BCryptPasswordEncoder(); }
 }

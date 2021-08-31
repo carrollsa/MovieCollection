@@ -1,5 +1,7 @@
-package com.stephenalexander.projects.moviecollection.movie;
+package com.stephenalexander.projects.moviecollection.service;
 
+import com.stephenalexander.projects.moviecollection.entity.Movie;
+import com.stephenalexander.projects.moviecollection.repository.MovieRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

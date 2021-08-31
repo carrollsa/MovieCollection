@@ -1,8 +1,10 @@
-package com.stephenalexander.projects.moviecollection.rating;
+package com.stephenalexander.projects.moviecollection.service;
 
-import com.stephenalexander.projects.moviecollection.movie.Movie;
-import com.stephenalexander.projects.moviecollection.movie.MovieRepository;
-import com.stephenalexander.projects.moviecollection.rater.Rater;
+import com.stephenalexander.projects.moviecollection.entity.Movie;
+import com.stephenalexander.projects.moviecollection.entity.Rating;
+import com.stephenalexander.projects.moviecollection.repository.MovieRepository;
+import com.stephenalexander.projects.moviecollection.entity.Rater;
+import com.stephenalexander.projects.moviecollection.repository.RatingRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

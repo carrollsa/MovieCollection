@@ -1,5 +1,6 @@
-package com.stephenalexander.projects.moviecollection.movie;
+package com.stephenalexander.projects.moviecollection.repository;
 
+import com.stephenalexander.projects.moviecollection.entity.Movie;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;

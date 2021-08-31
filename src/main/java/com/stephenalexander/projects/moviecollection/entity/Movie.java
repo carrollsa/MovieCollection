@@ -1,7 +1,6 @@
-package com.stephenalexander.projects.moviecollection.movie;
+package com.stephenalexander.projects.moviecollection.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.stephenalexander.projects.moviecollection.rating.Rating;
 
 
 import javax.persistence.*;

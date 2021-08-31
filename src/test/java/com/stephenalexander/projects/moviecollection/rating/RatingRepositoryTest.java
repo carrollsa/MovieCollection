@@ -1,5 +1,6 @@
 package com.stephenalexander.projects.moviecollection.rating;
 
+import com.stephenalexander.projects.moviecollection.repository.RatingRepository;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

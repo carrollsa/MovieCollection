@@ -1,5 +1,8 @@
-package com.stephenalexander.projects.moviecollection.movie;
+package com.stephenalexander.projects.moviecollection.controller;
 
+import com.stephenalexander.projects.moviecollection.entity.Movie;
+import com.stephenalexander.projects.moviecollection.repository.MovieRepository;
+import com.stephenalexander.projects.moviecollection.service.MovieService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

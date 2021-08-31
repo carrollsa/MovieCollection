@@ -1,5 +1,6 @@
-package com.stephenalexander.projects.moviecollection.rater;
+package com.stephenalexander.projects.moviecollection.repository;
 
+import com.stephenalexander.projects.moviecollection.entity.Rater;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 

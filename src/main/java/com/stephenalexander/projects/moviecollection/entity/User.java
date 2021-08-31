@@ -1,9 +1,6 @@
-package com.stephenalexander.projects.moviecollection.user;
-
-import com.stephenalexander.projects.moviecollection.role.Role;
+package com.stephenalexander.projects.moviecollection.entity;
 
 import javax.persistence.*;
-import java.util.ArrayList;
 import java.util.Collection;
 
 @Entity

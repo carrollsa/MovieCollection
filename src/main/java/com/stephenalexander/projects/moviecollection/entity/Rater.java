@@ -1,11 +1,9 @@
-package com.stephenalexander.projects.moviecollection.rater;
+package com.stephenalexander.projects.moviecollection.entity;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.stephenalexander.projects.moviecollection.rating.Rating;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 

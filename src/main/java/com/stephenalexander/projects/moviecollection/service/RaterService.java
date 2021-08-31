@@ -1,4 +1,4 @@
-package com.stephenalexander.projects.moviecollection.rater;
+package com.stephenalexander.projects.moviecollection.service;
 
 import org.springframework.stereotype.Service;
 
