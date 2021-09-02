@@ -43,7 +43,7 @@ function MoviePopup({ movie, setPopup }) {
                     }
                 </div>
                 <div className='info'>
-                    <img src={Poster} alt={`poster for ${Title}`} />
+                    <img className='popup-poster' src={Poster} alt={`poster for ${Title}`} />
                     <div className='details'>
                         <Details movie={movie} />
                     </div>

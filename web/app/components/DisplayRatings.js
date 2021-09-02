@@ -1,6 +1,4 @@
 import React from 'react'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { } from '@fortawesome/free-solid-svg-icons'
 import Tooltip from './Tooltip'
 
 function DisplayRatings({ ratings }) {
@@ -10,7 +8,7 @@ function DisplayRatings({ ratings }) {
                 case 'Internet Movie Database': {
                     return (
                         <Tooltip text='IMDB'>
-                            <li>
+                            <li key={rating.Source + rating.Value}>
                                 <i className='fab fa-imdb' color='yellow' />
                                 {rating.Value}
                             </li>
@@ -23,7 +21,7 @@ function DisplayRatings({ ratings }) {
                     let icon = parseInt(value) < 60 ? '💩 ' : '🍅 '
                     return (
                         <Tooltip text='Rotten Tomatoes' >
-                            <li>
+                            <li key={rating.Source + rating.Value}>
                                 {icon}
                                 {rating.Value}
                             </li>

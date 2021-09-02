@@ -1,6 +1,6 @@
 import * as React from 'react'
 import Loading from './Loading'
-import { fetchRatings, fetchMovieDetails } from '../utils/movieClient'
+import { fetchRatings } from '../utils/movieClient'
 import CollectionCard from './CollectionCard'
 import MoviePopup from './MoviePopup'
 

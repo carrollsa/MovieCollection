@@ -1,17 +1,26 @@
 package com.stephenalexander.projects.moviecollection.dto;
 
+import com.stephenalexander.projects.moviecollection.validation.PasswordMatches;
+import com.stephenalexander.projects.moviecollection.validation.ValidEmail;
 
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
+
+@PasswordMatches
 public class UserDto {
-//    @NotNull @NotEmpty
-    private String name;
-//    @NotNull @NotEmpty
+    @NotNull @NotEmpty
+    private String firstName;
+    @NotNull @NotEmpty
+    private String lastName;
+    @NotNull @NotEmpty
     private String password;
     private String matchingPassword;
-//    @NotNull @NotEmpty
+    @NotNull @NotEmpty @ValidEmail
     private String email;
 
-    public UserDto(String name, String password, String matchingPassword, String email) {
-        this.name = name;
+    public UserDto(String firstName, String lastName, String password, String matchingPassword, String email) {
+        this.firstName = firstName;
+        this.lastName = lastName;
         this.password = password;
         this.matchingPassword = matchingPassword;
         this.email = email;
@@ -21,12 +30,20 @@ public class UserDto {
 
     }
 
-    public String getName() {
-        return name;
+    public String getFirstName() {
+        return firstName;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setFirstName(String name) {
+        this.firstName = name;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
     }
 
     public String getPassword() {

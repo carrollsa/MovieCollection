@@ -378,9 +378,11 @@ li {
     flex-direction: row;
 }
 
-.popup .content .info .img {
+.popup-poster {
 	flex: 1 1 50%;
+    align-self: flex-start;
 	max-width: 300px;
+    max-height: 450px;
 	padding: 0px 15px;
 }
 

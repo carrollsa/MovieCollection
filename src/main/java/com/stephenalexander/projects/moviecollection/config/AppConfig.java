@@ -1,14 +1,12 @@
-package com.stephenalexander.projects.moviecollection;
+package com.stephenalexander.projects.moviecollection.config;
 
+import com.stephenalexander.projects.moviecollection.ParserFactory;
 import com.stephenalexander.projects.moviecollection.repository.MovieRepository;
-import com.stephenalexander.projects.moviecollection.service.MovieService;
+import com.stephenalexander.projects.moviecollection.service.*;
 import com.stephenalexander.projects.moviecollection.repository.RaterRepository;
-import com.stephenalexander.projects.moviecollection.service.RaterService;
 import com.stephenalexander.projects.moviecollection.repository.RatingRepository;
-import com.stephenalexander.projects.moviecollection.service.RatingService;
 import com.stephenalexander.projects.moviecollection.repository.RoleRepository;
 import com.stephenalexander.projects.moviecollection.repository.UserRepository;
-import com.stephenalexander.projects.moviecollection.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -16,7 +14,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 @Configuration
-public class Config {
+public class AppConfig {
 
     @Autowired
     private MovieRepository movieRepository;
@@ -28,6 +26,7 @@ public class Config {
     private UserRepository userRepository;
     @Autowired
     private RoleRepository roleRepository;
+
     @Autowired
     private MovieService movieService;
     @Autowired
@@ -36,6 +35,11 @@ public class Config {
     private RaterService raterService;
     @Autowired
     private UserService userService;
+
+    @Bean
+    public MyUserDetailsService userDetailsService() {
+        return new MyUserDetailsService();
+    }
 
     @Bean
     public ParserFactory parserFactory() {

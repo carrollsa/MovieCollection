@@ -8,7 +8,7 @@ import DisplayRatings from './DisplayRatings'
 import PropTypes from 'prop-types'
 
 export default function Details({ movie }) {
-    const { Year, Runtime, Rated, Genre, Director, Writer,
+    const { Year, Runtime, Genre, Director, Writer,
         Actors, Awards, Ratings, BoxOffice } = movie
 
     return (
@@ -70,9 +70,7 @@ export default function Details({ movie }) {
                         </li>
                     </Tooltip>
                 }
-                {Ratings &&
-                    <DisplayRatings ratings={Ratings} />
-                }
+                <DisplayRatings ratings={Ratings} />
                 {BoxOffice &&
                     <Tooltip text="Box office" >
                         <li>

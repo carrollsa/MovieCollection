@@ -90,18 +90,18 @@ CREATE TABLE appuser_roles (
     FOREIGN KEY(role_id) references roles(role_id)
 );
 
-INSERT INTO appuser(user_id, name, password, username) VALUES (1, 'Steve', 'admin', 'steve');
-INSERT INTO roles(role_id, name) VALUES (1, 'ROLE_USER');
-INSERT INTO roles(role_id, name) VALUES (2, 'ROLE_MANAGER');
-INSERT INTO roles(role_id, name) VALUES (3, 'ROLE_ADMIN');
-INSERT INTO appuser_roles(user_id, role_id) VALUES (1, 1);
-INSERT INTO appuser_roles(user_id, role_id) VALUES (1, 2);
-INSERT INTO appuser_roles(user_id, role_id) VALUES (1, 3);
-INSERT INTO appuser(user_id, name, password, username) VALUES (2, 'Sarah', 'thrice66', 'sarah');
-INSERT INTO appuser_roles(user_id, role_id) VALUES (2, 1);
-INSERT INTO appuser_roles(user_id, role_id) VALUES (2, 2);
-INSERT INTO appuser(user_id, name, password, username) VALUES (3, 'Darcy', 'woof', 'darcy');
-INSERT INTO appuser_roles(user_id, role_id) VALUES (3, 1);
+INSERT INTO appuser(user_id, first_name, last_name, password, username) VALUES (1, 'Steve', 'Carroll', '1234', 'stephenalexandercarroll@gmail.com');
+INSERT INTO role(role_id, name) VALUES (1, 'ROLE_USER');
+INSERT INTO role(role_id, name) VALUES (2, 'ROLE_MANAGER');
+INSERT INTO role(role_id, name) VALUES (3, 'ROLE_ADMIN');
+INSERT INTO user_roles(user_id, role_id) VALUES (1, 1);
+INSERT INTO user_roles(user_id, role_id) VALUES (1, 2);
+INSERT INTO user_roles(user_id, role_id) VALUES (1, 3);
+INSERT INTO appuser(user_id, first_name, last_name, password, username) VALUES (2, 'Sarah', 'Coit', '1234', 'srosecoit@gmail.com');
+INSERT INTO user_roles(user_id, role_id) VALUES (2, 1);
+INSERT INTO user_roles(user_id, role_id) VALUES (2, 2);
+INSERT INTO appuser(user_id, first_name, last_name, password, username) VALUES (3, 'Darcy', 'Deady', '1234', 'darcy@gmail.com');
+INSERT INTO user_roles(user_id, role_id) VALUES (3, 1);
 
 
 -- CREATE TABLE ratings (

@@ -7,7 +7,7 @@ import PropTypes from 'prop-types'
 import StarRating from './StarRating'
 import { postRating } from '../utils/movieClient'
 
-export default function SearchCard({ id, movie }) {
+export default function SearchCard({ id, movie, setAddedPosters }) {
     const theme = React.useContext(ThemeContext)
 
     const [rating, setRating] = React.useState(0)
@@ -20,8 +20,11 @@ export default function SearchCard({ id, movie }) {
 
     const handleSubmit = () => {
         postRating(id, rating)
-            .catch((e) => console.log('failure'))
-        setSubmitButtonText(<FaCheck color='green' />)
+            .then(() => setSubmitButtonText(<FaCheck color='green' />))
+            .catch((e) => {
+                console.warn('failed to post rating'), 
+                setSubmitButtonText("❌")
+            })
     }
 
     return (

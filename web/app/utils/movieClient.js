@@ -10,7 +10,7 @@ export function fetchMovieDetails(id) {
 }
 
 export function postRating(id, rating) {
-    const api = ('api/v1/ratings')
+    const api = ('api/v1/rating')
     const requestOptions = {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -30,7 +30,7 @@ export function postRating(id, rating) {
 }
 
 export function fetchRatings() {
-    const api = `api/v1/ratings`
+    const api = `api/v1/rating`
     return fetch(api)
         .then((res) => res.json())
         .catch((e) => {

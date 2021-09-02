@@ -180,6 +180,7 @@ function Home() {
                     >
                         Clear
                     </button>
+                    
                 }
             </div>
         </React.Fragment>

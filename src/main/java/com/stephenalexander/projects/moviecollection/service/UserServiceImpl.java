@@ -5,6 +5,8 @@ import com.stephenalexander.projects.moviecollection.entity.Role;
 import com.stephenalexander.projects.moviecollection.entity.User;
 import com.stephenalexander.projects.moviecollection.repository.RoleRepository;
 import com.stephenalexander.projects.moviecollection.repository.UserRepository;
+import com.stephenalexander.projects.moviecollection.web.error.UserAlreadyExistException;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -16,15 +18,19 @@ import org.springframework.ui.Model;
 import org.springframework.web.context.request.WebRequest;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 
-@Service @Transactional
+@Service
+@Transactional
 public class UserServiceImpl implements UserService, UserDetailsService {
+
     private final UserRepository userRepository;
     private final RoleRepository roleRepository;
     private final PasswordEncoder passwordEncoder;
 
+    @Autowired
     public UserServiceImpl(UserRepository userRepository, RoleRepository roleRepository,
                            PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
@@ -57,6 +63,18 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     }
 
     @Override
+    public User registerNewUserAccount(UserDto userDto) {
+        if (emailExist(userDto.getEmail())) {
+            throw new UserAlreadyExistException("There is an account with that email address: "
+                    + userDto.getEmail());
+        }
+
+        User user = createUserFromDto(userDto);
+
+        return userRepository.save(user);
+    }
+
+    @Override
     public User saveUser(User user) {
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         return userRepository.save(user);
@@ -82,5 +100,21 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     @Override
     public List<User> getUsers() {
         return userRepository.findAll();
+    }
+
+    private User createUserFromDto(UserDto userDto) {
+        User user = new User();
+
+        user.setFirstName(userDto.getFirstName());
+        user.setLastName(userDto.getLastName());
+        user.setPassword(userDto.getPassword());
+        user.setUsername(userDto.getEmail());
+        user.setRoles(Arrays.asList(new Role("ROLE_USER")));
+
+        return user;
+    }
+
+    private boolean emailExist(String email) {
+        return userRepository.findByUsername(email) != null;
     }
 }

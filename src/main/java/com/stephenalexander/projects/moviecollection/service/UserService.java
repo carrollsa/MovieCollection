@@ -1,7 +1,9 @@
 package com.stephenalexander.projects.moviecollection.service;
 
+import com.stephenalexander.projects.moviecollection.dto.UserDto;
 import com.stephenalexander.projects.moviecollection.entity.Role;
 import com.stephenalexander.projects.moviecollection.entity.User;
+import com.stephenalexander.projects.moviecollection.web.error.UserAlreadyExistException;
 import org.springframework.ui.Model;
 import org.springframework.web.context.request.WebRequest;
 
@@ -14,4 +16,5 @@ public interface UserService {
     User getUser(String username);
     List<User> getUsers();
     String showRegistrationForm(WebRequest request, Model model);
+    User registerNewUserAccount(UserDto userDto) throws UserAlreadyExistException;
 }

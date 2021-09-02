@@ -9,28 +9,18 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.*;
 
-@RequestMapping("api/v1/movies")
+@RequestMapping("api/v1")
 @RestController
 public class MovieController {
 
-    private final MovieRepository movieRepository;
     private final MovieService movieService;
 
     @Autowired
-    public MovieController(MovieRepository movieRepository, MovieService movieService) {
-        this.movieRepository = movieRepository;
+    public MovieController(MovieService movieService) {
         this.movieService = movieService;
     }
 
-//    @GetMapping
-//    @ResponseBody
-//    public ResponseEntity<List<Movie>> findMoviesByTitle(@RequestParam String title) {
-//        List<Movie> movies = movieService.findByTitle(title).orElseGet(ArrayList::new);
-//        System.out.println(movies);
-//        return ResponseEntity.of(Optional.of((movies)));
-//    }
-
-    @GetMapping
+    @GetMapping("/movies")
     @ResponseBody
     public ResponseEntity<Optional<List<Movie>>> findMoviesByTitle(@RequestParam String title) {
         return ResponseEntity.of(Optional.of(movieService.findByTitleSnippet(title)));
