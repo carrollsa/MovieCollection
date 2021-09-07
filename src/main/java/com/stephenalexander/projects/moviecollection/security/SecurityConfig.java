@@ -36,11 +36,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http
                 .csrf().disable()
-                .authorizeRequests().anyRequest().permitAll()
+                .authorizeRequests().anyRequest().authenticated().and().formLogin().permitAll()
+//                .authorizeRequests().anyRequest().authenticated().and().formLogin().loginPage("/login").permitAll()
                 .and()
-                .sessionManagement().sessionCreationPolicy(STATELESS)
-                .and()
-                .formLogin().loginPage("/login")
+                .sessionManagement().sessionCreationPolicy(IF_REQUIRED)
                 .and()
                 .addFilter(new CustomAuthenticationFilter(authenticationManagerBean()));
     }

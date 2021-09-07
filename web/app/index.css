@@ -266,16 +266,12 @@ li {
 
 .searchbox {
     display: block;
-
     padding: 15px;
-
     background-color: #EEE;
     border-radius: 8px;
-
     color: #53565A;
     font-size: 20px;
     font-weight: 300;
-
     transition: 0.4s ease-out;
 }
 
@@ -334,7 +330,6 @@ li {
     width: 100vw;
     height: 100vh;
     background-color: #4a4a4a;
-
     overflow-y: scroll;
 }
 
@@ -343,7 +338,6 @@ li {
     max-width: 960px;
     margin: 0 auto;
     padding: 25px;
-
     color: #FFF;
 }
 
@@ -362,14 +356,12 @@ li {
     padding: 15px 30px;
     font-size: 18px;
     font-weight: 700;
-
     color: rgb(104, 104, 104);
     border-radius: 8px;
     border: none;
     outline: none;
     appearance: none;
     cursor: pointer;
-
     transition: 0.4s ease-out;
 }
 
@@ -379,16 +371,16 @@ li {
 }
 
 .popup-poster {
-	flex: 1 1 50%;
+    flex: 1 1 50%;
     align-self: flex-start;
-	max-width: 300px;
+    max-width: 300px;
     max-height: 450px;
-	padding: 0px 15px;
+    padding: 0px 15px;
 }
 
 .popup .content .info .details {
-	flex: 1 1 50%;
-	padding: 30px;
+    flex: 1 1 50%;
+    padding: 30px;
 }
 
 .popup .content .close:hover {
@@ -400,4 +392,47 @@ li {
     text-align: center;
     width: 300px;
     margin-bottom: 5px;
+}
+
+.auth {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    text-align: left;
+
+    width: 450px;
+    margin: auto;
+    background: #ffffff;
+    box-shadow: 0px 14px 80px rgba(34, 35, 58, 0.2);
+    padding: 40px 55px 45px 55px;
+    border-radius: 15px;
+    transition: all .3s;
+}
+
+.auth h3 {
+    text-align: center;
+    margin: 0;
+    line-height: 1;
+    padding-bottom: 20px;
+}
+
+.auth-input:focus {
+    border-color: #167bff;
+    box-shadow: none;
+}
+
+.forgot-password, .forgot-password a {
+    text-align: right;
+    font-size: 13px;
+    padding-top: 10px;
+    color: #7f7d7d;
+    margin: 0;
+}
+
+.forgot-password a {
+    color: #167bff;
+}
+
+.remember-me {
+    font-weight: 400;
 }

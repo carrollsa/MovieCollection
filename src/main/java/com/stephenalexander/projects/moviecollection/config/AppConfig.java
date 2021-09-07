@@ -16,31 +16,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 @Configuration
 public class AppConfig {
 
-    @Autowired
-    private MovieRepository movieRepository;
-    @Autowired
-    private RatingRepository ratingRepository;
-    @Autowired
-    private RaterRepository raterRepository;
-    @Autowired
-    private UserRepository userRepository;
-    @Autowired
-    private RoleRepository roleRepository;
-
-    @Autowired
-    private MovieService movieService;
-    @Autowired
-    private RatingService ratingService;
-    @Autowired
-    private RaterService raterService;
-    @Autowired
-    private UserService userService;
-
-    @Bean
-    public MyUserDetailsService userDetailsService() {
-        return new MyUserDetailsService();
-    }
-
     @Bean
     public ParserFactory parserFactory() {
         return new ParserFactory();
@@ -48,4 +23,5 @@ public class AppConfig {
 
     @Bean
     public PasswordEncoder passwordEncoder() { return new BCryptPasswordEncoder(); }
+
 }

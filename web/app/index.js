@@ -8,6 +8,8 @@ import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
 
 const Home = React.lazy(() => import('./components/Home'))
 const MyCollection = React.lazy(() => import('./components/MyCollection'))
+const Login = React.lazy(() => import('./components/Login'))
+const NotFound = React.lazy(() => import('./components/NotFound'))
 
 function App() {
     const [theme, setTheme] = React.useState('light')
@@ -24,7 +26,8 @@ function App() {
                             <Switch>
                                 <Route exact path='/' component={Home} />
                                 <Route exact path='/mycollection' component={MyCollection} />
-                                <Route render={() => <h1>404</h1>} />
+                                <Route exact path='/login' component={Login} />
+                                <Route render={NotFound} />
                             </Switch>
                         </React.Suspense>
                     </div>

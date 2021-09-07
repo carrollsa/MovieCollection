@@ -71,7 +71,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 
         User user = createUserFromDto(userDto);
 
-        return userRepository.save(user);
+        return saveUser(user);
     }
 
     @Override
