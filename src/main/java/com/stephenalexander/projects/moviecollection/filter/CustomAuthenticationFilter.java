@@ -37,11 +37,9 @@ public class CustomAuthenticationFilter extends UsernamePasswordAuthenticationFi
         UsernamePasswordAuthenticationToken authenticationToken =
                 new UsernamePasswordAuthenticationToken(username,
                 password);
-        System.out.println(authenticationManager.authenticate(authenticationToken));
         return authenticationManager.authenticate(authenticationToken);
     }
 
-    //
 //    @Override
 //    protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response,
 //                                            FilterChain chain, Authentication authentication)
@@ -54,24 +52,24 @@ public class CustomAuthenticationFilter extends UsernamePasswordAuthenticationFi
 //        response.setContentType(APPLICATION_JSON_VALUE);
 //        new ObjectMapper().writeValue(response.getOutputStream(), tokens);
 //    }
-
-    //
-    private String createToken(User user, HttpServletRequest request, HttpServletResponse response, int minutes) {
-        //Poor practice acknowledged... only exposed for this demo application
-        Algorithm algorithm = Algorithm.HMAC256("secret".getBytes());
-        return JWT.create()
-                .withSubject(user.getUsername())
-                .withExpiresAt(new Date(System.currentTimeMillis() + (minutes * 60 * 1000)))
-                .withIssuer(request.getRequestURL().toString())
-                .withClaim("roles",
-                        user.getAuthorities().stream().map(GrantedAuthority::getAuthority).collect(Collectors.toList()))
-                .sign(algorithm);
-    }
-
-    private Map<String, String> createTokenMap(String access_token, String refresh_token) {
-        Map<String, String> tokens = new HashMap<>();
-        tokens.put("access_token", access_token);
-        tokens.put("refresh_token", refresh_token);
-        return tokens;
-    }
+//
+//
+//    private String createToken(User user, HttpServletRequest request, HttpServletResponse response, int minutes) {
+//        //Poor practice acknowledged... only exposed for this demo application
+//        Algorithm algorithm = Algorithm.HMAC256("secret".getBytes());
+//        return JWT.create()
+//                .withSubject(user.getUsername())
+//                .withExpiresAt(new Date(System.currentTimeMillis() + (minutes * 60 * 1000)))
+//                .withIssuer(request.getRequestURL().toString())
+//                .withClaim("roles",
+//                        user.getAuthorities().stream().map(GrantedAuthority::getAuthority).collect(Collectors.toList()))
+//                .sign(algorithm);
+//    }
+//
+//    private Map<String, String> createTokenMap(String access_token, String refresh_token) {
+//        Map<String, String> tokens = new HashMap<>();
+//        tokens.put("access_token", access_token);
+//        tokens.put("refresh_token", refresh_token);
+//        return tokens;
+//    }
 }

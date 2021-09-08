@@ -2,8 +2,8 @@ package com.stephenalexander.projects.moviecollection.service;
 
 import com.stephenalexander.projects.moviecollection.entity.Movie;
 import com.stephenalexander.projects.moviecollection.entity.Rating;
+import com.stephenalexander.projects.moviecollection.entity.User;
 import com.stephenalexander.projects.moviecollection.repository.MovieRepository;
-import com.stephenalexander.projects.moviecollection.entity.Rater;
 import com.stephenalexander.projects.moviecollection.repository.RatingRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -35,13 +35,13 @@ public class RatingService {
         Rating rating = new Rating(Double.parseDouble(jsonBody.get("ratingValue")));
         rating.setMovie(movie);
 
-        Rater rater = new Rater();
-        rater.setId(1L);
-        rating.setRater(rater);
+        User user = new User();
+        user.setId(1L);
+        rating.setUser(user);
 
         //WHERE RATERID = blah
-        Optional<Rating> existingRating = ratingRepository.findByMovieIdAndRaterId(rating.getMovie().getId(),
-                rating.getRater().getId());
+        Optional<Rating> existingRating = ratingRepository.findByMovieIdAndUserId(rating.getMovie().getId(),
+                rating.getUser().getId());
         if(existingRating.isPresent()) {
             existingRating.get().setValue(rating.getValue());
         } else {

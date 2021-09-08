@@ -1,10 +1,11 @@
 package com.stephenalexander.projects.moviecollection.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import javax.persistence.*;
-import java.util.Collection;
 import java.util.List;
 
-@Entity
+@Entity(name = "User")
 @Table(name = "appuser")
 public class User {
     @Id
@@ -25,6 +26,11 @@ public class User {
             inverseJoinColumns = @JoinColumn(name = "role_id"))
     private List<Role> roles;
 
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, targetEntity = Rating.class, mappedBy = "user")
+    @JsonBackReference
+//    @JoinColumn(name = "rating", referencedColumnName = "rating")
+    private List<Rating> ratings;
+
     public User () {
 
     }
@@ -36,12 +42,14 @@ public class User {
         this.password = password;
     }
 
-    public User(String firstName, String lastName, String username, String password, List<Role> roles) {
+    public User(String firstName, String lastName, String username, String password, List<Role> roles,
+                List<Rating> ratings) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.username = username;
         this.password = password;
         this.roles = roles;
+        this.ratings = ratings;
     }
 
     public Long getId() {
@@ -91,4 +99,6 @@ public class User {
     public void setRoles(List<Role> roles) {
         this.roles = roles;
     }
+
+
 }

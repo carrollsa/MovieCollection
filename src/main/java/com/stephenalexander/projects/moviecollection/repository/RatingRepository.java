@@ -12,7 +12,7 @@ import java.util.Optional;
 public interface RatingRepository extends CrudRepository<Rating, Long> {
     public Optional<Rating> findByMovieId(String movieId);
 
-    public Optional<Rating> findByMovieIdAndRaterId(String movieId, Long raterId);
+    public Optional<Rating> findByMovieIdAndUserId(String movieId, Long userId);
 
 //    @Query(value=
 //            "INSERT INTO rating(movie_id, rating) " +
@@ -22,7 +22,7 @@ public interface RatingRepository extends CrudRepository<Rating, Long> {
 //    public void saveOrUpdate(String movieId, double ratingValue);
 
     @Query(value = "SELECT * FROM rating r " +
-            "       WHERE r.rater_id = 1 " +
+            "       WHERE r.user_id = 1 " +
             "       ORDER BY r.rating DESC",
             nativeQuery = true)
     List<Rating> getTopRatings();

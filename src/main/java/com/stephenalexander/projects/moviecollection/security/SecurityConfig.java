@@ -4,6 +4,7 @@ import com.stephenalexander.projects.moviecollection.filter.CustomAuthentication
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -13,6 +14,7 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
+import static org.springframework.http.HttpMethod.GET;
 import static org.springframework.security.config.http.SessionCreationPolicy.*;
 
 @Configuration
@@ -36,8 +38,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http
                 .csrf().disable()
-                .authorizeRequests().anyRequest().authenticated().and().formLogin().permitAll()
-//                .authorizeRequests().anyRequest().authenticated().and().formLogin().loginPage("/login").permitAll()
+//                .authorizeRequests().antMatchers(GET, "/api/v1/rating/**").hasAnyAuthority("ROLE_USER")
+//                .and()
+                .authorizeRequests().anyRequest().authenticated()
+                .and()
+                .formLogin().permitAll()
                 .and()
                 .sessionManagement().sessionCreationPolicy(IF_REQUIRED)
                 .and()

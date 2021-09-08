@@ -18,8 +18,6 @@ public class Rating {
     )
     @Column(name = "rating_id")
     private Long id;
-//    @Column(name = "rater_id")
-//    private Long raterId;
     @Column(name = "rating")
     private Double value;
     @Column(name = "created_at", insertable = false)
@@ -30,11 +28,11 @@ public class Rating {
     @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     private Movie movie;
 
-    @ManyToOne(fetch = FetchType.LAZY, targetEntity = Rater.class)
-    @JoinColumn(name = "rater_id")
+    @ManyToOne(fetch = FetchType.LAZY, targetEntity = User.class)
+    @JoinColumn(name = "user_id")
     @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     @JsonManagedReference
-    private Rater rater;
+    private User user;
 
     public Rating(Double value) {
         this.value = value;
@@ -78,20 +76,12 @@ public class Rating {
         this.movie = movie;
     }
 
-//    public Long getRaterId() {
-//        return raterId;
-//    }
-//
-//    public void setRaterId(Long raterId) {
-//        this.raterId = raterId;
-//    }
-
-    public Rater getRater() {
-        return rater;
+    public User getUser() {
+        return user;
     }
 
-    public void setRater(Rater rater) {
-        this.rater = rater;
+    public void setUser(User user) {
+        this.user = user;
     }
 
     @Override

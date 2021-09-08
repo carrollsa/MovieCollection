@@ -27,7 +27,7 @@ function App() {
                                 <Route exact path='/' component={Home} />
                                 <Route exact path='/mycollection' component={MyCollection} />
                                 <Route exact path='/login' component={Login} />
-                                <Route render={NotFound} />
+                                <Route component={NotFound} />
                             </Switch>
                         </React.Suspense>
                     </div>
