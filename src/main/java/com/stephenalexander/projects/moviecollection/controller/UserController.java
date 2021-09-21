@@ -47,7 +47,6 @@ public class UserController {
         return userService.showRegistrationForm(request, model);
     }
 
-    //Remove model and deal only with DTO and validation?
     @PostMapping("/user/registration")
     public ResponseEntity registerUserAccount(@Valid UserDto userDto) {
         try {

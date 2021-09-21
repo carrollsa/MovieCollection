@@ -1,6 +1,7 @@
 package com.stephenalexander.projects.moviecollection.service;
 
 import com.stephenalexander.projects.moviecollection.dto.UserDto;
+import com.stephenalexander.projects.moviecollection.entity.Rating;
 import com.stephenalexander.projects.moviecollection.entity.Role;
 import com.stephenalexander.projects.moviecollection.entity.User;
 import com.stephenalexander.projects.moviecollection.repository.RoleRepository;
@@ -103,13 +104,13 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     }
 
     private User createUserFromDto(UserDto userDto) {
-        User user = new User();
-
-        user.setFirstName(userDto.getFirstName());
-        user.setLastName(userDto.getLastName());
-        user.setPassword(userDto.getPassword());
-        user.setUsername(userDto.getEmail());
-        user.setRoles(Arrays.asList(new Role("ROLE_USER")));
+        User user = new User(
+                userDto.getFirstName(),
+                userDto.getLastName(),
+                userDto.getEmail(),
+                userDto.getPassword(),
+                Arrays.asList(roleRepository.findByName("ROLE_USER"))
+        );
 
         return user;
     }

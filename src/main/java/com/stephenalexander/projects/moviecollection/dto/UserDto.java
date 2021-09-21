@@ -2,17 +2,19 @@ package com.stephenalexander.projects.moviecollection.dto;
 
 import com.stephenalexander.projects.moviecollection.validation.PasswordMatches;
 import com.stephenalexander.projects.moviecollection.validation.ValidEmail;
+import com.stephenalexander.projects.moviecollection.validation.ValidPassword;
 
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
 
 @PasswordMatches
 public class UserDto {
-    @NotNull @NotEmpty
+    @NotNull @NotEmpty @Pattern(regexp = "^[A-Za-z]+$", message = "Name must contain only letters")
     private String firstName;
-    @NotNull @NotEmpty
+    @NotNull @NotEmpty @Pattern(regexp = "^[A-Za-z]+$", message = "Name must contain only letters")
     private String lastName;
-    @NotNull @NotEmpty
+    @NotNull @NotEmpty @ValidPassword
     private String password;
     private String matchingPassword;
     @NotNull @NotEmpty @ValidEmail

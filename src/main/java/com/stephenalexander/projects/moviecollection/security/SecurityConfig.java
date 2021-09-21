@@ -13,6 +13,7 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 import static org.springframework.http.HttpMethod.GET;
 import static org.springframework.security.config.http.SessionCreationPolicy.*;
@@ -34,17 +35,35 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         auth.userDetailsService(userDetailsService).passwordEncoder(bCryptPasswordEncoder);
     }
 
+    //Add admin requirement for db modifications to secure server?
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
                 .csrf().disable()
-//                .authorizeRequests().antMatchers(GET, "/api/v1/rating/**").hasAnyAuthority("ROLE_USER")
-//                .and()
-                .authorizeRequests().anyRequest().authenticated()
+                .authorizeRequests().antMatchers(
+                        "/register",
+                        "/resources/templates/**",
+                        "/resources/static/**",
+                        "/login",
+                        "/login**").permitAll()
+                        .anyRequest().authenticated()
                 .and()
-                .formLogin().permitAll()
+                .formLogin()
+                    .loginPage("/login")
+                    .usernameParameter("email")
+                    .permitAll()
                 .and()
-                .sessionManagement().sessionCreationPolicy(IF_REQUIRED)
+                .sessionManagement()
+                    .sessionCreationPolicy(IF_REQUIRED)
+                .and()
+                .rememberMe().key("AbcdEfghIjklMNopQrsTuvXyz_0123456789")
+                .and()
+                .logout()
+                    .invalidateHttpSession(true)
+                    .clearAuthentication(true)
+                    .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
+                    .logoutSuccessUrl("/login?logout")
+                    .permitAll()
                 .and()
                 .addFilter(new CustomAuthenticationFilter(authenticationManagerBean()));
     }

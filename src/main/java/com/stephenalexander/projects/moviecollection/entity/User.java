@@ -3,6 +3,7 @@ package com.stephenalexander.projects.moviecollection.entity;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity(name = "User")
@@ -19,7 +20,7 @@ public class User {
     private String username;
     private String password;
 
-    @ManyToMany(fetch = FetchType.EAGER)
+    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinTable(
             name = "user_roles",
             joinColumns = @JoinColumn(name = "user_id"),
@@ -40,6 +41,15 @@ public class User {
         this.lastName = lastName;
         this.username = username;
         this.password = password;
+    }
+
+    public User(String firstName, String lastName, String username, String password, List<Role> roles) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.username = username;
+        this.password = password;
+        this.roles = roles;
+        this.ratings = new ArrayList<>();
     }
 
     public User(String firstName, String lastName, String username, String password, List<Role> roles,
