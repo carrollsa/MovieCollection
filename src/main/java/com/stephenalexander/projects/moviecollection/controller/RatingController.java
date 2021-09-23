@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.security.Principal;
 import java.util.*;
 
 @RequestMapping("api/v1")
@@ -25,12 +26,17 @@ public class RatingController {
      * @param jsonBody - JSON body consisting of two key-value pairs with keys: movieId and ratingValue
      */
     @PostMapping("/rating")
-    public void addOrUpdateRating(@RequestBody Map<String, String> jsonBody) {
-        ratingService.addOrUpdate(jsonBody);
+    public void addOrUpdateRating(@RequestBody Map<String, String> jsonBody, Principal principal) {
+        ratingService.addOrUpdate(jsonBody, principal);
     }
 
     @GetMapping("/rating")
-    public ResponseEntity<Optional<List<Rating>>> displayCollection() {
-        return ResponseEntity.of(Optional.of(ratingService.getTopRatings()));
+    public ResponseEntity<Optional<List<Rating>>> displayCollection(Principal principal) {
+        return ResponseEntity.of(Optional.of(ratingService.getUserRatings(principal)));
     }
+
+//    @GetMapping("/rating")
+//    public ResponseEntity<Optional<List<Rating>>> displayCollection() {
+//        return ResponseEntity.of(Optional.of(ratingService.getTopRatings()));
+//    }
 }

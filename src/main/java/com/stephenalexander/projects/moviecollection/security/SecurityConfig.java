@@ -44,6 +44,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                         "/register",
                         "/resources/templates/**",
                         "/resources/static/**",
+                        "/forgot-password",
                         "/login",
                         "/login**").permitAll()
                         .anyRequest().authenticated()
@@ -59,6 +60,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .rememberMe().key("AbcdEfghIjklMNopQrsTuvXyz_0123456789")
                 .and()
                 .logout()
+                    .logoutUrl("/logout_user")
                     .invalidateHttpSession(true)
                     .clearAuthentication(true)
                     .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))

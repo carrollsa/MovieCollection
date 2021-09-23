@@ -2,10 +2,10 @@ import * as React from 'react'
 import * as ReactDOM from 'react-dom'
 import './index.css'
 import Loading from './components/Loading'
+import Logout from './components/Logout'
 import Nav from './components/Nav'
 import { ThemeProvider } from './contexts/theme'
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
-import { UserProvider } from './contexts/user'
 
 const Home = React.lazy(() => import('./components/Home'))
 const MyCollection = React.lazy(() => import('./components/MyCollection'))
@@ -17,23 +17,21 @@ function App() {
 
     return (
         <Router>
-            {/* <UserProvider> */}
-                <ThemeProvider value={theme}>
-                    <div className={theme}>
-                        <div className='container'>
-                            <Nav toggleTheme={toggleTheme} />
-
-                            <React.Suspense fallback={<Loading />}>
-                                <Switch>
-                                    <Route exact path='/' component={Home} />
-                                    <Route exact path='/mycollection' component={MyCollection} />
-                                    <Route path='*' component={NotFound} />
-                                </Switch>
-                            </React.Suspense>
-                        </div>
+            <ThemeProvider value={theme}>
+                <div className={theme}>
+                    <div className='container'>
+                        <Logout />
+                        <Nav toggleTheme={toggleTheme} />
+                        <React.Suspense fallback={<Loading />}>
+                            <Switch>
+                                <Route exact path='/' component={Home} />
+                                <Route exact path='/mycollection' component={MyCollection} />
+                                <Route path='*' component={NotFound} />
+                            </Switch>
+                        </React.Suspense>
                     </div>
-                </ThemeProvider>
-            {/* </UserProvider> */}
+                </div>
+            </ThemeProvider>
         </Router>
     )
 }

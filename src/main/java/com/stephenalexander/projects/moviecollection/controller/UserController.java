@@ -6,6 +6,10 @@ import com.stephenalexander.projects.moviecollection.entity.User;
 import com.stephenalexander.projects.moviecollection.service.UserService;
 import com.stephenalexander.projects.moviecollection.validation.RegistrationResult;
 import com.stephenalexander.projects.moviecollection.web.error.UserAlreadyExistException;
+import com.stephenalexander.projects.moviecollection.web.util.GenericResponse;
+import org.aspectj.bridge.Message;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.MessageSource;
 import org.springframework.http.ResponseEntity;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -23,7 +27,10 @@ import java.util.Optional;
 public class UserController {
     private final UserService userService;
 
-    public UserController(UserService userService) {
+    @Autowired
+    private MessageSource messages;
+
+    public UserController(UserService userService, MessageSource messageSource) {
         this.userService = userService;
     }
 

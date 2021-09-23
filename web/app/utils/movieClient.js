@@ -30,7 +30,7 @@ export function postRating(id, rating) {
 }
 
 export function fetchRatings() {
-    const api = `api/v1/rating`
+    const api = 'api/v1/rating'
     return fetch(api)
         .then((res) => res.json())
         .catch((e) => {
@@ -40,7 +40,7 @@ export function fetchRatings() {
 }
 
 export function fetchMovieFromDB(id) {
-    const api = `api/v1/movies`
+    const api = 'api/v1/movies'
     return fetch(api)
         .then((res) => res.json())
         .catch((e) => {
@@ -61,4 +61,16 @@ export function fetchMovieByTitle(title) {
                 throw e
             })
     )
+}
+
+export function logout() {
+    const api = 'logout'
+    const requestOptions = {
+        method: 'POST'
+    }
+    return fetch(api, requestOptions)
+        .catch((e) => {
+            console.warn(e.message)
+            throw e
+        })
 }

@@ -21,7 +21,6 @@ public class MovieController {
     }
 
     @GetMapping("/movies")
-    @ResponseBody
     public ResponseEntity<Optional<List<Movie>>> findMoviesByTitle(@RequestParam String title) {
         return ResponseEntity.of(Optional.of(movieService.findByTitleSnippet(title)));
     }

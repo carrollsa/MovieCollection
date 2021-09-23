@@ -103,6 +103,16 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         return userRepository.findAll();
     }
 
+    @Override
+    public User findUserByEmail(String userEmail) {
+        return userRepository.findByUsername(userEmail);
+    }
+
+    @Override
+    public void createPasswordResetTokenForUser(User user, String token) {
+
+    }
+
     private User createUserFromDto(UserDto userDto) {
         User user = new User(
                 userDto.getFirstName(),

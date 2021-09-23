@@ -90,19 +90,48 @@ CREATE TABLE appuser_roles (
     FOREIGN KEY(role_id) references roles(role_id)
 );
 
-INSERT INTO appuser(user_id, first_name, last_name, password, username) VALUES (1, 'Steve', 'Carroll', '1234', 'stephenalexandercarroll@gmail.com');
+INSERT INTO appuser(user_id, first_name, last_name, password, username) VALUES (1, 'Steve', 'Carroll', '$2a$10$rgYXYv6kJt6JXyjLY21OReCVIJ.kefP/1MUv9wEhAtKURdrPDdxvi', 'stephenalexandercarroll@gmail.com');
 INSERT INTO role(role_id, name) VALUES (1, 'ROLE_USER');
 INSERT INTO role(role_id, name) VALUES (2, 'ROLE_MANAGER');
 INSERT INTO role(role_id, name) VALUES (3, 'ROLE_ADMIN');
 INSERT INTO user_roles(user_id, role_id) VALUES (1, 1);
 INSERT INTO user_roles(user_id, role_id) VALUES (1, 2);
 INSERT INTO user_roles(user_id, role_id) VALUES (1, 3);
-INSERT INTO appuser(user_id, first_name, last_name, password, username) VALUES (2, 'Sarah', 'Coit', '1234', 'srosecoit@gmail.com');
+INSERT INTO appuser(user_id, first_name, last_name, password, username) VALUES (2, 'Sarah', 'Coit', '$2a$10$rgYXYv6kJt6JXyjLY21OReCVIJ.kefP/1MUv9wEhAtKURdrPDdxvi', 'srosecoit@gmail.com');
 INSERT INTO user_roles(user_id, role_id) VALUES (2, 1);
 INSERT INTO user_roles(user_id, role_id) VALUES (2, 2);
-INSERT INTO appuser(user_id, first_name, last_name, password, username) VALUES (3, 'Darcy', 'Deady', '1234', 'darcy@gmail.com');
+INSERT INTO appuser(user_id, first_name, last_name, password, username) VALUES (3, 'Darcy', 'Deady', '$2a$10$rgYXYv6kJt6JXyjLY21OReCVIJ.kefP/1MUv9wEhAtKURdrPDdxvi', 'darcy@gmail.com');
 INSERT INTO user_roles(user_id, role_id) VALUES (3, 1);
 
+
+INSERT INTO role(name) VALUES ('ROLE_USER');
+INSERT INTO role(name) VALUES ('ROLE_MANAGER');
+INSERT INTO role(name) VALUES ('ROLE_ADMIN');
+-- spring session
+CREATE TABLE SPRING_SESSION (
+  PRIMARY_ID CHAR(36) NOT NULL,
+  SESSION_ID CHAR(36) NOT NULL,
+  CREATION_TIME BIGINT NOT NULL,
+  LAST_ACCESS_TIME BIGINT NOT NULL,
+  MAX_INACTIVE_INTERVAL INT NOT NULL,
+  EXPIRY_TIME BIGINT NOT NULL,
+  PRINCIPAL_NAME VARCHAR(100),
+  CONSTRAINT SPRING_SESSION_PK PRIMARY KEY (PRIMARY_ID)
+);
+ 
+CREATE UNIQUE INDEX SPRING_SESSION_IX1 ON SPRING_SESSION (SESSION_ID);
+CREATE INDEX SPRING_SESSION_IX2 ON SPRING_SESSION (EXPIRY_TIME);
+CREATE INDEX SPRING_SESSION_IX3 ON SPRING_SESSION (PRINCIPAL_NAME);
+ 
+CREATE TABLE SPRING_SESSION_ATTRIBUTES (
+  SESSION_PRIMARY_ID CHAR(36) NOT NULL,
+  ATTRIBUTE_NAME VARCHAR(200) NOT NULL,
+  ATTRIBUTE_BYTES BYTEA NOT NULL,
+  CONSTRAINT SPRING_SESSION_ATTRIBUTES_PK PRIMARY KEY (SESSION_PRIMARY_ID, ATTRIBUTE_NAME),
+  CONSTRAINT SPRING_SESSION_ATTRIBUTES_FK FOREIGN KEY (SESSION_PRIMARY_ID) REFERENCES SPRING_SESSION(PRIMARY_ID) ON DELETE CASCADE
+);
+ 
+CREATE INDEX SPRING_SESSION_ATTRIBUTES_IX1 ON SPRING_SESSION_ATTRIBUTES (SESSION_PRIMARY_ID);
 
 -- CREATE TABLE ratings (
 --     rater_id INT NOT NULL,

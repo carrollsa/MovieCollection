@@ -138,6 +138,17 @@ li {
     margin: 40px auto;
 }
 
+.logout-btn {
+    border: none;
+    background: transparent;
+    cursor: pointer;
+    justify-content: right;
+
+    font-size: 18px;
+    font-weight: bold;
+    text-decoration: none;
+}
+
 .light-btn {
     color: #4d4d4d;
     background: #aaa8a8;
@@ -436,3 +447,8 @@ li {
 .remember-me {
     font-weight: 400;
 }
+
+.align-right {
+    justify-content: right;
+}
+

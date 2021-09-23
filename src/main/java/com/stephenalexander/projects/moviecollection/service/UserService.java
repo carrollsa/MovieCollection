@@ -17,4 +17,6 @@ public interface UserService {
     List<User> getUsers();
     String showRegistrationForm(WebRequest request, Model model);
     User registerNewUserAccount(UserDto userDto) throws UserAlreadyExistException;
+    User findUserByEmail(String userEmail);
+    void createPasswordResetTokenForUser(User user, String token);
 }
