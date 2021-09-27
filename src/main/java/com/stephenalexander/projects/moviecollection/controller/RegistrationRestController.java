@@ -36,8 +36,9 @@ public class RegistrationRestController {
         this.userService = userService;
     }
 
-    @PostMapping("/user/resetPassword")
-    public GenericResponse resetPassword(final HttpServletRequest request, @RequestParam("email") final String userEmail) {
+    @PostMapping("/forgot-password/reset")
+    public GenericResponse resetPassword(final HttpServletRequest request,
+                                         @RequestParam(value= "email") final String userEmail) {
         final User user = userService.findUserByEmail(userEmail);
         if (user != null) {
             final String token = UUID.randomUUID().toString();
@@ -48,7 +49,7 @@ public class RegistrationRestController {
     }
 
     private SimpleMailMessage constructResetTokenEmail(final String contextPath, final Locale locale, final String token, final User user) {
-        final String url = contextPath + "/user/changePassword?token=" + token;
+        final String url = contextPath + "/user/change-password?token=" + token;
         final String message = messages.getMessage("message.resetPassword", null, locale);
         return constructEmail("Reset Password", message + " \r\n" + url, user);
     }

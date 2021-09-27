@@ -3,6 +3,7 @@ package com.stephenalexander.projects.moviecollection.controller;
 import com.stephenalexander.projects.moviecollection.dto.UserDto;
 import com.stephenalexander.projects.moviecollection.entity.Role;
 import com.stephenalexander.projects.moviecollection.entity.User;
+import com.stephenalexander.projects.moviecollection.service.IUserSecurityService;
 import com.stephenalexander.projects.moviecollection.service.UserService;
 import com.stephenalexander.projects.moviecollection.validation.RegistrationResult;
 import com.stephenalexander.projects.moviecollection.web.error.UserAlreadyExistException;
@@ -12,8 +13,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.http.ResponseEntity;
 import org.springframework.ui.Model;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.context.request.WebRequest;
+import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import javax.servlet.http.HttpServletRequest;

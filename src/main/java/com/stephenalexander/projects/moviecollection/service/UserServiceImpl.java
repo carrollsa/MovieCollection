@@ -1,9 +1,11 @@
 package com.stephenalexander.projects.moviecollection.service;
 
 import com.stephenalexander.projects.moviecollection.dto.UserDto;
+import com.stephenalexander.projects.moviecollection.entity.PasswordResetToken;
 import com.stephenalexander.projects.moviecollection.entity.Rating;
 import com.stephenalexander.projects.moviecollection.entity.Role;
 import com.stephenalexander.projects.moviecollection.entity.User;
+import com.stephenalexander.projects.moviecollection.repository.PasswordResetTokenRepository;
 import com.stephenalexander.projects.moviecollection.repository.RoleRepository;
 import com.stephenalexander.projects.moviecollection.repository.UserRepository;
 import com.stephenalexander.projects.moviecollection.web.error.UserAlreadyExistException;
@@ -25,18 +27,20 @@ import java.util.List;
 
 @Service
 @Transactional
-public class UserServiceImpl implements UserService, UserDetailsService {
+public class UserServiceImpl implements UserDetailsService {
 
     private final UserRepository userRepository;
     private final RoleRepository roleRepository;
     private final PasswordEncoder passwordEncoder;
+    private final PasswordResetTokenRepository passwordResetTokenRepository;
 
     @Autowired
     public UserServiceImpl(UserRepository userRepository, RoleRepository roleRepository,
-                           PasswordEncoder passwordEncoder) {
+                           PasswordEncoder passwordEncoder, PasswordResetTokenRepository passwordResetTokenRepository) {
         this.userRepository = userRepository;
         this.roleRepository = roleRepository;
         this.passwordEncoder = passwordEncoder;
+        this.passwordResetTokenRepository = passwordResetTokenRepository;
     }
 
     @Override
@@ -56,14 +60,12 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         }
     }
 
-    @Override
     public String showRegistrationForm(WebRequest request, Model model) {
         UserDto userDto = new UserDto();
         model.addAttribute("user", userDto);
         return "registration";
     }
 
-    @Override
     public User registerNewUserAccount(UserDto userDto) {
         if (emailExist(userDto.getEmail())) {
             throw new UserAlreadyExistException("There is an account with that email address: "
@@ -75,42 +77,36 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         return saveUser(user);
     }
 
-    @Override
     public User saveUser(User user) {
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         return userRepository.save(user);
     }
 
-    @Override
     public Role saveRole(Role role) {
         return roleRepository.save(role);
     }
 
-    @Override
     public void addRoleToUser(String username, String roleName) {
         User user = userRepository.findByUsername(username);
         Role role = roleRepository.findByName(roleName);
         user.getRoles().add(role);
     }
 
-    @Override
     public User getUser(String username) {
         return userRepository.findByUsername(username);
     }
 
-    @Override
     public List<User> getUsers() {
         return userRepository.findAll();
     }
 
-    @Override
     public User findUserByEmail(String userEmail) {
         return userRepository.findByUsername(userEmail);
     }
 
-    @Override
     public void createPasswordResetTokenForUser(User user, String token) {
-
+        PasswordResetToken myToken = new PasswordResetToken(token, user);
+        passwordResetTokenRepository.save(myToken);
     }
 
     private User createUserFromDto(UserDto userDto) {

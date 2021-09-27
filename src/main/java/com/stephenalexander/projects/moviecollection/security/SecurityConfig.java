@@ -44,7 +44,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                         "/register",
                         "/resources/templates/**",
                         "/resources/static/**",
-                        "/forgot-password",
+                        "/forgot-password/**",
+                        "/user/change-password",
                         "/login",
                         "/login**").permitAll()
                         .anyRequest().authenticated()
