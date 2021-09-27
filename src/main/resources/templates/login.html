@@ -15,7 +15,7 @@
         box-shadow: 0px 1px 1px rgba(0, 0, 0, 0.075) inset, 0px 0px 8px rgba(0, 0, 0, 0.5);
     }
 
-    .danger-red {
+    .app-red {
         color: rgb(187, 46, 31)
     }
 </style>
@@ -24,20 +24,22 @@
     <div class="container d-flex justify-content-center h-100">
         <div class="d-flex align-items-center text-center" style="height: 768px">
             <form class="col-12" th:action="@{/login}" method="post">
-                <div th:if="${param.error}">
-                    <p class="danger-red">[[${session.SPRING_SECURITY_LAST_EXCEPTION.message}]]</p>
+                <div th:if="${param.tokenError}" class="app-red" th:utext="#{${param.tokenError}}">
+                    <p class="app-red">token error message</p>
                 </div>
-
-                <div th:if="${param.logout}">
-                    <p class="text-warning">You have been logged out.</p>
+                <div th:if="${param.error}">
+                    <p class="app-red">[[${session.SPRING_SECURITY_LAST_EXCEPTION.message}]]</p>
+                </div>
+                <div th:if="${param.logout}" class="text-success" th:utext="#{${param.logout}}">
+                    <p>logout message</p>
                 </div>
 
                 <div style="width: 350px">
-                    <h3 span class="danger-red fw-bold">Sign in</h3>
+                    <h3 span class="app-red fw-bold">Sign in</h3>
                     <p>to view your collection!</p>
                     <input type="email" name="username" class="form-control" placeholder="Email" required autofocus />
-                    <div th:if="${param.error}">
-                        <p class="danger-red">Wrong username and/or password. Please try again.</p>
+                    <div th:if="${param.incorrectPassword}" class="app-red" th:utext="#{${param.incorrectPassword}}">
+                        <p>Wrong username and/or password. Please try again.</p>
                         <p>Forgot password? Click <a href="@{/forgot-password}" class="link-dark">here</a>.</p>
                     </div>
 

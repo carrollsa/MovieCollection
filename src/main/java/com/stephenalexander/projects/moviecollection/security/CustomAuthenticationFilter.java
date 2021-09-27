@@ -1,4 +1,4 @@
-package com.stephenalexander.projects.moviecollection.filter;
+package com.stephenalexander.projects.moviecollection.security;
 
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -18,7 +18,9 @@ public class CustomAuthenticationFilter extends UsernamePasswordAuthenticationFi
 
     @Override
     //Can alternately have user pass in body as JSON object and use object mapper to pull information that way
-    public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response) throws AuthenticationException {
+    public Authentication attemptAuthentication(HttpServletRequest request,
+            HttpServletResponse response) throws AuthenticationException {
+
         String username = request.getParameter("username");
         String password = request.getParameter("password");
         UsernamePasswordAuthenticationToken authenticationToken =
@@ -26,6 +28,8 @@ public class CustomAuthenticationFilter extends UsernamePasswordAuthenticationFi
                 password);
         return authenticationManager.authenticate(authenticationToken);
     }
+
+
 
 //    @Override
 //    protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response,

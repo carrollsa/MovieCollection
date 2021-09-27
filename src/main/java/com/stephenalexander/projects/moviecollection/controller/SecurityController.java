@@ -1,6 +1,6 @@
 package com.stephenalexander.projects.moviecollection.controller;
 
-import com.stephenalexander.projects.moviecollection.service.IUserSecurityService;
+import com.stephenalexander.projects.moviecollection.service.UserSecurityService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
@@ -17,9 +17,9 @@ import java.security.Principal;
 public class SecurityController {
 
     @Autowired
-    private IUserSecurityService userSecurityService;
+    private UserSecurityService userSecurityService;
 
-    public SecurityController(IUserSecurityService userSecurityService) {
+    public SecurityController(UserSecurityService userSecurityService) {
         this.userSecurityService = userSecurityService;
     }
 
@@ -31,11 +31,11 @@ public class SecurityController {
 
     @GetMapping("/user/change-password")
     public ModelAndView showChangePasswordPage(final ModelMap model, @RequestParam("token") final String token) {
-        final String negativeValidationResultOrNull = userSecurityService.validatePasswordResetToken(token);
+        final String validationResult = userSecurityService.validatePasswordResetToken(token);
 
-        if(negativeValidationResultOrNull != null) {
-            String messageKey = "auth.message." + negativeValidationResultOrNull;
-            model.addAttribute("messageKey", messageKey);
+        if(validationResult != null) {
+            String message = "auth.message." + validationResult;
+            model.addAttribute("tokenError", message);
             return new ModelAndView("redirect:/login", model);
         } else {
             model.addAttribute("token", token);

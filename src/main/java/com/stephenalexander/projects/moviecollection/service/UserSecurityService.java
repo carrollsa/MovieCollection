@@ -10,17 +10,16 @@ import java.util.Calendar;
 
 @Service
 @Transactional
-public class UserSecurityService implements IUserSecurityService {
+public class UserSecurityService {
 
     @Autowired
     private PasswordResetTokenRepository passwordTokenRepository;
 
-    @Override
     public String validatePasswordResetToken(String token) {
         final PasswordResetToken passToken = passwordTokenRepository.findByToken(token);
 
         return !isTokenFound(passToken) ? "invalidToken"
-                : isTokenExpired(passToken) ? "expired"
+                : isTokenExpired(passToken) ? "resetExpired"
                 : null;
     }
 

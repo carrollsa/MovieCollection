@@ -3,7 +3,6 @@ package com.stephenalexander.projects.moviecollection.controller;
 import com.stephenalexander.projects.moviecollection.dto.UserDto;
 import com.stephenalexander.projects.moviecollection.entity.Role;
 import com.stephenalexander.projects.moviecollection.entity.User;
-import com.stephenalexander.projects.moviecollection.service.IUserSecurityService;
 import com.stephenalexander.projects.moviecollection.service.UserService;
 import com.stephenalexander.projects.moviecollection.validation.RegistrationResult;
 import com.stephenalexander.projects.moviecollection.web.error.UserAlreadyExistException;

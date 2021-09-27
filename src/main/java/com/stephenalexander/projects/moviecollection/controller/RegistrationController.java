@@ -1,7 +1,7 @@
 package com.stephenalexander.projects.moviecollection.controller;
 
 import com.stephenalexander.projects.moviecollection.dto.UserDto;
-import com.stephenalexander.projects.moviecollection.service.UserServiceImpl;
+import com.stephenalexander.projects.moviecollection.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
@@ -16,10 +16,10 @@ import javax.validation.Valid;
 @Controller
 public class RegistrationController {
 
-    private UserServiceImpl userService;
+    private UserService userService;
 
     @Autowired
-    public RegistrationController(UserServiceImpl userService) {
+    public RegistrationController(UserService userService) {
         this.userService = userService;
     }
 
