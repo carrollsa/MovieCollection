@@ -15,6 +15,7 @@
         <div class="d-flex align-items-center text-center" style="height: 768px">
             <form class="col-12" th:action="@{/login}" method="post">
                 <div style="width: 350px">
+                    
                     <div th:if="${param.tokenError}" class="app-red" th:utext="#{${param.tokenError}}">
                         <p class="app-red">token error message</p>
                     </div>
@@ -26,11 +27,13 @@
                         </p>
                     </div>
                     <div th:if="${param.resetSuccessful}">
-                        <p class="text-success" th:utext="#{login.message.resetPasswordSuccess}">successful reset
+                        <p class="text-success fw-bold pb-1" th:utext="#{login.message.resetPasswordSuccess}">successful reset
                             message</p>
                     </div>
+
                     <h3 span class="app-red fw-bold">Sign in</h3>
                     <p>to view your collection!</p>
+
                     <input type="email" name="username" class="form-control" placeholder="Email" required autofocus />
                     <!-- Not functioning right now. Need to custom auth to allow failure redirect -->
                     <div th:if="${param.incorrectPassword}" class="app-red" th:utext="#{${param.incorrectPassword}}">

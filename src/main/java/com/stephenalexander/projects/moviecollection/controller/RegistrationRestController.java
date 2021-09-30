@@ -1,6 +1,7 @@
 package com.stephenalexander.projects.moviecollection.controller;
 
 import com.stephenalexander.projects.moviecollection.dto.PasswordDto;
+import com.stephenalexander.projects.moviecollection.entity.PasswordResetToken;
 import com.stephenalexander.projects.moviecollection.entity.User;
 import com.stephenalexander.projects.moviecollection.service.UserSecurityService;
 import com.stephenalexander.projects.moviecollection.service.UserService;
@@ -48,9 +49,18 @@ public class RegistrationRestController {
                                          @RequestParam(value= "email") final String userEmail) {
         final User user = userService.findUserByEmail(userEmail);
         if (user != null) {
-            final String token = UUID.randomUUID().toString();
-            userService.createPasswordResetTokenForUser(user, token);
-            mailSender.send(constructResetTokenEmail(getAppUrl(request), request.getLocale(), token, user));
+            PasswordResetToken existingToken = userSecurityService.findTokenByUser(user);
+            if(validTokenExists(existingToken)) {
+                mailSender.send(constructResetTokenEmail(getAppUrl(request), request.getLocale(), existingToken.getToken(),
+                        user));
+                return new GenericResponse(messages.getMessage("auth.message.validTokenAlreadyExists",
+                        null,
+                        request.getLocale()));
+            } else {
+                final String token = UUID.randomUUID().toString();
+                userService.createPasswordResetTokenForUser(user, token);
+                mailSender.send(constructResetTokenEmail(getAppUrl(request), request.getLocale(), token, user));
+            }
         }
         return new GenericResponse(messages.getMessage("message.resetPasswordEmailSent", null, request.getLocale()));
     }
@@ -70,6 +80,8 @@ public class RegistrationRestController {
                 throw new IdenticalPasswordException("New password must differ from old password.");
             }
             userService.changeUserPassword(user.get(), passwordDto.getNewPassword());
+            //TODO: Is this okay?
+            userService.invalidateToken(passwordDto.getToken());
             return new GenericResponse(messages.getMessage("login.message.resetPasswordSuccess", null, locale));
         } else {
             return new GenericResponse(messages.getMessage("auth.message.invalidToken", null, locale));
@@ -78,6 +90,10 @@ public class RegistrationRestController {
 
     private boolean newPasswordIsIdentical(User user, String newPassword) {
         return userService.newPasswordIdentical(user, newPassword);
+    }
+
+    private boolean validTokenExists(PasswordResetToken existingToken) {
+        return existingToken != null && existingToken.isValid();
     }
 
     private SimpleMailMessage constructResetTokenEmail(final String contextPath, final Locale locale, final String token, final User user) {

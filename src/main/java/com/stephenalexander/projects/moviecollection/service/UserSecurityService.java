@@ -1,6 +1,7 @@
 package com.stephenalexander.projects.moviecollection.service;
 
 import com.stephenalexander.projects.moviecollection.entity.PasswordResetToken;
+import com.stephenalexander.projects.moviecollection.entity.User;
 import com.stephenalexander.projects.moviecollection.repository.PasswordResetTokenRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -30,5 +31,9 @@ public class UserSecurityService {
     private boolean isTokenExpired(PasswordResetToken passToken) {
         final Calendar cal = Calendar.getInstance();
         return passToken.getExpiryDate().before(cal.getTime());
+    }
+
+    public PasswordResetToken findTokenByUser(User user) {
+        return passwordTokenRepository.findFirstByUserOrderByExpiryDateDesc(user);
     }
 }

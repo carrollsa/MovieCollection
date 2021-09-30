@@ -139,4 +139,8 @@ public class UserService implements UserDetailsService {
     }
 
 
+    public void invalidateToken(String token) {
+        PasswordResetToken tokenObj = passwordResetTokenRepository.findByToken(token);
+        tokenObj.invalidate();
+    }
 }
