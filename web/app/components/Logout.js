@@ -10,7 +10,9 @@ function Logout() {
         <div className='row align-right'>
             <nav
                 className='logout-btn'
-                onClick={() => logout().then(refresh)}>
+                onClick={() => logout()
+                    .then(response => 
+                        window.location.href = 'login?logout=true')}>
                 Sign Out
             </nav>
         </div>

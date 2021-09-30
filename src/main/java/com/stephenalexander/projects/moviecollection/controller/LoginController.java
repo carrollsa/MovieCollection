@@ -21,20 +21,10 @@ public class LoginController {
     @GetMapping("/forgot-password")
     public String showForgotPassword() { return "forgot-password"; }
 
-//    @GetMapping("/login?failed")
-//    public String showFailedLoginPage(Model model) {
-//        model.addAttribute("loginError", true);
-//        return "login";
-//    }
-//
-//    @GetMapping("/login")
-//    public String showLoginPage(Model model) {
-//        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-//        if (authentication == null || authentication instanceof AnonymousAuthenticationFilter) {
-//            return "login";
-//        }
-//        return "login";
-//    }
+    @GetMapping("/update-password")
+    public String showUpdatePassword() {
+        return "update-password";
+    }
 
     @GetMapping("/login?forgot-password")
     public String forgotPassword() {

@@ -4,23 +4,10 @@
 <head>
     <meta charset="UTF-8">
     <title>Registration</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <link href="../static/css/styles.css" th:href="@{/css/styles.css}" rel="stylesheet" type="text/css" />
 </head>
-<style>
-    .form-control:focus {
-        border-color: rgb(0, 0, 0);
-        box-shadow: 0px 1px 1px rgba(0, 0, 0, 0.075) inset, 0px 0px 8px rgba(0, 0, 0, 0.5);
-    }
-
-    .app-red {
-        color: rgb(187, 46, 31)
-    }
-
-    .control-label{
-        font-weight: bold;
-        padding-top: 5px;
-    }
-</style>
 
 <body>
     <div class="container d-flex justify-content-center vh-100">
@@ -28,7 +15,8 @@
             <div class="col-md-6 col-md-offset-3">
                 <!-- success message -->
                 <div th:if="${param.success}">
-                    <div class="alert alert-info">Account successfully registered! <a href="/" th:href="@{/login}">Continue</a> to login.</div>
+                    <div class="alert alert-info">Account successfully registered! <a href="/"
+                            th:href="@{/login}">Continue</a> to login.</div>
                 </div>
 
                 <h1 class="app-red text-center">Registration</h1>
@@ -38,16 +26,14 @@
                         <label class="control-label" for="firstName"> First Name </label>
                         <input id="firstName" class="form-control" th:field="*{firstName}" required
                             autofocus="autofocus" />
-                        <span th:if="${#fields.hasErrors('firstName')}" th:errors="*{firstName}"
-                            class="app-red"></span>
+                        <span th:if="${#fields.hasErrors('firstName')}" th:errors="*{firstName}" class="app-red"></span>
                     </div>
 
                     <div class="form-group">
                         <label class="control-label" for="lastName"> Last Name </label>
                         <input id="lastName" class="form-control" th:field="*{lastName}" required
                             autofocus="autofocus" />
-                            <span th:if="${#fields.hasErrors('lastName')}" th:errors="*{lastName}"
-                            class="app-red"></span>
+                        <span th:if="${#fields.hasErrors('lastName')}" th:errors="*{lastName}" class="app-red"></span>
                     </div>
 
                     <div class="form-group">
@@ -58,8 +44,14 @@
 
                     <div class="form-group">
                         <label class="control-label" for="password"> Password </label>
-                        <input id="password" class="form-control" type="password" th:field="*{password}" required
-                            autofocus="autofocus" />
+                        <div class="input-group">
+                            <input id="password" class="form-control" type="password" th:field="*{password}" required
+                                autofocus="autofocus" autocomplete="current-password" spellcheck="false"
+                                autocorrect="false" autocapitalize="false" />
+                            <button id="toggle-password" type="button" class="d-none"
+                                aria-label="Show password as plain text. Warning: this will display your password on the screen.">
+                            </button>
+                        </div>
                         <span th:unless="${#fields.hasErrors('password')}">Passwords must be at least 6 characters and
                             contain 1 number and 1 letter.</span>
                         <ul th:if="${#fields.hasErrors('password')}">
@@ -70,19 +62,70 @@
                     <div class="form-group">
                         <label class="control-label"> Confirm Password </label>
                         <input id="confirm-password" class="form-control" type="password" th:field="*{matchingPassword}"
-                            required autofocus="autofocus" />
+                            required autofocus="autofocus" autocomplete="current-password" spellcheck="false"
+                            autocorrect="false" autocapitalize="false" />
                         <span th:if="${#fields.hasErrors('matchingPassword')}" th:errors="*{matchingPassword}"
                             class="app-red"></span>
                     </div>
+                    <div id="globalError" class="app-red" style="display:none" th:text="#{user.passwordsNotMatch}">error
+                    </div>
 
-                    <div class="form-group my-3">
-                        <button type="submit" class="btn btn-dark">Register</button>
-                        <span>Already registered? Login <a href="/" th:href="@{/login}" class="link-dark">here</a>.</span>
+                    <div class="form-group my-3 test">
+                        <button type="submit" class="btn btn-dark" disabled="true">Register</button>
+                        <span>Already registered? Login <a href="/" th:href="@{/login}"
+                                class="link-dark">here</a>.</span>
                     </div>
                 </form>
             </div>
         </div>
     </div>
 </body>
+
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+<script th:inline="javascript">
+    document.querySelector("[type='password']").classList.add("input-password");
+    document.getElementById("toggle-password").classList.remove("d-none");
+    const passwordInput = document.querySelector("[type='password']");
+    const togglePasswordButton = document.getElementById("toggle-password");
+    togglePasswordButton.addEventListener("click", togglePassword);
+    function togglePassword() {
+        if (passwordInput.type === "password") {
+            passwordInput.type = "text";
+            togglePasswordButton.setAttribute("aria-label", "Hide password.");
+        } else {
+            passwordInput.type = "password";
+            togglePasswordButton.setAttribute(
+                "aria-label",
+                "Show password as plain text. " +
+                "Warning: this will display your password on the screen."
+            );
+        }
+    }
+
+    $(document).ready(function () {
+        $(":password").keyup(function () {
+            if ($("#password").val() != $("#confirm-password").val()) {
+                $("#globalError").show().html(/*[[#{user.passwordsNotMatch}]]*/);
+            } else {
+                $("#globalError").html("").hide();
+            }
+        });
+
+        $("input").keyup(function () {
+            let empty = false;
+
+            $("input").each(function () {
+                if($(this).val().length == 0) {
+                    empty = true;
+                };
+            })
+
+            if (!empty && $("#password").val() == $("#confirm-password").val())
+                $("button").attr("disabled", false);
+            else
+                $("button").attr("disabled", true);
+        })
+    });
+</script>
 
 </html>

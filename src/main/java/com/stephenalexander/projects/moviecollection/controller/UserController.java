@@ -1,8 +1,10 @@
 package com.stephenalexander.projects.moviecollection.controller;
 
+import com.stephenalexander.projects.moviecollection.dto.PasswordDto;
 import com.stephenalexander.projects.moviecollection.dto.UserDto;
 import com.stephenalexander.projects.moviecollection.entity.Role;
 import com.stephenalexander.projects.moviecollection.entity.User;
+import com.stephenalexander.projects.moviecollection.service.UserSecurityService;
 import com.stephenalexander.projects.moviecollection.service.UserService;
 import com.stephenalexander.projects.moviecollection.validation.RegistrationResult;
 import com.stephenalexander.projects.moviecollection.web.error.UserAlreadyExistException;
@@ -18,12 +20,13 @@ import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.net.URI;
 import java.util.List;
+import java.util.Locale;
 import java.util.Optional;
 
+//TODO: Remove the whole thing? None of this is used.
 @RestController
 @RequestMapping("api/v1")
 public class UserController {
@@ -32,7 +35,7 @@ public class UserController {
     @Autowired
     private MessageSource messages;
 
-    public UserController(UserService userService, MessageSource messageSource) {
+    public UserController(UserService userService) {
         this.userService = userService;
     }
 

@@ -39,8 +39,7 @@ public class SecurityController {
             return new ModelAndView("redirect:/login", model);
         } else {
             model.addAttribute("token", token);
-            return new ModelAndView("redirect:/updatePassword");
+            return new ModelAndView("redirect:/update-password", model);
         }
     }
-
 }

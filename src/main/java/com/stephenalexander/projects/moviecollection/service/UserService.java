@@ -20,10 +20,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.web.context.request.WebRequest;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.List;
+import java.util.*;
 
 @Service
 @Transactional
@@ -109,6 +106,22 @@ public class UserService implements UserDetailsService {
         passwordResetTokenRepository.save(myToken);
     }
 
+    public Optional<User> getUserByPasswordResetToken(final String token) {
+        return Optional.ofNullable(passwordResetTokenRepository.findByToken(token).getUser());
+    }
+
+    public void changeUserPassword(User user, String password) {
+        user.setPassword(passwordEncoder.encode(password));
+        userRepository.save(user);
+    }
+
+    public boolean newPasswordIdentical(User user, String newPassword) {
+        if(passwordEncoder.matches(newPassword, user.getPassword())) {
+            return true;
+        }
+        return false;
+    }
+
     private User createUserFromDto(UserDto userDto) {
         User user = new User(
                 userDto.getFirstName(),
@@ -124,4 +137,6 @@ public class UserService implements UserDetailsService {
     private boolean emailExist(String email) {
         return userRepository.findByUsername(email) != null;
     }
+
+
 }
