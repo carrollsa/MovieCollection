@@ -19,24 +19,25 @@
                     <div th:if="${param.tokenError}" class="app-red" th:utext="#{${param.tokenError}}">
                         <p class="app-red">token error message</p>
                     </div>
-                    <div th:if="${param.error}">
-                        <p class="app-red">[[${session.SPRING_SECURITY_LAST_EXCEPTION.message}]]</p>
-                    </div>
                     <div th:if="${param.logout}">
-                        <p class="text-success fw-bold pb-1" th:utext="#{login.message.logoutSuccess}">logout message
+                        <p class="app-success fw-bold pb-1" th:utext="#{login.message.logoutSuccess}">logout message
                         </p>
                     </div>
                     <div th:if="${param.resetSuccessful}">
-                        <p class="text-success fw-bold pb-1" th:utext="#{login.message.resetPasswordSuccess}">successful reset
+                        <p class="app-success fw-bold pb-1" th:utext="#{login.message.resetPasswordSuccess}">successful reset
+                            message</p>
+                    </div>
+                    <div th:if="${param.registrationSuccessful}">
+                        <p class="app-success fw-bold pb-1" th:utext="#{login.message.registrationSuccess}">successful registration
                             message</p>
                     </div>
 
                     <h3 span class="app-red fw-bold">Sign in</h3>
                     <p>to view your collection!</p>
 
-                    <input type="email" name="username" class="form-control" placeholder="Email" required autofocus />
+                    <input type="email" id="username" name="username" class="form-control" placeholder="Email" required autofocus />
                     <!-- Not functioning right now. Need to custom auth to allow failure redirect -->
-                    <div th:if="${param.incorrectPassword}" class="app-red" th:utext="#{${param.incorrectPassword}}">
+                    <div th:if="${param.incorrectPassword}" class="app-red" th:utext="#{auth.message.incorrectPassword}">
                         <p>Wrong username and/or password. Please try again.</p>
                         <p>Forgot password? Click <a href="@{/forgot-password}" class="link-dark">here</a>.</p>
                     </div>
@@ -51,13 +52,13 @@
                         </button>
                     </div>
                     <div class="p-1">
-                        <input type="checkbox" name="remember-me" />&nbsp;Remember Me
+                        <input type="checkbox" name="remember-me" /><span> Remember Me</span>
                     </div>
                     <div class="p-1">
                         <input type="submit" value="Login" class="btn btn-dark" />
                     </div>
                     <div class="p-1">
-                        <span>Forgot password? Reset <a th:href="@{/forgot-password}" class="link-dark">here</a>.</span>
+                        <span><a th:href="@{/forgot-password}" class="link-dark">Forgot password?</a></span>
                     </div>
                     <span>No account? Register <a href="/" th:href="@{/register}" class="link-dark">here</a>.</span>
                 </div>

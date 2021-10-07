@@ -99,7 +99,7 @@ public class RegistrationRestController {
     private SimpleMailMessage constructResetTokenEmail(final String contextPath, final Locale locale, final String token, final User user) {
         final String url = contextPath + "/user/change-password?token=" + token;
         final String message = messages.getMessage("message.resetPasswordEmailText", null, locale);
-        return constructEmail("Reset Password", message + " \r\n" + url, user);
+        return constructEmail("Reset Your Password", message + " \r\n" + url, user);
     }
 
     private SimpleMailMessage constructEmail(String subject, String body, User user) {

@@ -28,39 +28,4 @@ public class CustomAuthenticationFilter extends UsernamePasswordAuthenticationFi
                 password);
         return authenticationManager.authenticate(authenticationToken);
     }
-
-
-
-//    @Override
-//    protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response,
-//                                            FilterChain chain, Authentication authentication)
-//            throws IOException, ServletException {
-//        User user = (User) authentication.getPrincipal();
-//        //10, 60
-//        String access_token = createToken(user, request, response, 5);
-//        String refresh_token = createToken(user, request, response, 5);
-//        Map<String, String> tokens = createTokenMap(access_token, refresh_token);
-//        response.setContentType(APPLICATION_JSON_VALUE);
-//        new ObjectMapper().writeValue(response.getOutputStream(), tokens);
-//    }
-//
-//
-//    private String createToken(User user, HttpServletRequest request, HttpServletResponse response, int minutes) {
-//        //Poor practice acknowledged... only exposed for this demo application
-//        Algorithm algorithm = Algorithm.HMAC256("secret".getBytes());
-//        return JWT.create()
-//                .withSubject(user.getUsername())
-//                .withExpiresAt(new Date(System.currentTimeMillis() + (minutes * 60 * 1000)))
-//                .withIssuer(request.getRequestURL().toString())
-//                .withClaim("roles",
-//                        user.getAuthorities().stream().map(GrantedAuthority::getAuthority).collect(Collectors.toList()))
-//                .sign(algorithm);
-//    }
-//
-//    private Map<String, String> createTokenMap(String access_token, String refresh_token) {
-//        Map<String, String> tokens = new HashMap<>();
-//        tokens.put("access_token", access_token);
-//        tokens.put("refresh_token", refresh_token);
-//        return tokens;
-//    }
 }

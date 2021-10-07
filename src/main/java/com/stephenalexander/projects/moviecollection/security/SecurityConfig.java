@@ -42,12 +42,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 "/css/**",
                 "/js/**",
                 "/img/**",
-                "api/v1/**",
+                "/api/v1/**",
                 "/forgot-password/**",
-                "/update-password",
-                "/user/change-password",
-                "/login**",
-                "/login"
+                "/update-password/**",
+                "/user/change-password/**",
+                "/login/**"
         };
 
         http
@@ -57,9 +56,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .formLogin()
                     .loginPage("/login")
-                    .usernameParameter("email")
+//                    .failureUrl("/login?incorrectPassword")
                     .failureHandler(authenticationFailureHandler())
-                    .failureUrl("/login?incorrectPassword=auth.message.incorrectPassword")
                     .permitAll()
                 .and()
                 .sessionManagement()
@@ -74,8 +72,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                     .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
                     .logoutSuccessUrl("/login?logout=auth.message.logoutSuccess")
                     .permitAll()
-                .and()
-                .addFilter(new CustomAuthenticationFilter(authenticationManagerBean()))
         ;
     }
 

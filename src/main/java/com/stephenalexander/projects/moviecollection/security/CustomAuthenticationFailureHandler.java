@@ -23,12 +23,7 @@ public class CustomAuthenticationFailureHandler implements AuthenticationFailure
             AuthenticationException exception)
             throws IOException, ServletException {
 
-        response.setStatus(HttpStatus.UNAUTHORIZED.value());
-        Map<String, Object> data = new HashMap<>();
-        data.put("timestamp", Calendar.getInstance().getTime());
-        data.put("exception", exception.getMessage());
-
-        response.getOutputStream()
-                .println(objectMapper.writeValueAsString(data));
+        String redirectUrl = request.getContextPath() + "/login?incorrectPassword";
+        response.sendRedirect(redirectUrl);
     }
 }

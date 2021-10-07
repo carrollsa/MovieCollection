@@ -13,12 +13,7 @@
     <div class="container d-flex justify-content-center vh-100">
         <div class="d-flex align-items-start pt-5 justify-content-center my-auto" style="height: 768px; width:800px;">
             <div class="col-md-6 col-md-offset-3">
-                <!-- success message -->
-                <div th:if="${param.success}">
-                    <div class="alert alert-info">Account successfully registered! <a href="/"
-                            th:href="@{/login}">Continue</a> to login.</div>
-                </div>
-
+                
                 <h1 class="app-red text-center">Registration</h1>
 
                 <form th:action="@{/register}" method="post" th:object="${user}">

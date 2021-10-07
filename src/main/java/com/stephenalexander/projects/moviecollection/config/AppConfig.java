@@ -15,15 +15,15 @@ import java.util.Properties;
 public class AppConfig {
 
     @Bean
-    public ParserFactory parserFactory() {
+    public ParserFactory getParserFactoryBean() {
         return new ParserFactory();
     }
 
     @Bean
-    public PasswordEncoder passwordEncoder() { return new BCryptPasswordEncoder(); }
+    public PasswordEncoder getPasswordEncoderBean() { return new BCryptPasswordEncoder(); }
 
     @Bean
-    public JavaMailSender getJavaMailSender() {
+    public JavaMailSender getJavaMailSenderBean() {
         JavaMailSenderImpl mailSender = new JavaMailSenderImpl();
         mailSender.setHost("smtp.gmail.com");
         mailSender.setPort(587);

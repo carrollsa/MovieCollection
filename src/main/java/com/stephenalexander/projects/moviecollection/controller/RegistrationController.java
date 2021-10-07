@@ -41,7 +41,7 @@ public class RegistrationController {
 
         userService.registerNewUserAccount(userDto);
 
-        return "redirect:/register?success";
+        return "redirect:/login?registrationSuccessful";
     }
 
 }
