@@ -1,6 +1,8 @@
 package com.stephenalexander.projects.moviecollection.config;
 
 import com.stephenalexander.projects.moviecollection.ParserFactory;
+import org.springframework.cloud.aws.jdbc.config.annotation.RdsInstanceConfigurer;
+import org.springframework.cloud.aws.jdbc.datasource.TomcatJdbcDataSourceFactory;
 import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -40,4 +42,13 @@ public class AppConfig {
         return mailSender;
     }
 
+    @Bean
+    public RdsInstanceConfigurer instanceConfigurer() {
+        return ()-> {
+            TomcatJdbcDataSourceFactory dataSourceFactory = new TomcatJdbcDataSourceFactory();
+            dataSourceFactory.setInitialSize(10);
+            dataSourceFactory.setValidationQuery("SELECT 1");
+            return dataSourceFactory;
+        };
+    }
 }
