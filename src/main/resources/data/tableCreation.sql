@@ -44,6 +44,8 @@ CSV
 HEADER 
 NULL AS '\N';
 
+psql -h moviecollection.cfaljyaddda9.us-east-1.rds.amazonaws.com -U steph -d moviecollection
+dX6n8U53%g5W
 
 --Old moviedatabase without rater
 CREATE DATABASE moviedatabase

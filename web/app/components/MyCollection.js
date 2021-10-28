@@ -1,6 +1,7 @@
 import * as React from 'react'
 import Loading from './Loading'
 import { fetchRatings } from '../utils/movieClient'
+import useKeyPress from '../hooks/useKeyPress'
 import CollectionCard from './CollectionCard'
 import MoviePopup from './MoviePopup'
 
@@ -23,6 +24,8 @@ function MyCollection() {
                 dispatch({ type: 'error' })
             })
     }, [])
+
+    useKeyPress('Escape', () => setPopup({}))
 
     function fetchReducer(state, action) {
         switch (action.type) {

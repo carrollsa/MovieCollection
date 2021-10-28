@@ -4,6 +4,7 @@ import ThemeContext from '../contexts/theme'
 import PerformanceWarning from './PerformanceWarning'
 import MovieOption from './MovieOption'
 import { fetchMovieDetails, fetchMovieByTitle } from '../utils/movieClient'
+import useKeyPress from '../hooks/useKeyPress'
 import SearchCard from './SearchCard'
 
 function Home() {
@@ -29,6 +30,8 @@ function Home() {
     React.useEffect(() => {
         inputRef.current.focus();
     }, [state.movieOptions])
+
+    useKeyPress('Escape', () => reset())
 
     const fetchPosterDetails = (id) => {
         fetchMovieDetails(id)
@@ -82,8 +85,10 @@ function Home() {
     }
 
     const handleKeyDownSearch = (e) => {
-        if (e.key === 'Enter') {
+        if (e.key === 'Enter' && search.length !== 0) {
             searchMovie()
+        } else if (state.movieOptions.length === 0) {
+            return
         } else if (e.key === 'ArrowDown') {
             document.getElementById('option0').focus()
             setOptionIndex(0)
@@ -142,6 +147,11 @@ function Home() {
                         <PerformanceWarning text='Over 500 results. Please refine search or risk performance degradation.' />
                     </div>
                 }
+                {state.display && state.movieOptions.length === 0 &&
+                    <div className='top5'>
+                        No results found. Please try again!
+                    </div>
+                }
                 {state.display &&
                     <div className='top5'>
                         {state.movieOptions
@@ -156,7 +166,7 @@ function Home() {
                                         className='option'
                                         id={`option${index}`}
                                         tabIndex='0'
-                                        onKeyDown={(e) => handleKeyDownOption(e, {movie})}
+                                        onKeyDown={(e) => handleKeyDownOption(e, { movie })}
                                     >
                                         <MovieOption
                                             movie={movie}
@@ -180,7 +190,7 @@ function Home() {
                     >
                         Clear
                     </button>
-                    
+
                 }
             </div>
         </React.Fragment>
