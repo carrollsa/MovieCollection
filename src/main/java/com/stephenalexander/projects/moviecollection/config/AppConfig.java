@@ -1,6 +1,7 @@
 package com.stephenalexander.projects.moviecollection.config;
 
 import com.stephenalexander.projects.moviecollection.ParserFactory;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cloud.aws.jdbc.config.annotation.RdsInstanceConfigurer;
 import org.springframework.cloud.aws.jdbc.datasource.TomcatJdbcDataSourceFactory;
 import org.springframework.context.MessageSource;
@@ -16,6 +17,11 @@ import java.util.Properties;
 @Configuration
 public class AppConfig {
 
+    @Value("${mail.server.username}")
+    private String mailServerUsername;
+    @Value("${mail.server.password}")
+    private String mailServerPassword;
+
     @Bean
     public ParserFactory getParserFactoryBean() {
         return new ParserFactory();
@@ -30,8 +36,8 @@ public class AppConfig {
         mailSender.setHost("smtp.gmail.com");
         mailSender.setPort(587);
 
-        mailSender.setUsername("moviecollectionappmailer@gmail.com");
-        mailSender.setPassword("ymn3m#1SZC%4");
+        mailSender.setUsername(mailServerUsername);
+        mailSender.setPassword(mailServerPassword);
 
         Properties props = mailSender.getJavaMailProperties();
         props.put("mail.transport.protocol", "smtp");
