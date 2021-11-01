@@ -19,7 +19,9 @@ The “My Collection” page offers a broad view of the user’s collection of m
 * [Credits](https://github.com/carrollsa/MovieCollection/blob/main/README.md#credits)
 ---
 <a name="technologies"/>
+
 ## Technologies
+
 Spring 
 * The Spring framework seemed the right choice for this type of demo app. Spring allowed me to quickly handle basic configuration and manage dependency injection to focus on exploring the basic functionality of the app I was building with controller-service-repository architecture. As I added layers, Spring had helpful annotations to perform its “magic” and wire everything up. 
 
@@ -38,7 +40,9 @@ PostgreSQL
 
 ---
 <a name="challenges"/>
+
 ## Challenges
+
 Annotations
 * By far, the most struggle came from Spring annotations. They were the problem and solution to most everything. The magic performed by Spring often seemed to have error handling that equated to “the magic didn’t work,” and the simplest configurations regularly required hours of reading of documentation and StackOverflow questions. In comparison to what it may have taken without annotations, I’m sure the time I spent with finicky annotations was negligible, but it could be pretty tedious. 
 
@@ -50,11 +54,14 @@ New Technologies
 
 ---
 <a name="installation"/>
+
 ## Installation
+
 Coming soon
 
 ---
 <a name="features"/>
+
 ## Features and How to Use
 
 * ### Register New Account
@@ -93,7 +100,9 @@ Coming soon
 
 ---
 <a name="issues"/>
+
 ## Known Issues
+
 * Many endpoints need to be secured
 * Needs security against brute force login attempts
 * Up and down keypress within search box before search query has been made results in an error.
@@ -101,13 +110,17 @@ Coming soon
 
 ---
 <a name="improvements"/>
+
 ## Upcoming Improvements
+
 * Streamlining of service and controller layers
 * Changing explicit redirects to come from response json
 
 ---
 <a name="credits"/>
+
 ## Credits
+
 * Duke University instructors on Coursera - Owen Astrachan, Robert Duvall, Andrew D. Hilton & Susan H. Rodger
     * Taught me the basics of Java
 * UC San Diego instructors on Coursera - Christine Alvarado, Mia Minnes & Leo Porter
