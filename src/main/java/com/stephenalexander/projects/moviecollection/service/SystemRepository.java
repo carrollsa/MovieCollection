@@ -19,8 +19,6 @@ public class SystemRepository {
         this.jdbcTemplate = new JdbcTemplate(dataSource);
     }
 
-    //TODO: Is this proper configuration for PostgreSQL? Was "SELECT CURRENT_DATE FROM DUAL" which, I believe, is an
-    // Oracle thing
     public String getCurrentDate() {
         String result = jdbcTemplate.queryForObject("Select CURRENT_DATE", new RowMapper<String>() {
             @Override
