@@ -34,9 +34,4 @@ public class RatingController {
     public ResponseEntity<Optional<List<Rating>>> displayCollection(Principal principal) {
         return ResponseEntity.of(Optional.of(ratingService.getUserRatings(principal)));
     }
-
-//    @GetMapping("/rating")
-//    public ResponseEntity<Optional<List<Rating>>> displayCollection() {
-//        return ResponseEntity.of(Optional.of(ratingService.getTopRatings()));
-//    }
 }

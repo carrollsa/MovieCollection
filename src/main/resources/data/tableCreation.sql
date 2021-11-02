@@ -44,8 +44,19 @@ CSV
 HEADER 
 NULL AS '\N';
 
+COPY movie(movie_id, title, year, runningtime) 
+FROM 'movie_file.csv' 
+DELIMITER E'\t' 
+CSV 
+HEADER 
+NULL AS '\N';
+
 psql -h moviecollection.cfaljyaddda9.us-east-1.rds.amazonaws.com -U steph -d moviecollection
 dX6n8U53%g5W
+
+scp -i C:/Users/Steph/.ssh/movie-database.pem C:/Users/Public/Documents/movie_file.csv ec2-user@ec2-174-129-69-182.compute-1.amazonaws.com:~  
+
+psql -h moviecollection.cfaljyaddda9.us-east-1.rds.amazonaws.com -U steph -d moviecollection -c "\copy movie FROM 'movie_file.csv' with (DELIMITER E'\t' CSV HEADER NULL AS '\N');"
 
 --Old moviedatabase without rater
 CREATE DATABASE moviedatabase
