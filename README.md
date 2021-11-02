@@ -57,7 +57,11 @@ New Technologies
 
 ## Installation
 
-Coming soon
+1. Before running, you must have an instance of PostgreSQL running on port 5432.
+
+1. Configure your connection details in an application.properties file. See application.properties.example.
+
+1. Run `./gradlew :bootRun`
 
 ---
 <a name="features"/>
