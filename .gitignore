@@ -31,3 +31,4 @@ build/*
 **/venv/**
 
 README.md.backup
+src/main/resources/static/css/tableCreation.sql
