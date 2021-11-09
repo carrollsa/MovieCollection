@@ -109,6 +109,7 @@ New Technologies
 
 * Many endpoints need to be secured
 * Needs security against brute force login attempts
+* Refresh on /mycollection does not work
 * Up and down keypress within search box before search query has been made results in an error.
 * Changing star rating within detailed view does not update within collection view until refresh
 

@@ -1,4 +1,4 @@
---how do I handle actors/directors since there is overlap in their duties?
+-- Doc containing different SQL commands to allow me to create and recreate tables as I set up my ORM
 
 UPDATE pg_database SET datistemplate = FALSE WHERE datname = 'template1';
 DROP DATABASE template1;
