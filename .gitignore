@@ -32,3 +32,17 @@ build/*
 
 README.md.backup
 src/main/resources/static/css/tableCreation.sql
+
+scripts/initialdbload/Copper Queen.txt
+scripts/initialdbload/load_csvs.py
+scripts/initialdbload/movie_file.csv
+scripts/initialdbload/movie_basics.tsv
+
+src/data/imdb
+
+src/main/resources/application.properties
+src/main/resources/application.local.properties
+src/main/resources/application.prod.properties
+
+web/node_modules
+
